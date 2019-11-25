@@ -1,5 +1,5 @@
 # biquadris
-cs246 final project
+Hi I'm biquadris!
 
+CS246 Final project!
 
-hello darkness my old friend
