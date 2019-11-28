@@ -2,11 +2,9 @@
 #define _LEVELONE_H_
 #include "levels.h"
 
-class AbsPiece;
-
 class LevelOne : Levels {
     public:
-    AbsPiece * create() override;
+    AbsPieces * create() override;
 };
 
 #endif
