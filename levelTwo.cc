@@ -1,24 +1,24 @@
 #include "levelTwo.h"
 #include <cstdlib>
 
-AbsPiece * LevelTwo::create() {
+AbsPieces * LevelTwo::create() {
     // 1/7 chance of any piece
     int prob = rand() % 7;
     AbsPiece * nBlock;
     if (prob == 0) {
-        nBlock = new AbsPiece::SBlock;
+        nBlock = new SBlock();
     } else if (prob == 1) {
-        nBlock = new AbsPiece::ZBlock;
+        nBlock = new ZBlock();
     } else if (prob == 2) {
-        nBlock = new AbsPiece::IBlock;
+        nBlock = new IBlock();
     } else if (prob == 3) {
-        nBlock = new AbsPiece::JBlock;
+        nBlock = new JBlock();
     } else if (prob == 4) {
-        nBlock = new AbsPiece::LBlock;
+        nBlock = new LBlock();
     } else if (prob == 5) {
-        nBlock = new AbsPiece::OBlock;
+        nBlock = new OBlock();
     } else {
-        nBlock = new AbsPiece::TBlock;
+        nBlock = new TBlock();
     }
     return nBlock;
 }

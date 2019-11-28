@@ -1,2 +1,24 @@
+#ifndef TEXTDISPLAY_H
+#define TEXTDISPLAY_H
+#include "grid.h"
+#include "observer.h" // subject and observer are both in observer
+#include "info.h"
+#include <iostream>
+#include <vector>
 
+class Cell;
 
+class TextDisplay : public Observer<Info> { // is there a template for observer?
+    std::vector<std::vector<char>> displayOne;
+    std::vector<std::vector<char>> displayTwo;
+    
+    const int col = 11;
+    const int row = 15;
+
+    public:
+    TextDisplay();
+    void update();
+    friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
+};
+
+#endif

@@ -1,11 +1,11 @@
 #ifndef _LEVELS_H_
 #define _LEVELS_H_
 
-class AbsPiece;
+#include "abspieces.h"
 
 class Levels {
     public:
-    virtual AbsPiece * create() = 0;
+    virtual AbsPieces * create() = 0;
 };
 
 #endif
