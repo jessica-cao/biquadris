@@ -1,8 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -Wall -MMD -g
 EXEC = biquadris
-OBJECTS = main.o cell.o grid.o textdisplay.o levelzero.o effects.o changepos.o changelvl.o changeblocks.o randrestart.o
-		iblock.o jblock.o lblock.o tblock.o zblock.o sblock.o oblock.o
+OBJECTS = main.o pieces.o grid.o textdisplay.o levelZero.o levels.o trie.o
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}
