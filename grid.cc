@@ -84,7 +84,7 @@ void Grid::deleteRows(){
     }
 }
 
-void Grid::notify(Subject<InfoType, StateType> &whoFrom) override{
+void Grid::notify(Subject<Info, State> &whoFrom) override{
     if (whoFrom.getState().from_type == FromType::Board){
         return;
     }
@@ -134,3 +134,7 @@ void Grid::notify(Subject<InfoType, StateType> &whoFrom) override{
     }
 }
 
+Info Grid::getInfo(){
+    Info info = {0, 0, vector<vector<bool>>, 0, 0, PieceType::IBlock};
+    return info;
+}

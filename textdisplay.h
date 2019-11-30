@@ -8,7 +8,7 @@
 
 class Cell;
 
-class TextDisplay : public Observer<Info> { // is there a template for observer?
+class TextDisplay : public Observer<Info, State> { // is there a template for observer?
     Grid * gridOne;
     Grid * gridTwo;
     string nextOne;

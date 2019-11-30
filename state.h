@@ -1,3 +1,5 @@
+#ifndef _STATE_H_
+#define _STATE_H_
 #include <vector> // added as a syntax fix
 #include <cstddef>
 
@@ -13,3 +15,5 @@ struct State {
   FromType from_type;
   CommandType command_type;
 };
+
+#endif
