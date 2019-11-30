@@ -9,6 +9,8 @@ class Piece: public Observer<InfoType, StateType>, Subject<InfoType, StateType> 
     size_t offset_height;
     size_t offset_width;
     PieceType piece_type;
+    Piece();
+    void setPiece(PieceType piece_type);
     void rotate_cw();
     void rotate_ccw();
     void move_l();
