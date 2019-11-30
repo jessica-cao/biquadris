@@ -10,7 +10,7 @@ Piece::Piece(){
     setPiece(PieceType PieceType::IBlock);
 }
 
-void Piece::setPeice(PieceType piece_type){
+void Piece::setPiece(PieceType piece_type){
     this->piece_type = piece_type;
     if (piece_type == PieceType::IBlock){
         this->offset_height = 1;
@@ -48,12 +48,9 @@ void Piece::setPeice(PieceType piece_type){
     } else if (piece_type == PieceType::OBlock){
         this->offset_height = 2;
         this->offset_width = 2;
-        for(int i = 0; i < this->offset_height; ++i){
-            vector<bool> row;
-            for(int j = 0; j < this->offset_width ; ++j){              
-                vector<bool> row(this->offset_width, true);
-                offset.emplace_back(row);
-            }
+        for(int i = 0; i < this->offset_height; ++i){          
+            vector<bool> row(this->offset_width, true);
+            offset.emplace_back(row);
         }
     } else if (piece_type == PieceType::SBlock){
         this->offset_height = 2;
