@@ -1,4 +1,5 @@
 #include "info.h"
+#include "state.h"
 #include "pieces.h"
 #include <vector>
 using namespace std;
@@ -19,10 +20,7 @@ void Piece::rotate_cw(){
             // dest[dy][dx] = src[j][i];
         }
     }
-    info.offset = final_offset;
-    info.offset_height = cols;
-    info.offset_width = rows;
-    this->setState({info.base_row, info.base_col, info.offset, info.offset_height, info.offset_width, info.piece_type, FromType::Piece, CommandType::RotateCW});
+    this->setState({base_row, base_col, final_offset, cols, rows, FromType::Piece, CommandType::RotateCW});
     // notify the grid
     this->notifyObservers();
 }
@@ -40,10 +38,17 @@ void Piece::move_r(){
 }
 
 void Piece::notify(Subject<InfoType, StateType> &whoFrom){
-    if (whoFrom.getState().from_type == Piece){
+    if (whoFrom.getState().from_type == FromType::Piece){
         return;
     }
     info.base_col = whoFrom.getState().base_col;
     info.base_row = whoFrom.getState().base_row;
     info.offset = whoFrom.getState().offset;
+    info.offset_height = whoFrom.getState().offset_height;
+    info.offset_width = whoFrom.getState().offset_height;
+}
+
+Info getInfo() const{
+    Info info = {base_row, base_col, offset, offset_height, offset_width, piece_type};
+    return info;
 }

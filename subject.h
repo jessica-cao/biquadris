@@ -6,7 +6,7 @@
 template <typename InfoType, typename StateType> class Observer;
 
 template <typename InfoType, typename StateType> class Subject {
-  std::vector<std::unique_ptr<Observer<InfoType, StateType>>> observers{new Observer};
+  std::vector<Observer<InfoType, StateType> *> observers{new Observer};
   StateType state;
  protected:
   void setState(StateType newS);
