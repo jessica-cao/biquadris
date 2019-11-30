@@ -9,15 +9,16 @@
 class Cell;
 
 class TextDisplay : public Observer<Info> { // is there a template for observer?
-    std::vector<std::vector<char>> displayOne;
-    std::vector<std::vector<char>> displayTwo;
+    Grid * gridOne;
+    Grid * gridTwo;
+    string nextOne;
+    string nextTwo;
     
     const int col = 11;
     const int row = 15;
 
     public:
-    TextDisplay();
-    void update();
+    TextDisplay(Grid * const gridOne, Grid * const gridTwo, string nextOne, string nextTwo);
     friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
 };
 
