@@ -3,9 +3,21 @@
 #include "state.h"
 #include "subject.h"
 #include "observer.h"
+#include <vector>
 using namespace std;
 
-bool noCollision(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col){
+vector<vector<char>>& Grid::getGrid(){
+    return the_grid;
+}
+
+void Grid::init(){
+    for(int i = 0; i < height; ++i){          
+        vector<char> row(weight, ' ');
+        the_grid.emplace_back(row);
+    }
+}
+
+bool Grid::noCollision(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col){
     for (int i = rows - 1; i >= 0; --i){
         for (int j = 0; j < cols; ++j){
             if (offset.at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) != ' '){
@@ -17,11 +29,11 @@ bool noCollision(const std::vector<std::vector<bool>> &offset, const size_t rows
 }
 
 void Grid::addOffset(const PieceType piece_type){
-    vector<vector<bool>> offset = state.offset;
-    size_t rows = state.offset_height;
-    size_t cols = state.offset_width;
-    size_t base_row = state.base_row;
-    size_t base_col = state.base_col;
+    vector<vector<bool>> offset = this->getState().offset;
+    size_t rows = this->getState().offset_height;
+    size_t cols = this->getState().offset_width;
+    size_t base_row = this->getState().base_row;
+    size_t base_col = this->getState().base_col;
     for (int i = rows - 1; i >= 0; --i){
         for (int j = 0; j < cols; ++j){
             if (offset.at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) == ' '){
@@ -46,6 +58,7 @@ void Grid::addOffset(const PieceType piece_type){
         }
     }
 }
+
 void Grid::deleteOffset(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col){
     for (int i = rows - 1; i >= 0; --i){
         for (int j = 0; j < cols; ++j){
@@ -55,6 +68,22 @@ void Grid::deleteOffset(const std::vector<std::vector<bool>> &offset, const size
         }
     }
 }
+
+void Grid::deleteRows(){
+    bool is_full = true;
+    for (int i = height - 1; i >= 0; --i){
+        for (int j = 0; j < width; --i){
+            if (theGrid.at(i).at(j) == ' '){
+                is_full = false;
+            }
+        }
+        if (is_full){
+            this->setState(this->getState().base_row, this->getState().base_col, this->getState().offset, this->getState().offset_height, this->getState().offset_width, FromType::Board, CommandType::DeleteRow);
+            this->notifyObservers();
+        }
+    }
+}
+
 void Grid::notify(Subject<InfoType, StateType> &whoFrom) override{
     if (whoFrom.getState().from_type == FromType::Board){
         return;
@@ -65,6 +94,18 @@ void Grid::notify(Subject<InfoType, StateType> &whoFrom) override{
     size_t state_base_row = whoFrom.getState().base_row;
     size_t state_base_col = whoFrom.getState().base_col;
     CommandType state_command_type =  whoFrom.getState().command_type;
+    if (state_command_type == CommandType::SetPiece){
+        if ((state_offset_width + state_base_col >= width) || (state_offset_height + state_base_row >= width) || (state_base_row < 0) || (state_base_col < 0)){
+            // This is an invalid move - throw exception
+        }
+        bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, state_base_row, state_base_col);
+        if (no_collision){
+            // this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
+            this->addOffset(whoFrom.getInfo().piece_type);
+        } else {
+            // throw exception
+        }
+    }
     if (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW || state_command_type == CommandType::MoveL || state_command_type == CommandType::MoveR || state_command_type == CommandType::MoveD){
         // Check if it's a valid move
         if ((state_offset_width + state_base_col >= width) || (state_offset_height + state_base_row >= width) || (state_base_row < 0) || (state_base_col < 0)){
@@ -80,11 +121,16 @@ void Grid::notify(Subject<InfoType, StateType> &whoFrom) override{
             // If no collision, change the grid's state to the new state and add the new offset
             this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
             this->addOffset(whoFrom.getInfo().piece_type)
+            this->notifyObservers();
+            // Check if the entire row is full and delete the row
+            this->deleteRows();
         } else {
             // If has a collsion, change the grid's state to the old state and add the old offset
             this->setState({whoFrom.getInfo().base_row, whoFrom.getInfo().base_col, whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, FromType::Board, state_command_type});
             this->addOffset(whoFrom.getInfo().piece_type)
+            this->notifyObservers();
         }
+
     }
 }
 

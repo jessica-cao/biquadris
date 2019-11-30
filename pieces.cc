@@ -15,7 +15,7 @@ void Piece::setPeice(PieceType piece_type){
     if (piece_type == PieceType::IBlock){
         this->offset_height = 1;
         this->offset_width = 4;
-        vector<bool> row(offset_width, true);
+        vector<bool> row(this->offset_width, true);
         this->offset.emplace_back(row);
     } else if (piece_type == PieceType::JBlock){
         this->offset_height = 2;
@@ -99,7 +99,11 @@ void Piece::setPeice(PieceType piece_type){
         }
     }
     this->setState({this->base_row, this->base_col, this->offset, this->offset_height, this->offset_width, FromType::Piece, CommandType::SetPiece});
-    this->notifyObservers();
+    try {
+        this->notifyObservers();
+    } catch (...) {
+        // throw another exception
+    }
 }
 
 void Piece::rotate_cw(){
