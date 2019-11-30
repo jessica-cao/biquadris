@@ -78,6 +78,18 @@ std::string Trie::search(std::string key) {
 	return foundComm;
 }
 
+int Trie::parsePrefix(std::string cmd) {
+	const int CMDLEN = cmd.length();
+    std::string pref = "0";
+    for (int i = 0; i < CMDLEN; ++i) {
+        if ('0' <= cmd[i] && cmd[i] <= '9') {
+            pref += cmd[i];
+        }
+    }
+    
+    return std::stoi(pref);
+}
+
 /*
 int main() {
     // put this in main. The argument will be the key.

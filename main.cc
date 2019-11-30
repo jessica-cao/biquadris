@@ -5,8 +5,9 @@
 #include "grid.h"
 #include "levels.h"
 #include "levelZero.h"
+#include "trie.h"
+#include "textdisplay.h"
 
-using namespace std;
 
 int main(int argc, char *argv[]) {
     // sorry the following is probably filled with bugs and syntax errors
@@ -67,19 +68,138 @@ int main(int argc, char *argv[]) {
             }
         }
     }
+
     cin.exceptions(ios::eofbit|ios::failbit);
     // add any additional intializations here
-    string cmd; // reads in a command
-    Piece * p1, * p2; // piece pointers for g1 and g2
+    std::string cmd; // reads in a command
+    Piece *p1, *p2; // piece pointers for g1 and g2; p1 is the 
+    int countTurns = 0;
+    Trie* head = new Trie();
+	head->insertCommands();
+    int multiplier = 1; // some commands have a multiplier prefix; to show how many times a command is executed
 
-    while (true) { // game not over; please break when done
-        // create a piece for cmd interpreter:
-        g1.pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
-        g1.pLevel->setFile(fn2);
+    try {
         
-        p1 = g1.pLevel.create();
-        p2 = g2.pLevel.create();
+        // Command interpreter stuff pour Jessica it is I. The frenchiest fry
+        while (true) { // game not over; break when done
+        // create a piece for command interpreter:
+            g1.pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
+            g1.pLevel->setFile(fn2);
+            
+            p1 = g1.pLevel.create(); // create your piece; this is the current piece that the cmd is acting on
+            g1.attach(p1);
+            p2 = g2.pLevel.create(); // create the opponent's piece; the opponent's current piece
+            g2.attach(p2);
 
-        // Command interpreter stuff pour Jessica
+            cin >> cmd;
+            multiplier = head->parsePrefix(cmd); // check if the command we have has a prefix
+
+            // if the cmd doesn't have a prefix, or if someone wants to mess w it
+            // the multiplier is set to 1, so the command executes once
+            if (multiplier <= 0) {
+                multiplier = 1;
+            }
+            
+            try {
+                std::string currComm = head->search(cmd);
+
+                if (currComm == "left") {
+                    for (int i = 0; i < multiplier; ++i) {
+                        if (countTurns % 2 == 0) {
+                            p1->move_l();
+                        } else {
+                            p2->move_l();
+                        }
+                    }
+                } else if (currComm == "right") {
+                    for (int i = 0; i < multiplier; ++i) {
+                        if (countTurns % 2 == 0) {
+                            p1->move_r();
+                        } else {
+                            p2->move_r();
+                        }
+                    }
+
+                } else if (currComm == "down") {
+                    for (int i = 0; i < multiplier; ++i) {
+                        if (countTurns % 2 == 0) {
+                            p1->move_d();
+                        } else {
+                            p2->move_d();
+                        }
+                    }
+                } else if (currComm == "clockwise") {
+                    for (int i = 0; i < multiplier; ++i) {
+                        if (countTurns % 2 == 0) {
+                            p1->rotate_cw();
+                        } else {
+                            p2->rotate_cw();
+                        }
+                    }
+
+                } else if (currComm == "counterclockwise") {
+                    for (int i = 0; i < multiplier; ++i) {
+                        if (countTurns % 2 == 0) {
+                            p1->rotate_ccw();
+                        } else {
+                            p2->rotate_ccw();
+                        }
+                    }
+                } else if (currComm == "drop") {
+                    for (int i = 0; i < multiplier; ++i) {
+                        if (countTurns % 2 == 0) {
+                            p1->drop();
+                        } else {
+                            p2->drop();
+                        }
+                    }
+                } else if (currComm == "levelup") {
+                    
+                    for (int i = 0; i < multiplier; ++i) {
+                        if (countTurns % 2 == 0) {
+                            p1->rotate_ccw();
+                        } else {
+                            p2->rotate_ccw();
+                        }
+                    }
+
+                } else if (currComm == "leveldown") {
+
+                } else if (currComm == "random") { // no multiplier
+
+                } else if (currComm == "norandom") { // no multiplier
+                
+                } else if (currComm == "sequence") {
+
+                } else if (currComm == "restart") { // no multiplier
+
+                } else if (currComm == "I") {
+
+                } else if (currComm == "J") {
+
+                } else if (currComm == "L") {
+                    
+                } else if (currComm == "O") {
+
+                } else if (currComm == "S") {
+
+                } else if (currComm == "Z") {
+
+                } else if (currComm == "T") {
+
+                }
+
+                // check for victory condition here 
+                // if victory, then break
+
+                ++countTurns;
+            } catch (std::logic_error &le) {
+                std::cout << le.what() << std::endl;
+            }
+            
+        }
+    } catch (ios::failure &) {
+        // any I/O failure quits the game automatically 
     }
+
 }
