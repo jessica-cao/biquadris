@@ -23,9 +23,9 @@ int main(int argc, char *argv[]) {
     // THIS IS ALL SUBJECT TO CHANGE BC IDK WHAT IM DOING; FEEL FREE TO CORRECT JUST LMK!!
 
     string arg;
-    Grid g1, g2; // ctors need to set default level to 0
-                    // will need a field that points to Level obj, which then specifies the lvl (eg. LevelZero)
-                    // call Piece * pLevel (playerLevel) and string nLevel (numLevel)
+    std::unique_ptr<Grid> g1, g2; // ctors need to set default level to 0
+                                // will need a field that points to Level obj, which then specifies the lvl (eg. LevelZero)
+                                // call Piece * pLevel (playerLevel) and string nLevel (numLevel)
     string nLevel = "0"; // intialized level: THIS MAY BE A PROBLEM LATER DEPENDING ON HOW WE SET LEVELUP AND DOWN
     string fn1 = "sequence1.txt";
     string fn2 = "sequence2.txt";
@@ -56,8 +56,8 @@ int main(int argc, char *argv[]) {
             nLevel = argv[i+1];
             // WHAT WILL BE KEEPING TRACK OF THE LEVELS?
             if (nLevel == "0") {
-                g1.pLevel = new LevelZero; // syntax and stuff here is gonna have to change and is prob wrong :(
-                g2.pLevel = new LevelZero;
+                g1->pLevel = new LevelZero; // syntax and stuff here is gonna have to change and is prob wrong :(
+                g2->pLevel = new LevelZero;
 
                 // ignore other levels for now
             /*
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     cin.exceptions(ios::eofbit|ios::failbit);
     // add any additional intializations here
     std::string cmd; // reads in a command
-    Piece *p1, *p2; // piece pointers for g1 and g2; p1 is the 
+    std::unique_ptr<Piece> p1, p2; // piece pointers for g1 and g2
     int countTurns = 0;
     Trie* head = new Trie();
 	head->insertCommands();
@@ -88,13 +88,13 @@ int main(int argc, char *argv[]) {
         // Command interpreter stuff pour Jessica it is I. The frenchiest fry
         while (true) { // game not over; break when done
         // create a piece for command interpreter:
-            g1.pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
-            g1.pLevel->setFile(fn2);
+            g1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
+            g1->pLevel->setFile(fn2);
             
-            p1 = g1.pLevel.create(); // create your piece; this is the current piece that the cmd is acting on
-            g1.attach(p1);
-            p2 = g2.pLevel.create(); // create the opponent's piece; the opponent's current piece
-            g2.attach(p2);
+            p1 = g1->pLevel->create(); // create your piece; this is the current piece that the cmd is acting on
+            g1->attach(p1);
+            p2 = g2->pLevel->create(); // create the opponent's piece; the opponent's current piece
+            g2->attach(p2);
 
             cin >> cmd;
             multiplier = head->parsePrefix(cmd); // check if the command we have has a prefix
@@ -161,11 +161,11 @@ int main(int argc, char *argv[]) {
                 } else if (currComm == "levelup") {
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
-                        desiredLvl = multiplier + std::stoi(g1.nLevel);
+                        desiredLvl = multiplier + std::stoi(g1->nLevel);
                         if (desiredLvl <= MAXLEVEL) {
-                            g1.nLevel = to_string(desiredLvl);
+                            g1->nLevel = to_string(desiredLvl);
                         } else {
-                            g1.nLevel = to_string(MAXLEVEL);
+                            g1->nLevel = to_string(MAXLEVEL);
                         }
                     } else {
 
