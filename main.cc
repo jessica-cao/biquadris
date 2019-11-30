@@ -8,6 +8,11 @@
 #include "trie.h"
 #include "textdisplay.h"
 
+// The highest level you can reach
+const int MAXLEVEL = 4;
+
+// The lowest level you can reach
+const int MINLEVEL = 0;
 
 int main(int argc, char *argv[]) {
     // sorry the following is probably filled with bugs and syntax errors
@@ -154,7 +159,18 @@ int main(int argc, char *argv[]) {
                         }
                     }
                 } else if (currComm == "levelup") {
-                    
+                    int desiredLvl;
+                    if (countTurns % 2 == 0) {
+                        desiredLvl = multiplier + std::stoi(g1.nLevel);
+                        if (desiredLvl <= MAXLEVEL) {
+                            g1.nLevel = to_string(desiredLvl);
+                        } else {
+                            g1.nLevel = to_string(MAXLEVEL);
+                        }
+                    } else {
+
+                    }
+                    int lvlBound = multiplier + std::stoi();
                     for (int i = 0; i < multiplier; ++i) {
                         if (countTurns % 2 == 0) {
                             p1->rotate_ccw();
@@ -191,7 +207,8 @@ int main(int argc, char *argv[]) {
 
                 // check for victory condition here 
                 // if victory, then break
-
+                
+                multiplier = 1;
                 ++countTurns;
             } catch (std::logic_error &le) {
                 std::cout << le.what() << std::endl;
