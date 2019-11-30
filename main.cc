@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     // then the actual input that is being read in from the user
     // THIS IS ALL SUBJECT TO CHANGE BC IDK WHAT IM DOING; FEEL FREE TO CORRECT JUST LMK!!
 
-    cin.exceptions(ios::eofbit!ios::failbit);
+    cin.exceptions(ios::eofbit|ios::failbit);
     string arg;
 
     // defaults for things (without args) is:
