@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class LevelZero : Levels {
+class LevelZero : public Levels {
     string fileName = ""; // file name
     vector<string> playPieces; // vector for all pieces: the one at the back is meant to play next
     public:
