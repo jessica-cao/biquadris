@@ -3,7 +3,7 @@
 
 enum class PieceType { IBlock, JBlock, LBlock, TBlock, ZBlock, SBlock, OBlock};
 enum class FromType { Board, Piece };
-enum class CommandType { RotateCW, RotateCCW, MoveL, MoveD, MoveR };
+enum class CommandType { RotateCW, RotateCCW, MoveL, MoveD, MoveR, Drop };
 
 struct State {
   size_t base_row, base_col;

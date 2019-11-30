@@ -65,7 +65,7 @@ void Grid::notify(Subject<InfoType, StateType> &whoFrom) override{
     size_t state_base_row = whoFrom.getState().base_row;
     size_t state_base_col = whoFrom.getState().base_col;
     CommandType state_command_type =  whoFrom.getState().command_type;
-    if (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW){
+    if (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW || state_command_type == CommandType::MoveL || state_command_type == CommandType::MoveR || state_command_type == CommandType::MoveD){
         // Check if it's a valid move
         if ((state_offset_width + state_base_col >= width) || (state_offset_height + state_base_row >= width) || (state_base_row < 0) || (state_base_col < 0)){
             // This is an invalid move - throw exception
@@ -85,8 +85,6 @@ void Grid::notify(Subject<InfoType, StateType> &whoFrom) override{
             this->setState({whoFrom.getInfo().base_row, whoFrom.getInfo().base_col, whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, FromType::Board, state_command_type});
             this->addOffset(whoFrom.getInfo().piece_type)
         }
-    } else if (state_command_type == CommandType::MoveL){
-        
     }
 }
 

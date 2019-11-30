@@ -5,9 +5,8 @@
 using namespace std;
 
 void Piece::rotate_cw(){
-    vector<vector<bool>> offset = info.offset;
-    size_t rows = info.offset_height;
-    size_t cols = info.offset_width;
+    size_t rows = offset_height;
+    size_t cols = offset_width;
     vector<vector<bool>> final_offset(cols, vector<bool> (rows));
     for(int j=0; j < rows; ++j)
     {
@@ -20,21 +19,36 @@ void Piece::rotate_cw(){
             // dest[dy][dx] = src[j][i];
         }
     }
-    this->setState({base_row, base_col, final_offset, cols, rows, FromType::Piece, CommandType::RotateCW});
-    // notify the grid
+    // Note that the offset_height and offset_width switch because the offset was rotated
+    size_t final_offset_height = cols;
+    size_t final_offset_width = rows;
+    this->setState({base_row, base_col, final_offset, final_offset_height, final_offset_width, FromType::Piece, CommandType::RotateCW});
+    // Notify the grid
     this->notifyObservers();
 }
 void Piece::rotate_ccw(){
     
 }
 void Piece::move_l(){
-
+    if (base_col == 0){
+        // Throw exceptions
+    }
+    this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
 }
 void Piece::move_d(){
+    if (base_row == 0){
+        // Throw exceptions
+    }
+    this->setState({base_row - 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
+}
+
+void Piece::move_r(){
+    this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
 
 }
-void Piece::move_r(){
 
+void Piece::drop(){
+    
 }
 
 void Piece::notify(Subject<InfoType, StateType> &whoFrom){

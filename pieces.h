@@ -14,6 +14,7 @@ class Piece: public Observer<InfoType, StateType>, Subject<InfoType, StateType> 
     void move_l();
     void move_d();
     void move_r();
+    void drop();
     void notify(Subject<InfoType, StateType> &whoFrom);
     Info getInfo() const override;
 };
