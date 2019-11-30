@@ -19,11 +19,12 @@ void Piece::rotate_cw(){
             // dest[dy][dx] = src[j][i];
         }
     }
-    info.offset_height = final_offset;
+    info.offset = final_offset;
     info.offset_height = cols;
     info.offset_width = rows;
-    this->setState();
+    this->setState({info.base_row, info.base_col, info.offset, info.offset_height, info.offset_width, info.piece_type, FromType::Piece, CommandType::RotateCW});
     // notify the grid
+    this->notifyObservers();
 }
 void Piece::rotate_ccw(){
     
@@ -36,4 +37,13 @@ void Piece::move_d(){
 }
 void Piece::move_r(){
 
+}
+
+void Piece::notify(Subject<InfoType, StateType> &whoFrom){
+    if (whoFrom.getState().from_type == Piece){
+        return;
+    }
+    info.base_col = whoFrom.getState().base_col;
+    info.base_row = whoFrom.getState().base_row;
+    info.offset = whoFrom.getState().offset;
 }
