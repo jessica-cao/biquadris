@@ -24,7 +24,14 @@ void Grid::notify(Subject<InfoType, StateType> &whoFrom) override{
     }
     if (whoFrom.getState().command_type == CommandType::RotateCW){
         // Check if it's a valid move
-        if ()
+        if ((whoFrom.getState().offset_width + whoFrom.getState().base_col >= width) || 
+        (whoFrom.getState().offset_height + whoFrom.getState().base_row >= width) || 
+        (whoFrom.getState().offset_height < 0) || (whoFrom.getState().offset_width < 0)){
+
+        }
+        // Check collision ???
+        // deleteOffset
+        // addOffset
     }
 }
 

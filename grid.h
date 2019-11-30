@@ -4,6 +4,8 @@
 #include "state.h"
 
 class Grid: public Observer<InfoType, StateType>, Subject<InfoType, StateType> {
+    size_t height = 15;
+    size_t width = 11;
     std::vector<std::vector<char>> the_grid;
     // void rotate_cw();
     // void rotate_ccw();
