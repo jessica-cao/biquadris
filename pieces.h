@@ -1,10 +1,14 @@
 #include "info.h"
+#include "observer.h"
+#include "subject.h"
 
-class AbsPieces {
-    Info data;
-    virtual void rotate_cw() = 0;
-    virtual void rotate_ccw() = 0;
-    virtual void move_l() = 0;
-    virtual void move_d() = 0;
-    virtual void move_r() = 0;
+class Piece: public Observer<Info>, public Subject<Info> {
+    Observer * grid;
+    Info info;
+    void rotate_cw();
+    void rotate_ccw();
+    void move_l();
+    void move_d();
+    void move_r();
+
 };
