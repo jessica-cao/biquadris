@@ -8,7 +8,7 @@
 template <typename InfoType> class Observer;
 
 template <typename InfoType> class Subject {
-  std::vector<std::unique_ptr<Observer>> pieces{new Observer};
+  std::vector<std::unique_ptr<Observer>> observers{new Observer};
   InfoType info;
  protected:
   void setState(InfoType newS);
@@ -21,7 +21,7 @@ template <typename InfoType> class Subject {
 
 template <typename InfoType>
 void Subject<InfoType>::notifyObservers() {
-  for (auto &ob : pieces) ob->notify(*this);
+  for (auto &ob : observers) ob->notify(*this);
 }
 
 // Jessica's Note: for now, state is not used

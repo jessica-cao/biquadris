@@ -3,11 +3,10 @@
 #include <vector>
 using namespace std;
 
-
 void Piece::rotate_cw(){
     vector<vector<bool>> offset = info.offset;
     size_t rows = info.offset_height;
-    size_t cols = info.offset_height;
+    size_t cols = info.offset_width;
     vector<vector<bool>> final_offset(cols, vector<bool> (rows));
     for(int j=0; j < rows; ++j)
     {
@@ -21,6 +20,9 @@ void Piece::rotate_cw(){
         }
     }
     info.offset_height = final_offset;
+    info.offset_height = cols;
+    info.offset_width = rows;
+    this->setState();
     // notify the grid
 }
 void Piece::rotate_ccw(){
