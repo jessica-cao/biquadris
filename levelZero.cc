@@ -17,6 +17,7 @@ Piece * LevelZero::create() {
     this->playPieces.emplace(this->playPieces.begin(), curPiece);
     Piece * nPiece;
     // not sure how to create a Piece * with the type: ask tmr!!
+    // setPiece
     return nPiece;
 
 }
