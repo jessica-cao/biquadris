@@ -18,16 +18,16 @@ class Grid: public Observer<Info, State>, Subject<Info, State> {
     // void move_l();
     // void move_d();
     // void move_r();
-    std::vector<std::vector<char>>& getGrid();
     void init();
     bool noCollision(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col);
     void addOffset(const PieceType piece_type);
     void deleteOffset(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col);
     void deleteRow();
-    void notify(Subject<Info, State> &whoFrom) override;
     Info getInfo() const override;
 
     public:
+    std::vector<std::vector<char>>& getGrid();
+    void notify(Subject<Info, State> &whoFrom) override;
     Levels * pLevel = new LevelZero();  // probably not good design for these to be public
     string nLevel = "0";
 };
