@@ -8,7 +8,7 @@ using namespace std;
 class LevelZero : Levels {
     string pieceIs;
     public:
-    AbsPieces * create() override;
+    Piece * create() override;
     
     string getPiece();  // what piece has been read in
     void setPiece(string newPiece);  // change the piece: main should be using this!!

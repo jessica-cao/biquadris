@@ -3,7 +3,7 @@
 
 using namespace std;
 
-AbsPieces * LevelZero::create() {
+Piece * LevelZero::create() {
     // read in from sequence1.txt and sequence2.txt
     // loop if game is not over by EOF!!
 
@@ -11,7 +11,9 @@ AbsPieces * LevelZero::create() {
     // else, generate appropriate block according to what was last read in
 
     string curPiece = this->getPiece();
-    AbsPieces * nBlock;
+    Piece * nBlock;
+    // following needs to be changed to set the piece blocks to appropriate PieceTypes
+    /*
     if (curPiece == "S") {
         nBlock = new SBlock();
     } else if (curPiece == "Z") {
@@ -27,6 +29,7 @@ AbsPieces * LevelZero::create() {
     } else {
         nBlock = new TBlock();
     }
+    */
     return nBlock;
 }
 
