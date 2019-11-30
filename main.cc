@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <string>
+#include "grid.h"
+#include "levels.h"
+#include "levelZero.h"
 
 using namespace std;
 
@@ -13,8 +16,13 @@ int main(int argc, char *argv[]) {
     // then the actual input that is being read in from the user
     // THIS IS ALL SUBJECT TO CHANGE BC IDK WHAT IM DOING; FEEL FREE TO CORRECT JUST LMK!!
 
-    cin.exceptions(ios::eofbit|ios::failbit);
     string arg;
+    Grid g1, g2; // ctors need to set default level to 0
+                    // will need a field that points to Level obj, which then specifies the lvl (eg. LevelZero)
+                    // call Piece * pLevel (playerLevel) and string nLevel (numLevel)
+    string nLevel = "0"; // intialized level: THIS MAY BE A PROBLEM LATER DEPENDING ON HOW WE SET LEVELUP AND DOWN
+    string fn1 = "sequence1.txt";
+    string fn2 = "sequence2.txt";
 
     // defaults for things (without args) is:
         // show texts AND graphics
@@ -22,22 +30,31 @@ int main(int argc, char *argv[]) {
         // use sequence1.txt
         // use sequence2.txt
         // start at levelZero
-    for (int i = 0; i < argc-1; ++i) {
-        arg = argv[i+1];
-        if (arg == "text") {
+    for (int i = 1; i < argc; ++i) {
+        arg = argv[i];
+        if (arg == "-text") {
             // disable graphics
-        } else if (arg == "seed") {
-            string seed = argv[i+2];
+        } else if (arg[0] == '-' && i+1 == argc) {
+            // the following else ifs need two args. If the current one starts as -notText and there
+            // isn't a string following, it is an invalid command!
+        } else if (arg == "-seed") {
+            string seed = argv[i+1];
             // rng but tbh not sure for what?? for pieces?? bc i already dealt w that in the levels
-        } else if (arg == "scriptfile1") {
+        } else if (arg == "-scriptfile1") {
             // file to replace sequence1.txt
-        } else if (arg == "scriptfile2") {
+            fn1 = argv[i+1];
+        } else if (arg == "-scriptfile2") {
             // file to replace sequence2.txt
-        } else if (arg == "startlevel") {
-            string nLevel = argv[i+2];
+            fn2 = argv[i+1];
+        } else if (arg == "-startlevel") {
+            nLevel = argv[i+1];
             // WHAT WILL BE KEEPING TRACK OF THE LEVELS?
             if (nLevel == "0") {
-                //
+                g1.pLevel = new LevelZero; // syntax and stuff here is gonna have to change and is prob wrong :(
+                g2.pLevel = new LevelZero;
+
+                // ignore other levels for now
+            /*
             } else if (nLevel == "1") {
                 //
             } else if (nLevel == "2") {
@@ -46,7 +63,23 @@ int main(int argc, char *argv[]) {
                 //
             } else if (nLevel == "4") {
                 //
+                */
             }
         }
+    }
+    cin.exceptions(ios::eofbit|ios::failbit);
+    // add any additional intializations here
+    string cmd; // reads in a command
+    Piece * p1, * p2; // piece pointers for g1 and g2
+
+    while (true) { // game not over; please break when done
+        // create a piece for cmd interpreter:
+        g1.pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
+        g1.pLevel->setFile(fn2);
+        
+        p1 = g1.pLevel.create();
+        p2 = g2.pLevel.create();
+
+        // Command interpreter stuff pour Jessica
     }
 }
