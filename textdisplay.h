@@ -19,7 +19,6 @@ class TextDisplay : public Observer<Info> { // is there a template for observer?
 
     public:
     TextDisplay(Grid * const gridOne, Grid * const gridTwo, string nextOne, string nextTwo);
-    void update();
     friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
 };
 

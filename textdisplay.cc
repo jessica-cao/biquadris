@@ -3,9 +3,6 @@
 TextDisplay::TextDisplay(Grid * const gridOne, Grid * const gridTwo, string nextOne, string nextTwo):
     gridOne{gridOne}, gridTwo{gridTwo}, nextOne{nextOne}, nextTwo{nextTwo} {}
 
-void TextDisplay::update() {
-    // TODO
-}
 
 std::ostream & printPieceTop(std::ostream &out, string pieceIs) {
     if (pieceIs == "I") {
@@ -50,8 +47,11 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     std::vector<std::vector<char>> & gOne = td.gridOne->getGrid();
     std::vector<std::vector<char>> & gTwo = td.gridTwo->getGrid();
     out << "Level:   " << td.gridOne->nLevel << "    Level:   " << td.gridOne->nLevel << std::endl;
-    out << "Score:" << "Score:" << std::endl;  // how to track score?
+//    out << "Score:" << "Score:" << std::endl;  // how to track score?
     out << "-----------    -----------" << std::endl;
+    out << "                          " << std::endl;
+    out << "                          " << std::endl;
+    out << "                          " << std::endl;
     for (int i = 0; i < td.row; ++i) {
         for (int j = 0; j < td.col; ++j) {
             out << gOne[i][j];
@@ -71,5 +71,6 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     printPieceBot(out, td.nextOne);
     out << "    ";
     printPieceBot(out, td.nextTwo);
+    out << std::endl;
 }
 
