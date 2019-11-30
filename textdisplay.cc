@@ -46,7 +46,7 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     // TODO
     std::vector<std::vector<char>> & gOne = td.gridOne->getGrid();
     std::vector<std::vector<char>> & gTwo = td.gridTwo->getGrid();
-    out << "Level:   " << td.gridOne->nLevel << "    Level:   " << td.gridOne->nLevel << std::endl;
+    out << "Level:   " << td.gridOne->nLevel << "    Level:   " << td.gridTwo->nLevel << std::endl;
 //    out << "Score:" << "Score:" << std::endl;  // how to track score?
     out << "-----------    -----------" << std::endl;
     out << "                          " << std::endl;
