@@ -3,34 +3,34 @@
 #include <vector>
 #include <memory>
 
-// class textdisplay Jessica's Note: not quite sure why this is here?
+template <typename InfoType, typename StateType> class Observer;
 
-template <typename InfoType> class Observer;
-
-template <typename InfoType> class Subject {
-  std::vector<std::unique_ptr<Observer>> pieces{new Observer};
-  InfoType info;
+template <typename InfoType, typename StateType> class Subject {
+  std::vector<Observer<InfoType, StateType> *> observers{new Observer};
+  StateType state;
  protected:
-  void setState(InfoType newS);
+  void setState(StateType newS);
  public:
-  void attach(Observer<InfoType> *o);
+  void attach(Observer<InfoType, StateType> *o);  
   void notifyObservers();
   virtual InfoType getInfo() const = 0;
-  InfoType getState() const;
+  StateType getState() const;
 };
 
-template <typename InfoType>
-void Subject<InfoType>::notifyObservers() {
-  for (auto &ob : pieces) ob->notify(*this);
+template <typename InfoType, typename StateType>
+void Subject<InfoType, StateType>::attach(Observer<InfoType, StateType> *o) {
+  observers.emplace_back(o);
 }
 
-// Jessica's Note: for now, state is not used
-// Remove the following functions if necessary
-template <typename InfoType>
-void Subject<InfoType>::setState(InfoType newI) { info = newI; }
+template <typename InfoType, typename StateType>
+void Subject<InfoType, StateType>::notifyObservers() {
+  for (auto &ob : observers) ob->notify(*this);
+}
 
-template <typename InfoType>
-InfoType Subject<InfoType>::getState() const { return info; }
+template <typename InfoType, typename StateType>
+void Subject<InfoType, StateType>::setState(StateType newS) { state = newS; }
 
+template <typename InfoType, typename StateType>
+StateType Subject<InfoType, StateType>::getState() const { return state; }
 #endif
 
