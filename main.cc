@@ -8,6 +8,8 @@
 #include "trie.h"
 #include "textdisplay.h"
 
+using namespace std;
+
 // The highest level you can reach
 const int MAXLEVEL = 4;
 
@@ -23,7 +25,7 @@ int main(int argc, char *argv[]) {
     // THIS IS ALL SUBJECT TO CHANGE BC IDK WHAT IM DOING; FEEL FREE TO CORRECT JUST LMK!!
 
     string arg;
-    std::unique_ptr<Grid> g1, g2; // ctors need to set default level to 0
+    unique_ptr<Grid> g1, g2; // ctors need to set default level to 0
                                 // will need a field that points to Level obj, which then specifies the lvl (eg. LevelZero)
                                 // call Piece * pLevel (playerLevel) and string nLevel (numLevel)
     string nLevel = "0"; // intialized level: THIS MAY BE A PROBLEM LATER DEPENDING ON HOW WE SET LEVELUP AND DOWN
@@ -76,8 +78,8 @@ int main(int argc, char *argv[]) {
 
     cin.exceptions(ios::eofbit|ios::failbit);
     // add any additional intializations here
-    std::string cmd; // reads in a command
-    std::unique_ptr<Piece> p1, p2; // piece pointers for g1 and g2
+    string cmd; // reads in a command
+    unique_ptr<Piece> p1, p2; // piece pointers for g1 and g2
     int countTurns = 0;
     Trie* head = new Trie();
 	head->insertCommands();
@@ -106,7 +108,7 @@ int main(int argc, char *argv[]) {
             }
             
             try {
-                std::string currComm = head->search(cmd);
+                string currComm = head->search(cmd);
 
                 if (currComm == "left") {
                     for (int i = 0; i < multiplier; ++i) {
@@ -161,7 +163,7 @@ int main(int argc, char *argv[]) {
                 } else if (currComm == "levelup") {
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
-                        desiredLvl = multiplier + std::stoi(g1->nLevel);
+                        desiredLvl = multiplier + stoi(g1->nLevel);
                         if (desiredLvl <= MAXLEVEL) {
                             g1->nLevel = to_string(desiredLvl);
                         } else {
@@ -203,8 +205,8 @@ int main(int argc, char *argv[]) {
                 
                 multiplier = 1;
                 ++countTurns;
-            } catch (std::logic_error &le) {
-                std::cout << le.what() << std::endl;
+            } catch (logic_error &le) {
+                cout << le.what() << endl;
             }
             
         }

@@ -3,14 +3,14 @@
 #include <string>
 #include <vector>
 #include "levels.h"
+#include "state.h"
 
-using namespace std;
 
 class LevelZero : public Levels {
-    string fileName = ""; // file name
-    vector<string> playPieces; // vector for all pieces: the one at the back is meant to play next
+    std::string fileName = ""; // file name
+    vector<PieceType> playPieces; // vector for all pieces: the one at the back is meant to play next
     public:
-    Piece * create() override;
+    std::unique_ptr<Piece> create() override;
     
 //    string getFile();  // what file to read from; unnecessary?
     void setFile(string fn);  // change the file: main should be using this!!
