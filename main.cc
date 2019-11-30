@@ -170,17 +170,10 @@ int main(int argc, char *argv[]) {
                     } else {
 
                     }
-                    int lvlBound = multiplier + std::stoi();
-                    for (int i = 0; i < multiplier; ++i) {
-                        if (countTurns % 2 == 0) {
-                            p1->rotate_ccw();
-                        } else {
-                            p2->rotate_ccw();
-                        }
-                    }
+                    
 
                 } else if (currComm == "leveldown") {
-
+                  
                 } else if (currComm == "random") { // no multiplier
 
                 } else if (currComm == "norandom") { // no multiplier
