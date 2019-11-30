@@ -6,8 +6,8 @@
 class Levels {
     public:
     virtual Piece * create() = 0;
-    virtual string getPiece() = 0;  // soley for LevelZero
-    virtual void setPiece(string newPiece) = 0;  
+//    virtual string getFile() = 0;  // will need to add to 0, 3, 4
+    virtual void setFile(string fn) = 0;  
 };
 
 #endif

@@ -2,8 +2,6 @@
 
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <fstream>
 #include "grid.h"
 #include "levels.h"
 #include "levelZero.h"
@@ -76,27 +74,11 @@ int main(int argc, char *argv[]) {
 
     while (true) { // game not over; please break when done
         // create a piece for cmd interpreter:
+        g1.pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
+        g1.pLevel->setFile(fn2);
+        
         p1 = g1.pLevel.create();
         p2 = g2.pLevel.create();
-
-        /* IGNORE FOR NOW
-        if (nLevel == "0") {
-            // read from input files
-            string pieceInputs;
-            ifstream ifs1(fn1);
-            while (getline(ifs1, pieceInputs)) {
-                istringstream piecesString(pieceInputs);
-                string newPiece;
-
-                g1.pLevel.setPiece();
-            }
-
-        } else {
-            p1 = g1.pLevel.create();
-            p2 = g2.pLevel.create();
-        }
-        */
-
 
         // Command interpreter stuff pour Jessica
     }
