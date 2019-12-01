@@ -11,7 +11,7 @@ class LevelZero : public Levels {
     std::vector<PieceType> playPieces; // vector for all pieces: the one at the back is meant to play next
     public:
     int getLevel();
-    std::unique_ptr<Piece> create() override;
+    std::unique_ptr<Piece> create(Grid * grid) override;
     
 //    string getFile();  // what file to read from; unnecessary?
     void setFile(std::string fn) override;  // change the file: main should be using this!!

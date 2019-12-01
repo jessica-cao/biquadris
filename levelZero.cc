@@ -9,7 +9,7 @@ int LevelZero::getLevel() {
     return 0;
 }
 
-unique_ptr<Piece> LevelZero::create() {
+unique_ptr<Piece> LevelZero::create(Grid * grid) {
     // read in from sequence1.txt and sequence2.txt
     // loop if game is not over by EOF!!
 
@@ -19,8 +19,8 @@ unique_ptr<Piece> LevelZero::create() {
     PieceType curPiece = this->playPieces.back();
     this->playPieces.pop_back();
     this->playPieces.emplace(this->playPieces.begin(), curPiece);
-    unique_ptr<Piece> nPiece;
-    nPiece->setPiece(curPiece);
+    unique_ptr<Piece> nPiece {new Piece(grid)};
+    // nPiece->setPiece(curPiece);
     return nPiece;
 
 }
