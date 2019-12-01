@@ -163,22 +163,22 @@ void Piece::move_l(){
     if (base_col == 0){
         // Throw exceptions
     }
-    this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
+    this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
 }
 void Piece::move_d(){
     if (base_row == 0){
         // Throw exceptions
     }
-    this->setState({base_row - 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
+    this->setState({base_row - 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
 }
 
 void Piece::move_r(){
-    this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
+    this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
 
 }
 
 void Piece::drop(){
-    this->setState({base_row, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::Drop})
+    this->setState({base_row, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::Drop});
 }
 
 
@@ -197,7 +197,7 @@ void Piece::notify(Subject<Info, State> &whoFrom){
                 if (base_row + i == whoFrom.getState().deleted_row){
                     // remove row
                     // TODO I remember Nomair said not to do this but I dunno what else to do
-                    offset.erase(vec.begin() + i);
+                    offset.erase(offset.begin() + i); // was vec.begin() + i
                 } else if (base_row < whoFrom.getState().deleted_row){
                     ++this->base_row;
                 }
