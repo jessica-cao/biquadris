@@ -78,7 +78,7 @@ void Grid::deleteRows(){
             }
         }
         if (is_full){
-            this->setState(this->getState().base_row, this->getState().base_col, this->getState().offset, this->getState().offset_height, this->getState().offset_width, FromType::Board, CommandType::DeleteRow);
+            this->setState(this->getState().base_row, this->getState().base_col, this->getState().offset, this->getState().offset_height, this->getState().offset_width, FromType::Board, CommandType::DeleteRow, i);
             this->notifyObservers();
         }
     }
@@ -131,6 +131,20 @@ void Grid::notify(Subject<Info, State> &whoFrom) override{
             this->notifyObservers();
         }
 
+    } else if (state_command_type == CommandType::Drop) {
+        if (state_base_row != 0){
+            this->deleteOffset(whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, whoFrom.getInfo().base_row, whoFrom.getInfo().base_col);
+            state_t new_base_row = whoFrom.getInfo().base_row;
+            while (new_base_row != 0){
+                bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, new_base_row - 1, state_base_col);
+                if (no_collision == true){
+                    --new_base_row;
+                }
+            }
+            this->setState({new_base_row, state_base_col, state_offset, state_offset_height, state_offset_width});
+            this->addOffset(whoFrom.getInfo().piece_type)
+            this->deleteRows();
+        }
     }
 }
 

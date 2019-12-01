@@ -14,6 +14,7 @@ struct State {
   size_t offset_width;
   FromType from_type;
   CommandType command_type;
+  int deleted_row = 0;
 };
 
 #endif

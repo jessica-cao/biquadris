@@ -132,31 +132,50 @@ void Piece::move_l(){
     if (base_col == 0){
         // Throw exceptions
     }
-    this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
+    this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
 }
 void Piece::move_d(){
     if (base_row == 0){
         // Throw exceptions
     }
-    this->setState({base_row - 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
+    this->setState({base_row - 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
 }
 
 void Piece::move_r(){
-    this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
+    this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
 
 }
 
 void Piece::drop(){
-    
+    this->setState({base_row, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::Drop})
 }
 
-void Piece::notify(Subject<InfoType, StateType> &whoFrom){ // change to Info, State ?
+
+
+void Piece::notify(Subject<Info, State> &whoFrom){
     if (whoFrom.getState().from_type == FromType::Piece){
         return;
     }
     // If it's a deleted row
     if (whoFrom.getState().command_type == CommandType::DeleteRow){
-        
+        if (whoFrom.getState().deleted_row <= 0){
+            // throw error
+        } else {
+            // check if it's any of the offset ones
+            size_t orig_offset_height = offset_height;
+            for (int i = 0; i < offset_height; ++i){
+                if (base_row + i == whoFrom.getState().deleted_row){
+                    // remove row
+                    // TODO I remember Nomair said not to do this but I dunno what else to do
+                    offset.erase(vec.begin() + i);
+                }
+            }
+        }
+        // Check if offset is empty
+        if (offset.size() == 0){
+            // give player points
+            player->incrementScore()
+        }
     }
     // Make sure that it's yours
     if (this->getState().command_type != CommandType::NoCommand){
@@ -165,11 +184,11 @@ void Piece::notify(Subject<InfoType, StateType> &whoFrom){ // change to Info, St
         offset = whoFrom.getState().offset;
         offset_height = whoFrom.getState().offset_height;
         offset_width = whoFrom.getState().offset_height;
-        this->setState(base_col, base_row, offset, offset_height, offset_width, FromType::Piece, CommandType::NoCommand);
+        this->setState({base_col, base_row, offset, offset_height, offset_width, FromType::Piece, CommandType::NoCommand});
     }
 }
 
-Info getInfo() const{
+Info Piece::getInfo() const{
     Info info = {base_row, base_col, offset, offset_height, offset_width, piece_type};
     return info;
 }
