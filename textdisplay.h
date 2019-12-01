@@ -10,7 +10,7 @@ using namespace std;
 
 class Cell;
 
-class TextDisplay : public Observer<Info, State> { // is there a template for observer?
+class TextDisplay {
     Player * playerOne;
     Player * playerTwo;
 //    string nextOne;

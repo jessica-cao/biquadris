@@ -95,6 +95,9 @@ int main(int argc, char *argv[]) {
     Trie* head = new Trie();
 	head->insertCommands();
     int multiplier = 1; // some commands have a multiplier prefix; to show how many times a command is executed
+    unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
+    int player1Score;
+    int player2Score;
 
     try {
         
@@ -288,14 +291,12 @@ int main(int argc, char *argv[]) {
 
                 } else if (currComm == "restart") { // no multiplier
                 //clear grid, clear score, reset turn to 0, 
-                player1->theGrid->clear(); // clear the first grid
-                player2->theGrid->clear(); // clear the second grid
-                player1->clearScore();
-                player2->clearScore();
+                player1->restart(); // clears the first grid
+                player2->restart(); // clears the second grid
                 countTurns = -1; // This makes sure that no matter who calls restart, player one always plays first
                 
                 } else if (currComm == "I") { // replace current block w the I block
-                
+                // make a method in player that replaces the current block with the I block
 
                 } else if (currComm == "J") {
 
@@ -315,7 +316,20 @@ int main(int argc, char *argv[]) {
                 
 
                 // check for victory condition here 
-                // if victory, then break
+                // if (victory) 
+                // If a piece can no longer be played, a specific error message is thrown. We need to check for that error message.
+                player1Score = player1->getScore();
+                player2Score = player2->getScore();
+
+                if (player1Score > player2Score) {
+                    cout << "Player 1 wins!" << endl;
+                } else if (player1Score < player2Score) {
+                    cout << "Player 2 wins!" << endl;
+                } else {
+                    cout << "A tie!" << endl;
+                }
+                
+                break;
                 
 
                 multiplier = 1;

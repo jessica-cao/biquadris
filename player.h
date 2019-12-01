@@ -31,6 +31,18 @@ class Player {
     void setHeavy(int heaviness);
 
     // for command stuff
+    void levelup();
+    void leveldown();
+    void random();
+    void norandom();
+    void restart();
+    void I();
+    void J();
+    void L();
+    void O();
+    void S();
+    void Z();
+    void T();
 };
 
 #endif

@@ -38,3 +38,8 @@ int Player::getHeavy() {
 void Player::setHeavy(int heaviness) {
     this->heavy = heaviness;
 }
+
+void Player::restart() {
+    this->theGrid->clear();
+    this->clearScore();
+}
