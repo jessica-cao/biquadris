@@ -6,8 +6,9 @@
 
 class Player {
     int score = 0;
+    bool effect = false;
     bool blind = false;
-    int heavy = 0; //getters and setters?
+    int heavy = 0;
 
     public: // sorry probably bad practice again
     std::unique_ptr<Grid> theGrid;
@@ -19,6 +20,8 @@ class Player {
 
 
     // for the special actions
+    bool canEffect(); // get effect
+    void setEffect(bool effectIs);
     bool isBlind(); // get blind
     void setBlind(bool blindness);
     int getHeavy();

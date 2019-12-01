@@ -15,6 +15,14 @@ void Player::clearScore() {
     this->score = 0; 
 }
 
+bool Player::canEffect() {
+    return this->effect;
+}
+
+void Player::setEffect(bool effectIs) {
+    this->effect = effectIs;
+}
+
 bool Player::isBlind() {
     return this->blind;
 }
