@@ -3,6 +3,7 @@
 #include "state.h"
 #include "subject.h"
 #include "observer.h"
+#include "player.h"
 #include <vector>
 using namespace std;
 
@@ -148,7 +149,7 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
     } else if (state_command_type == CommandType::Drop) {
         if (state_base_row != 0){
             this->deleteOffset(whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, whoFrom.getInfo().base_row, whoFrom.getInfo().base_col);
-            state_t new_base_row = whoFrom.getInfo().base_row;
+            size_t new_base_row = whoFrom.getInfo().base_row; // original code: state_t, changed to size_t - Jessica
             while (new_base_row != 0){
                 bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, new_base_row - 1, state_base_col);
                 if (no_collision == true){
@@ -163,6 +164,6 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
 }
 
 Info Grid::getInfo() const {
-    Info info = {0, 0, vector<vector<bool>>, 0, 0, PieceType::IBlock};
+    Info info = {0, 0, vector<vector<bool>> {}, 0, 0, PieceType::IBlock}; // what is the original offset?
     return info;
 }

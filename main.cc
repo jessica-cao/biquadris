@@ -106,10 +106,10 @@ int main(int argc, char *argv[]) {
             
             p1 = make_unique<Piece>(player1->pLevel->create()); // create your piece; this is the current piece that the cmd is acting on
             //set piece
-            player1->theGrid->attach(p1.get());
+            player1->theGrid->attach(p1.get()); // TODO check on this tmr and see if it still works
             p2 = make_unique<Piece>(player2->pLevel->create()); // create the opponent's piece; the opponent's current piece
             // set piece
-            player2->theGrid->attach(p2.get());
+            player2->theGrid->attach(p2.get()); // TODO check on this tmr and see if it still works
 
             std::cin >> cmd;
             multiplier = head->parsePrefix(cmd); // check if the command we have has a prefix
@@ -174,6 +174,7 @@ int main(int argc, char *argv[]) {
                         }
                     }
                 } else if (currComm == "levelup") {
+                    /*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
                         desiredLvl = multiplier + player1->nLevel;
@@ -198,6 +199,7 @@ int main(int argc, char *argv[]) {
                             
                             player1->nLevel = MAXLEVEL;
                         }
+                        
                     } else {
                         desiredLvl = multiplier + player2->nLevel;
                         if (desiredLvl <= MAXLEVEL) {
@@ -222,7 +224,9 @@ int main(int argc, char *argv[]) {
                             player2->nLevel = MAXLEVEL;
                         }
                     }
+                    */
                 } else if (currComm == "leveldown") {
+                    /*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
                         desiredLvl = player1->nLevel - multiplier;
@@ -273,8 +277,9 @@ int main(int argc, char *argv[]) {
                             
                             player2->nLevel = MINLEVEL;
                         }
+                        
                     }
-                  
+                    */
                 } else if (currComm == "random") { // no multiplier
 
                 } else if (currComm == "norandom") { // no multiplier
