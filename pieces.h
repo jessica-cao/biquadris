@@ -8,6 +8,7 @@
 #include <vector>
 
 class Player;
+class Grid;
 
 class Piece: public Observer<Info, State>, public Subject<Info, State> {
     Player * player;
