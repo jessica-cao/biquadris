@@ -20,8 +20,8 @@ class Piece: public Observer<Info, State>, public Subject<Info, State> {
     size_t offset_width;
     PieceType piece_type;
     public:
-    Piece(Grid * the_grid);
-    void setPiece(PieceType piece_type);
+    Piece(Grid * the_grid, PieceType piece_type);
+    void placePiece();
     void setLevel(int level);
     void setPlayer(Player * player);
     void rotate_cw();

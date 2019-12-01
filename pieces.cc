@@ -6,14 +6,10 @@
 #include <vector>
 using namespace std;
 
-Piece::Piece(Grid * the_grid){
+Piece::Piece(Grid * the_grid, PieceType piece_type){
     this->the_grid = the_grid;
     base_row = 3;
     base_col = 0;
-    // setPiece(PieceType::IBlock);
-}
-
-void Piece::setPiece(PieceType piece_type){
     this->piece_type = piece_type;
     if (piece_type == PieceType::IBlock){
         this->offset_height = 1;
@@ -97,7 +93,12 @@ void Piece::setPiece(PieceType piece_type){
                 offset.emplace_back(row);
             }
         }
+    } else {
+        // throw exception
     }
+}
+
+void Piece::placePiece(){
     this->setState({this->base_row, this->base_col, this->offset, this->offset_height, this->offset_width, FromType::Piece, CommandType::SetPiece});
     try {
         this->notifyObservers();
