@@ -70,11 +70,9 @@ void Player::restart() {
     this->clearScore();
 }
 
-void Player::setSpecificPieceType(PieceType pt) {
-    std::unique_ptr<Piece> p {new Piece(theGrid.get())};
-    p->setPiece(pt);
+void Player::setSpecificPieceType(PieceType pt) { // new Piece constructor takes in a grid and a PieceType
+    std::unique_ptr<Piece> p {new Piece(theGrid.get(), pt)};
     setCurrPiece(std::move(p));
-
 }
 
 void Player::move(std::string cmd) {
