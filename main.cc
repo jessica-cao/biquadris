@@ -37,8 +37,8 @@ int main(int argc, char *argv[]) {
     // ctors need to set default level to 0
     // will need a field that points to Level obj, which then specifies the lvl (eg. LevelZero)
     // call Piece * pLevel (playerLevel) and string nLevel (numLevel)
-    unique_ptr<Player> player1;
-    unique_ptr<Player> player2;
+    unique_ptr<Player> player1 {new Player()};
+    unique_ptr<Player> player2 {new Player()};
     
     string nLevel = "0"; // intialized level: THIS MAY BE A PROBLEM LATER DEPENDING ON HOW WE SET LEVELUP AND DOWN
     string fn1 = "sequence1.txt";
@@ -91,8 +91,8 @@ int main(int argc, char *argv[]) {
     std::cin.exceptions(ios::eofbit|ios::failbit); // why is cin ambiguous here. Jackass.
     // add any additional intializations here
     string cmd; // reads in a command
- //   unique_ptr<Piece> p1 {new Piece()}; // piece pointers for player1's grid
- //   unique_ptr<Piece> p2 {new Piece()}; // piece pointer for player2's grid
+//    unique_ptr<Piece> p1 {new Piece(player1->theGrid.get())}; // piece pointers for player1's grid
+//    unique_ptr<Piece> p2 {new Piece(player1->theGrid.get())}; // piece pointer for player2's grid
     int countTurns = 0;
     Trie* head = new Trie();
 	head->insertCommands();
@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
         // create a piece for command interpreter:
             player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
             player1->pLevel->setFile(fn2);
-            
+/*            
             p1 = make_unique<Piece>(player1->pLevel->create()); // create your piece; this is the current piece that the cmd is acting on
             p1->setLevel(0);
             p1->attach(player1->theGrid.get());
@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
             p2->setLevel(0);
             p2->attach(player1->theGrid.get());
             player2->theGrid->attach(p2.get()); // TODO check on this tmr and see if it still works
-
+*/
             std::cin >> cmd;
             multiplier = head->parsePrefix(cmd); // check if the command we have has a prefix
 
@@ -137,17 +137,17 @@ int main(int argc, char *argv[]) {
                     if (currComm == "left" || currComm == "right" || currComm == "down" || currComm == "drop") {
                         for (int i = 0; i < multiplier; ++i) {
                             if (countTurns % 2 == 0) {
-                                p1->move(cmd);
+                                player1->move(cmd);
                             } else {
-                                p2->move(cmd);
+                                player2->move(cmd);
                             }
                         }
                     } else if (currComm == "clockwise" || currComm == "counterclockwise") {
                         for (int i = 0; i < multiplier; ++i) {
                             if (countTurns % 2 == 0) {
-                                p1->rotate(cmd);
+                                player1->rotate(cmd);
                             } else {
-                                p2->rotate(cmd);
+                                player2->rotate(cmd);
                             }
                         }
                     } else if (currComm == "levelup") {
@@ -259,15 +259,15 @@ int main(int argc, char *argv[]) {
                     */
                     } else if (currComm == "random" || currComm == "noRandom") { // no multiplier
                     if (countTurns % 2 == 0) {
-                                p1->randomness(cmd);
+                                player1->randomness(cmd);
                             } else {
-                                p2->randomness(cmd);
+                                player2->randomness(cmd);
                             }
                     } else if (currComm == "sequence") {
                         if (countTurns % 2 == 0) {
-                                p1->sequence();
+                                player1->sequence();
                             } else {
-                                p2->sequence();
+                                player2->sequence();
                             }
                     } else if (currComm == "restart")
                     { // no multiplier

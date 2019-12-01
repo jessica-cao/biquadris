@@ -20,6 +20,7 @@ class Grid: public Observer<Info, State>, public Subject<Info, State> {
     // void move_l();
     // void move_d();
     // void move_r();
+    void setPlayer(Player * player);
     bool noCollision(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col);
     void addOffset(const PieceType piece_type);
     void deleteOffset(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col);

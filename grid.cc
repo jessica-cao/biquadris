@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-void Piece::setPlayer(Player * player){
+void Grid::setPlayer(Player * player){
     this->player = player;
 }
 
