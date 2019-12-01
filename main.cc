@@ -103,9 +103,9 @@ int main(int argc, char *argv[]) {
     player2->pLevel->setFile(fn2);
     player1->setNextPiece();
     cout << "BEFORE CURR PIECE" << endl;
-    player1->setCurrPiece(player1->getNext());
+    player1->setCurrPiece();
     player2->setNextPiece();
-    player2->setCurrPiece(player2->getNext());
+    player2->setCurrPiece();
     player1->setNextPiece();
     player2->setNextPiece();
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
@@ -336,13 +336,14 @@ int main(int argc, char *argv[]) {
                     }
 
                     // TODO print the board right here
-                    cout << td.get();
+                    cout << "END OF LOOOOOOOOOOOOOOOOOOOOOOOOOOP" << endl;
+                    cout << *td;
 
                     multiplier = 1;
                     ++countTurns;
-                    player1->setCurrPiece(player1->getNext());
+                    player1->setCurrPiece();
                     player1->setNextPiece();
-                    player2->setCurrPiece(player2->getNext());
+                    player2->setCurrPiece();
                     player2->setNextPiece();
                 } catch (logic_error &le) { // any invalid command prints an error message
 

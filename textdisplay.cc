@@ -92,8 +92,78 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     }
     out << "-----------    -----------" << endl;
     out << "Next:          Next:" << endl;
-    out << PieceTop(td.playerOne->getNext()) << "    " << PieceTop(td.playerTwo->getNext()) << endl;
-    out << PieceBot(td.playerOne->getNext()) << "    " << PieceBot(td.playerTwo->getNext()) << endl;
+
+//    out << PieceTop(td.playerOne->getNext()) << "    " << PieceTop(td.playerTwo->getNext()) << endl;
+
+    PieceType pieceIs1 = td.playerOne->getNext()->getInfo().piece_type;
+    if (pieceIs1 == PieceType::IBlock) {
+        out << "IIII       ";
+    } else if (pieceIs1 == PieceType::JBlock) {
+        out << "J          ";
+    } else if (pieceIs1 == PieceType::LBlock) {
+        out << "  L        ";
+    } else if (pieceIs1 == PieceType::TBlock) {
+        out << "TTT        ";
+    } else if (pieceIs1 == PieceType::ZBlock) {
+        out << "ZZ         ";
+    } else if (pieceIs1 == PieceType::SBlock) {
+        out << " SS        ";
+    } else if (pieceIs1 == PieceType::OBlock) {
+        out << "OO         ";
+    }
+    out << "    ";
+    PieceType pieceIs2 = td.playerTwo->getNext()->getInfo().piece_type;
+    if (pieceIs2 == PieceType::IBlock) {
+        out << "IIII       ";
+    } else if (pieceIs2 == PieceType::JBlock) {
+        out << "J          ";
+    } else if (pieceIs2 == PieceType::LBlock) {
+        out << "  L        ";
+    } else if (pieceIs2 == PieceType::TBlock) {
+        out << "TTT        ";
+    } else if (pieceIs2 == PieceType::ZBlock) {
+        out << "ZZ         ";
+    } else if (pieceIs2 == PieceType::SBlock) {
+        out << " SS        ";
+    } else if (pieceIs2 == PieceType::OBlock) {
+        out << "OO         ";
+    }
+    out << endl;
+
+//    out << PieceBot(td.playerOne->getNext()) << "    " << PieceBot(td.playerTwo->getNext()) << endl;
+
+    if (pieceIs1 == PieceType::IBlock) {
+        out << "           ";
+    } else if (pieceIs1 == PieceType::JBlock) {
+        out << "JJJ        ";
+    } else if (pieceIs1 == PieceType::LBlock) {
+        out << "LLL        ";
+    } else if (pieceIs1 == PieceType::TBlock) {
+        out << " T         ";
+    } else if (pieceIs1 == PieceType::ZBlock) {
+        out << " ZZ        ";
+    } else if (pieceIs1 == PieceType::SBlock) {
+        out << "SS         ";
+    } else if (pieceIs1 == PieceType::OBlock) {
+        out << "OO         ";
+    }
+    out << "    ";
+    if (pieceIs2 == PieceType::IBlock) {
+        out << "           ";
+    } else if (pieceIs2 == PieceType::JBlock) {
+        out << "JJJ        ";
+    } else if (pieceIs2 == PieceType::LBlock) {
+        out << "LLL        ";
+    } else if (pieceIs2 == PieceType::TBlock) {
+        out << " T         ";
+    } else if (pieceIs2 == PieceType::ZBlock) {
+        out << " ZZ        ";
+    } else if (pieceIs2 == PieceType::SBlock) {
+        out << "SS         ";
+    } else if (pieceIs2 == PieceType::OBlock) {
+        out << "OO         ";
+    }
+    out << endl;
     return out;
 }
 

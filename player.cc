@@ -22,8 +22,8 @@ void Player::clearScore() {
     this->score = 0; 
 }
 
-std::unique_ptr<Piece> Player::getCur() {
-    return std::move(this->curPiece);
+Piece * Player::getCur() {
+    return this->curPiece.get();
 }
 
 //
@@ -32,9 +32,9 @@ std::unique_ptr<Piece> Player::createPiece() {
 }
 
 
-void Player::setCurrPiece(std::unique_ptr<Piece> nPiece) { // you want to be able to set a specific piece
+void Player::setCurrPiece() { // you want to be able to set a specific piece
     this->curPiece.reset();
-    this->curPiece = std::move(nPiece);
+    this->curPiece = std::move(this->nextPiece);
     this->curPiece->setLevel(this->nLevel);
     this->curPiece->attach(this->theGrid.get());
     std::cout << "HELLOOOOOOOOOOOOOOOOOOOOOO" << std::endl;
@@ -43,8 +43,8 @@ void Player::setCurrPiece(std::unique_ptr<Piece> nPiece) { // you want to be abl
     this->curPiece->placePiece();
 }
 
-std::unique_ptr<Piece> Player::getNext() {
-    return std::move(this->nextPiece);
+Piece * Player::getNext() {
+    return this->nextPiece.get();
 }
 
 void Player::setNextPiece() { // should only ever run after setCurrPiece
@@ -86,7 +86,12 @@ void Player::restart() {
 
 void Player::setSpecificPieceType(PieceType pt) { // new Piece constructor takes in a grid and a PieceType
     std::unique_ptr<Piece> p {new Piece(theGrid.get(), pt)};
-    setCurrPiece(std::move(p));
+    this->curPiece.reset();
+    this->curPiece = std::move(p);
+    this->curPiece->setLevel(this->nLevel);
+    this->curPiece->attach(this->theGrid.get());
+    this->theGrid->attach(this->curPiece.get());
+    this->curPiece->placePiece();
 }
 
 void Player::move(std::string cmd) {

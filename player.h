@@ -26,10 +26,10 @@ class Player {
     void incrementScoreBy(int); // increments the score by a certain number
     void clearScore(); // resets the score to zero
 
-    std::unique_ptr<Piece> getCur();
+    Piece * getCur();
     std::unique_ptr<Piece> createPiece();
-    void setCurrPiece(std::unique_ptr<Piece>);
-    std::unique_ptr<Piece> getNext();
+    void setCurrPiece();
+    Piece * getNext();
     void setNextPiece();
 
     // for the special actions
