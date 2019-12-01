@@ -208,7 +208,7 @@ void Piece::notify(Subject<Info, State> &whoFrom){
         if (offset.size() == 0){
             // give player points
             player->incrementScoreBy(level + 1);
-            the_grid->detatch(this);
+            the_grid->detach(this);
         }
     } else if (this->getState().command_type != CommandType::NoCommand){
         // Make sure that it's yours
