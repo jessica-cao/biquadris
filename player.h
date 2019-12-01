@@ -15,7 +15,7 @@ class Player {
     std::vector<Piece> playerPieces;
 
 
-    public: // sorry probably bad practice again
+    public: // sorry probably bad practice a gain
     
     Player();
     std::unique_ptr<Grid> theGrid{new Grid()};
