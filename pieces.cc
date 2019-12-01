@@ -126,9 +126,7 @@ void Piece::rotate_cw(){
         for(int i = 0; i < cols; ++i)
         {
             int dy = i;
-            final_offset[dy * rows + dx] = offset[j * cols + i];
-            // for a 2d Array, you'd just
-            // dest[dy][dx] = src[j][i];
+            final_offset.at(dy).at(dx) = offset.at(j).at(i);
         }
     }
     // Note that the offset_height and offset_width switch because the offset was rotated
@@ -138,9 +136,29 @@ void Piece::rotate_cw(){
     // Notify the grid
     this->notifyObservers();
 }
+
 void Piece::rotate_ccw(){
+    size_t rows = offset_height;
+    size_t cols = offset_width;
+    vector<vector<bool>> final_offset(cols, vector<bool> (rows));
+    for(int j=0; j < rows; ++j)
+    {
+        int dx = j;
+        for(int i = 0; i < cols; ++i)
+        {
+            int dy = (cols - 1) - i;
+            final_offset.at(dy).at(dx) = offset.at(j).at(i);
+        }
+    }
+    // Note that the offset_height and offset_width switch because the offset was rotated
+    size_t final_offset_height = cols;
+    size_t final_offset_width = rows;
+    this->setState({base_row, base_col, final_offset, final_offset_height, final_offset_width, FromType::Piece, CommandType::RotateCW});
+    // Notify the grid
+    this->notifyObservers();
     
 }
+
 void Piece::move_l(){
     if (base_col == 0){
         // Throw exceptions
@@ -180,6 +198,8 @@ void Piece::notify(Subject<Info, State> &whoFrom){
                     // remove row
                     // TODO I remember Nomair said not to do this but I dunno what else to do
                     offset.erase(vec.begin() + i);
+                } else if (base_row < whoFrom.getState().deleted_row){
+                    ++this->base_row;
                 }
             }
         }

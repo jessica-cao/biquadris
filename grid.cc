@@ -6,6 +6,10 @@
 #include <vector>
 using namespace std;
 
+void Piece::setPlayer(Player * player){
+    this->player = player;
+}
+
 vector<vector<char>>& Grid::getGrid(){
     return the_grid;
 }
@@ -15,6 +19,10 @@ void Grid::init(){
         vector<char> row(width, ' ');
         the_grid.emplace_back(row);
     }
+}
+
+void Grid::clear(){
+    the_grid.clear();
 }
 
 bool Grid::noCollision(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col){

@@ -28,6 +28,8 @@ class Grid: public Observer<Info, State>, Subject<Info, State> {
     Info getInfo() const override;
 
     public:
+    void init();
+    void clear();
     std::vector<std::vector<char>>& getGrid();
     void notify(Subject<Info, State> &whoFrom) override;
 };
