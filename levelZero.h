@@ -13,7 +13,7 @@ class LevelZero : public Levels {
     std::unique_ptr<Piece> create() override;
     
 //    string getFile();  // what file to read from; unnecessary?
-    void setFile(string fn);  // change the file: main should be using this!!
+    void setFile(std::string fn) override;  // change the file: main should be using this!!
 };
 
 #endif

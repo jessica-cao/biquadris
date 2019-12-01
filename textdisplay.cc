@@ -6,42 +6,42 @@ TextDisplay::TextDisplay(Player * const playerOne, Player * const playerTwo, str
     playerOne{playerOne}, playerTwo{playerTwo}, nextOne{nextOne}, nextTwo{nextTwo} {}
 
 
-std::ostream & printPieceTop(std::ostream &out, string pieceIs) {
+string PieceTop(string pieceIs) {
     if (pieceIs == "I") {
-        out << "IIII       ";
+        return "IIII       ";
     } else if (pieceIs == "J") {
-        out << "J          ";
+        return "J          ";
     } else if (pieceIs == "L") {
-        out << "  L        ";
+        return "  L        ";
     } else if (pieceIs == "T") {
-        out << "TTT        ";
+        return "TTT        ";
     } else if (pieceIs == "Z") {
-        out << "ZZ         ";
+        return "ZZ         ";
     } else if (pieceIs == "S") {
-        out << " SS        ";
+        return " SS        ";
     } else if (pieceIs == "O") {
-        out << "OO         ";
+        return "OO         ";
     }
-    return out;
+    return;
 }
 
-std::ostream & printPieceBot(std::ostream &out, string pieceIs) {
+string PieceBot(string pieceIs) {
     if (pieceIs == "I") {
-        out << "           ";
+        return "           ";
     } else if (pieceIs == "J") {
-        out << "JJJ        ";
+        return "JJJ        ";
     } else if (pieceIs == "L") {
-        out << "LLL        ";
+        return "LLL        ";
     } else if (pieceIs == "T") {
-        out << " T         ";
+        return " T         ";
     } else if (pieceIs == "Z") {
-        out << " ZZ        ";
+        return " ZZ        ";
     } else if (pieceIs == "S") {
-        out << "SS         ";
+        return "SS         ";
     } else if (pieceIs == "O") {
-        out << "OO         ";
+        return "OO         ";
     }
-    return out;
+    return;
 }
 
 std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
@@ -49,7 +49,7 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     vector<vector<char>> & gOne = td.playerOne->theGrid->getGrid();
     vector<vector<char>> & gTwo = td.playerTwo->theGrid->getGrid();
     out << "Level:   " << td.playerOne->nLevel << "    Level:   " << td.playerTwo->nLevel << endl;
-    out << "Score:   " << td.playerOne->score << "    Score:    " << td.playerTwo->score << endl;  // how to track score? in player
+    out << "Score:   " << td.playerOne->getScore() << "    Score:    " << td.playerTwo->getScore() << endl;  // how to track score? in player
     out << "-----------    -----------" << endl;
     out << "                          " << endl;
     out << "                          " << endl;
@@ -76,13 +76,8 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     }
     out << "-----------    -----------" << endl;
     out << "Next:          Next:" << endl;
-    printPieceTop(out, td.nextOne);
-    out << "    ";
-    printPieceTop(out, td.nextTwo);
-    out << endl;
-    printPieceBot(out, td.nextOne);
-    out << "    ";
-    printPieceBot(out, td.nextTwo);
-    out << endl;
+    out << PieceTop(td.nextOne) << "    " << PieceTop(td.nextTwo) << endl;
+    out << PieceBot(td.nextOne) << "    " << PieceBot(td.nextTwo) << endl;
+    return out;
 }
 
