@@ -362,7 +362,7 @@ int main(int argc, char *argv[]) {
                         }
                     }
 
-                    // TODO print the board right here
+                    // TO DO print the board right here
                     cout << *td;
 
                     multiplier = 1;
