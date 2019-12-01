@@ -10,6 +10,9 @@ class Player {
     bool blind = false;
     int heavy = 0;
 
+    std::unique_ptr<Piece> curPiece;
+    std::unique_ptr<Piece> nextPiece;
+
     std::vector<Piece> playerPieces;
     public: // sorry probably bad practice again
     std::unique_ptr<Grid> theGrid;
@@ -19,8 +22,10 @@ class Player {
     void incrementScoreBy(int); // increments the score by a certain number
     void clearScore(); // resets the score to zero
 
-    Piece * next; // Sorry im completely unfunctional rn, EDIT!!!!!!!!!!!
-                  // assuming that we are creating all pieces in player, this is fine
+    std::unique_ptr<Piece> getCur();
+    void setCur();
+    std::unique_ptr<Piece> getNext();
+    void setNext();
 
     // for the special actions
     bool canEffect(); // get effect

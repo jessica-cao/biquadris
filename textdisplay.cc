@@ -92,8 +92,8 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     }
     out << "-----------    -----------" << endl;
     out << "Next:          Next:" << endl;
-    out << PieceTop(td.playerOne->next) << "    " << PieceTop(td.playerTwo->next) << endl;
-    out << PieceBot(td.playerOne->next) << "    " << PieceBot(td.playerTwo->next) << endl;
+    out << PieceTop(td.playerOne->getNext) << "    " << PieceTop(td.playerTwo->getNext) << endl;
+    out << PieceBot(td.playerOne->getNext) << "    " << PieceBot(td.playerTwo->getNext) << endl;
     return out;
 }
 

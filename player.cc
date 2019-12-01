@@ -15,6 +15,22 @@ void Player::clearScore() {
     this->score = 0; 
 }
 
+std::unique_ptr<Piece> Player::getCur() {
+    return std::move(this->curPiece);
+}
+
+void Player::setCur() {
+    this->curPiece = this->pLevel->create();
+}
+
+std::unique_ptr<Piece> Player::getNext() {
+    return std::move(this->nextPiece);
+}
+
+void Player::setNext() { // should only ever run after setCur!
+    this->nextPiece = this->pLevel->create();
+}
+
 bool Player::canEffect() {
     return this->effect;
 }
