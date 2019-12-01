@@ -101,6 +101,8 @@ int main(int argc, char *argv[]) {
     int player1Score;
     int player2Score;
 
+    cout << *td; 
+    
     try {
         
         // Command interpreter
@@ -108,16 +110,7 @@ int main(int argc, char *argv[]) {
         // create a piece for command interpreter:
             player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
             player1->pLevel->setFile(fn2);
-/*            
-            p1 = make_unique<Piece>(player1->pLevel->create()); // create your piece; this is the current piece that the cmd is acting on
-            p1->setLevel(0);
-            p1->attach(player1->theGrid.get());
-            player1->theGrid->attach(p1.get()); // TODO check on this tmr and see if it still works
-            p2 = make_unique<Piece>(player2->pLevel->create()); // create the opponent's piece; the opponent's current piece
-            p2->setLevel(0);
-            p2->attach(player1->theGrid.get());
-            player2->theGrid->attach(p2.get()); // TODO check on this tmr and see if it still works
-*/
+
             std::cin >> cmd;
             multiplier = head->parsePrefix(cmd); // check if the command we have has a prefix
 
