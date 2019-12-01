@@ -21,7 +21,7 @@ class Player {
     bool isBlind(); // get blind
     void setBlind(bool blindness);
 
-    bool heavy = false;
+    int heavy = 0; //getters and setters?
 
     // for command stuff
 };
