@@ -5,6 +5,10 @@
 
 using namespace std;
 
+int LevelZero::getLevel() {
+    return 0;
+}
+
 unique_ptr<Piece> LevelZero::create() {
     // read in from sequence1.txt and sequence2.txt
     // loop if game is not over by EOF!!

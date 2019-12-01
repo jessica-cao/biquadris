@@ -6,6 +6,7 @@
 
 class Levels {
     public:
+    virtual int getLevel() = 0;
     virtual std::unique_ptr<Piece> create() = 0;
 //    virtual string getFile() = 0;  // will need to add to 0, 3, 4
     virtual void setFile(std::string fn) = 0;  

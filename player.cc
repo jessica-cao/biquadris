@@ -14,3 +14,11 @@ void Player::incrementScoreBy(int sc) {
 void Player::clearScore() {
     this->score = 0; 
 }
+
+bool isBlind() {
+    return this->blind;
+}
+
+void setBlind(bool blindness) {
+    this->setBlind = blindness;
+}
