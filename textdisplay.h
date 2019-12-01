@@ -1,16 +1,18 @@
 #ifndef TEXTDISPLAY_H
 #define TEXTDISPLAY_H
-#include "grid.h"
+#include "player.h"
 #include "observer.h" // subject and observer are both in observer
 #include "info.h"
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 class Cell;
 
 class TextDisplay : public Observer<Info, State> { // is there a template for observer?
-    Grid * gridOne;
-    Grid * gridTwo;
+    Player * playerOne;
+    Player * playerTwo;
     string nextOne;
     string nextTwo;
     
@@ -18,7 +20,7 @@ class TextDisplay : public Observer<Info, State> { // is there a template for ob
     const int row = 15;
 
     public:
-    TextDisplay(Grid * const gridOne, Grid * const gridTwo, string nextOne, string nextTwo);
+    TextDisplay(Player * const playerOne, Player * const playerTwo, string nextOne, string nextTwo);
     friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
 };
 

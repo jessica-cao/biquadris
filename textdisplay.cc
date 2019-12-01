@@ -1,7 +1,9 @@
 #include "textdisplay.h"
 
-TextDisplay::TextDisplay(Grid * const gridOne, Grid * const gridTwo, string nextOne, string nextTwo):
-    gridOne{gridOne}, gridTwo{gridTwo}, nextOne{nextOne}, nextTwo{nextTwo} {}
+using namespace std;
+
+TextDisplay::TextDisplay(Player * const playerOne, Player * const playerTwo, string nextOne, string nextTwo):
+    playerOne{playerOne}, playerTwo{playerTwo}, nextOne{nextOne}, nextTwo{nextTwo} {}
 
 
 std::ostream & printPieceTop(std::ostream &out, string pieceIs) {
@@ -44,33 +46,43 @@ std::ostream & printPieceBot(std::ostream &out, string pieceIs) {
 
 std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     // TODO
-    std::vector<std::vector<char>> & gOne = td.gridOne->getGrid();
-    std::vector<std::vector<char>> & gTwo = td.gridTwo->getGrid();
-    out << "Level:   " << td.gridOne->nLevel << "    Level:   " << td.gridTwo->nLevel << std::endl;
-//    out << "Score:" << "Score:" << std::endl;  // how to track score?
-    out << "-----------    -----------" << std::endl;
-    out << "                          " << std::endl;
-    out << "                          " << std::endl;
-    out << "                          " << std::endl;
+    vector<vector<char>> & gOne = td.playerOne->theGrid->getGrid();
+    vector<vector<char>> & gTwo = td.playerTwo->theGrid->getGrid();
+    out << "Level:   " << td.playerOne->nLevel << "    Level:   " << td.playerTwo->nLevel << endl;
+    out << "Score:   " << td.playerOne->score << "    Score:    " << td.playerTwo->score << endl;  // how to track score? in player
+    out << "-----------    -----------" << endl;
+    out << "                          " << endl;
+    out << "                          " << endl;
+    out << "                          " << endl;
     for (int i = 0; i < td.row; ++i) {
         for (int j = 0; j < td.col; ++j) {
-            out << gOne[i][j];
+            if (td.playerOne->blind && j >= 2 && j <= 8
+                    && i >= 2 && i <= 11) {
+                out << "?";
+            } else {
+                out << gOne[i][j];
+            }
         }
         out << "    ";
         for (int k = 0; k < td.col; ++k) {
-            out << gTwo[i][k];
+            if (td.playerTwo->blind && k >= 2 && k <= 8
+                    && i >= 2 && i <= 11) {
+                out << "?";
+            } else {
+                out << gTwo[i][k];
+            }
         }
-        out << std::endl;
+        out << endl;
     }
-    out << "-----------    -----------" << std::endl;
-    out << "Next:          Next:" << std::endl;
+    out << "-----------    -----------" << endl;
+    out << "Next:          Next:" << endl;
     printPieceTop(out, td.nextOne);
     out << "    ";
     printPieceTop(out, td.nextTwo);
-    out << std::endl;
+    out << endl;
     printPieceBot(out, td.nextOne);
     out << "    ";
     printPieceBot(out, td.nextTwo);
-    out << std::endl;
+    out << endl;
 }
 

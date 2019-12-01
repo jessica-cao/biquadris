@@ -28,8 +28,6 @@ class Grid: public Observer<Info, State>, Subject<Info, State> {
     public:
     std::vector<std::vector<char>>& getGrid();
     void notify(Subject<Info, State> &whoFrom) override;
-    Levels * pLevel = new LevelZero();  // probably not good design for these to be public
-    string nLevel = "0";
 };
 
 #endif
