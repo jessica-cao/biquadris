@@ -27,7 +27,9 @@ std::unique_ptr<Piece> Player::createPiece() {
 void Player::setCurrPiece(std::unique_ptr<Piece> nPiece) { // you want to be able to set a specific piece
     this->curPiece.reset();
     this->curPiece = std::move(nPiece);
-    this->curPiece->attach(theGrid.get());
+    this->curPiece->setLevel(this->nLevel);
+    this->curPiece->attach(this->theGrid.get());
+    this->theGrid->attach(this->curPiece.get());
 }
 
 std::unique_ptr<Piece> Player::getNext() {
@@ -90,7 +92,7 @@ void Player::move(std::string cmd) {
 void Player::rotate(std::string cmd) {
     if (cmd == "clockwise") {
         this->curPiece->rotate_cw();
-    } else (cmd == "counterclockwise") {
+    } else if (cmd == "counterclockwise") {
         this->curPiece->rotate_ccw();
     }
 }

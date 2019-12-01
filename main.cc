@@ -70,8 +70,8 @@ int main(int argc, char *argv[]) {
             nLevel = argv[i+1];
             // WHAT WILL BE KEEPING TRACK OF THE LEVELS?
             if (nLevel == "0") {
-                player1->pLevel = make_unique<LevelZero>{};
-                player2->pLevel = make_unique<LevelZero>{};
+                player1->pLevel = make_unique<LevelZero>();
+                player2->pLevel = make_unique<LevelZero>();
 
                 // ignore other levels for now
             /*
@@ -110,9 +110,11 @@ int main(int argc, char *argv[]) {
             player1->pLevel->setFile(fn2);
             
             p1 = make_unique<Piece>(player1->pLevel->create()); // create your piece; this is the current piece that the cmd is acting on
+            p1->setLevel(0);
             p1->attach(player1->theGrid.get());
             player1->theGrid->attach(p1.get()); // TODO check on this tmr and see if it still works
             p2 = make_unique<Piece>(player2->pLevel->create()); // create the opponent's piece; the opponent's current piece
+            p2->setLevel(0);
             p2->attach(player1->theGrid.get());
             player2->theGrid->attach(p2.get()); // TODO check on this tmr and see if it still works
 
@@ -132,52 +134,20 @@ int main(int argc, char *argv[]) {
                 try {
                     string currComm = head->search(cmd);
 
-                    if (currComm == "left") {
+                    if (currComm == "left" || currComm == "right" || currComm == "down" || currComm == "drop") {
                         for (int i = 0; i < multiplier; ++i) {
                             if (countTurns % 2 == 0) {
-                                p1->move_l();
+                                p1->move(cmd);
                             } else {
-                                p2->move_l();
+                                p2->move(cmd);
                             }
                         }
-                    } else if (currComm == "right") {
+                    } else if (currComm == "clockwise" || currComm == "counterclockwise") {
                         for (int i = 0; i < multiplier; ++i) {
                             if (countTurns % 2 == 0) {
-                                p1->move_r();
+                                p1->rotate(cmd);
                             } else {
-                                p2->move_r();
-                            }
-                        }
-                    } else if (currComm == "down") {
-                        for (int i = 0; i < multiplier; ++i) {
-                            if (countTurns % 2 == 0) {
-                                p1->move_d();
-                            } else {
-                                p2->move_d();
-                            }
-                        }
-                    } else if (currComm == "clockwise") {
-                        for (int i = 0; i < multiplier; ++i) {
-                            if (countTurns % 2 == 0) {
-                                p1->rotate_cw();
-                            } else {
-                                p2->rotate_cw();
-                            }
-                        }
-                    } else if (currComm == "counterclockwise") {
-                        for (int i = 0; i < multiplier; ++i) {
-                            if (countTurns % 2 == 0) {
-                                p1->rotate_ccw();
-                            } else {
-                                p2->rotate_ccw();
-                            }
-                        }
-                    } else if (currComm == "drop") {
-                        for (int i = 0; i < multiplier; ++i) {
-                            if (countTurns % 2 == 0) {
-                                p1->drop();
-                            } else {
-                                p2->drop();
+                                p2->rotate(cmd);
                             }
                         }
                     } else if (currComm == "levelup") {
@@ -287,15 +257,19 @@ int main(int argc, char *argv[]) {
                         
                     }
                     */
-                    } else if (currComm == "random") { // no multiplier
-                    }
-                    else if (currComm == "norandom")
-                    { // no multiplier
-                    }
-                    else if (currComm == "sequence")
-                    {
-                    }
-                    else if (currComm == "restart")
+                    } else if (currComm == "random" || currComm == "noRandom") { // no multiplier
+                    if (countTurns % 2 == 0) {
+                                p1->randomness(cmd);
+                            } else {
+                                p2->randomness(cmd);
+                            }
+                    } else if (currComm == "sequence") {
+                        if (countTurns % 2 == 0) {
+                                p1->sequence();
+                            } else {
+                                p2->sequence();
+                            }
+                    } else if (currComm == "restart")
                     { // no multiplier
                         //clear grid, clear score, reset turn to 0,
                         player1->restart(); // clears the first grid
