@@ -12,7 +12,7 @@ vector<vector<char>>& Grid::getGrid(){
 
 void Grid::init(){
     for(int i = 0; i < height; ++i){          
-        vector<char> row(weight, ' ');
+        vector<char> row(width, ' ');
         the_grid.emplace_back(row);
     }
 }
@@ -20,7 +20,7 @@ void Grid::init(){
 bool Grid::noCollision(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col){
     for (int i = rows - 1; i >= 0; --i){
         for (int j = 0; j < cols; ++j){
-            if (offset.at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) != ' '){
+            if (offset.at(i).at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) != ' '){
                 return false;
             }
         }
@@ -62,7 +62,7 @@ void Grid::addOffset(const PieceType piece_type){
 void Grid::deleteOffset(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col){
     for (int i = rows - 1; i >= 0; --i){
         for (int j = 0; j < cols; ++j){
-            if (offset.at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) != ' '){
+            if (offset.at(i).at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) != ' '){
                 the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) = ' ';
             }
         }
@@ -71,17 +71,23 @@ void Grid::deleteOffset(const std::vector<std::vector<bool>> &offset, const size
 
 void Grid::deleteRows(){
     bool is_full = true;
+    int num_rows_deleted = 0;
     for (int i = height - 1; i >= 0; --i){
         for (int j = 0; j < width; --i){
-            if (theGrid.at(i).at(j) == ' '){
+            if (theGrid.at(i).at(i).at(j) == ' '){
                 is_full = false;
             }
         }
         if (is_full){
             this->setState(this->getState().base_row, this->getState().base_col, this->getState().offset, this->getState().offset_height, this->getState().offset_width, FromType::Board, CommandType::DeleteRow, i);
             this->notifyObservers();
+            vector<char> new_row(width, ' ');
+            the_grid.emplace(the_grid.begin(), new_row);
+            ++num_rows_deleted;
         }
     }
+    int level = player->pLevel->getLevel();
+    player->incrementScoreBy((level + 1) * (level + 1));
 }
 
 void Grid::notify(Subject<Info, State> &whoFrom) override{

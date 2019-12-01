@@ -1,6 +1,8 @@
 #include "info.h"
 #include "state.h"
 #include "pieces.h"
+#include "player.h"
+#include "levels.h"
 #include <vector>
 using namespace std;
 
@@ -103,6 +105,17 @@ void Piece::setPiece(PieceType piece_type){
     }
 }
 
+void Piece::setPlayer(Player * player){
+    this->player = player;
+}
+
+void Piece::setLevel(int level){
+    if (level < 0 || level > 4){
+        //throw error
+    }
+    this->level = level;
+}
+
 void Piece::rotate_cw(){
     size_t rows = offset_height;
     size_t cols = offset_width;
@@ -151,7 +164,6 @@ void Piece::drop(){
 }
 
 
-
 void Piece::notify(Subject<Info, State> &whoFrom){
     if (whoFrom.getState().from_type == FromType::Piece){
         return;
@@ -174,7 +186,7 @@ void Piece::notify(Subject<Info, State> &whoFrom){
         // Check if offset is empty
         if (offset.size() == 0){
             // give player points
-            player->incrementScore()
+            player->incrementScoreBy(level + 1);
         }
     }
     // Make sure that it's yours

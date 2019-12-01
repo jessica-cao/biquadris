@@ -5,13 +5,15 @@
 #include "subject.h"
 #include "info.h"
 #include "state.h"
-#include "levels.h"
 #include "levelZero.h"
 #include <vector>
+
+class Player;
 
 class Grid: public Observer<Info, State>, Subject<Info, State> {
     size_t height = 15;
     size_t width = 11;
+    Player * player;
     std::vector<std::vector<char>> the_grid;
     // void rotate_cw();
     // void rotate_ccw();
@@ -22,7 +24,7 @@ class Grid: public Observer<Info, State>, Subject<Info, State> {
     bool noCollision(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col);
     void addOffset(const PieceType piece_type);
     void deleteOffset(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col);
-    void deleteRow();
+    void deleteRows();
     Info getInfo() const override;
 
     public:
