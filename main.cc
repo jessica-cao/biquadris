@@ -91,8 +91,8 @@ int main(int argc, char *argv[]) {
     std::cin.exceptions(ios::eofbit|ios::failbit); // why is cin ambiguous here. Jackass.
     // add any additional intializations here
     string cmd; // reads in a command
-    unique_ptr<Piece> p1 {new Piece()}; // piece pointers for player1's grid
-    unique_ptr<Piece> p2 {new Piece()}; // piece pointer for player2's grid
+ //   unique_ptr<Piece> p1 {new Piece()}; // piece pointers for player1's grid
+ //   unique_ptr<Piece> p2 {new Piece()}; // piece pointer for player2's grid
     int countTurns = 0;
     Trie* head = new Trie();
 	head->insertCommands();
