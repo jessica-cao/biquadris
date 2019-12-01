@@ -11,6 +11,7 @@ class Player;
 
 class Piece: public Observer<Info, State>, public Subject<Info, State> {
     Player * player;
+    Grid * the_grid;
     int level;
     size_t base_row, base_col;
     std::vector<std::vector<bool>> offset;
@@ -18,7 +19,7 @@ class Piece: public Observer<Info, State>, public Subject<Info, State> {
     size_t offset_width;
     PieceType piece_type;
     public:
-    Piece();
+    Piece(Grid * the_grid);
     void setPiece(PieceType piece_type);
     void setLevel(int level);
     void setPlayer(Player * player);

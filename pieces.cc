@@ -6,10 +6,11 @@
 #include <vector>
 using namespace std;
 
-Piece::Piece(){
+Piece::Piece(Grid * the_grid){
+    this->the_grid = the_grid;
     base_row = 3;
     base_col = 0;
-    setPiece(PieceType::IBlock);
+    // setPiece(PieceType::IBlock);
 }
 
 void Piece::setPiece(PieceType piece_type){
@@ -203,14 +204,14 @@ void Piece::notify(Subject<Info, State> &whoFrom){
                 }
             }
         }
-        // Check if offset is empty
+        // Check if offset is empty - that means all the cells are deleted
         if (offset.size() == 0){
             // give player points
             player->incrementScoreBy(level + 1);
+            the_grid->detatch(this);
         }
-    }
-    // Make sure that it's yours
-    if (this->getState().command_type != CommandType::NoCommand){
+    } else if (this->getState().command_type != CommandType::NoCommand){
+        // Make sure that it's yours
         base_col = whoFrom.getState().base_col;
         base_row = whoFrom.getState().base_row;
         offset = whoFrom.getState().offset;

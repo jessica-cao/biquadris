@@ -83,7 +83,7 @@ void Grid::deleteRows(){
     int num_rows_deleted = 0;
     for (int i = height - 1; i >= 0; --i){
         for (int j = 0; j < width; --i){
-            if (the_grid.at(i).at(j) == ' '){ //was theGrid.at(i).at(i).at(j)
+            if (the_grid.at(i).at(j) == ' '){
                 is_full = false;
             }
         }
