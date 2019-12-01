@@ -11,8 +11,8 @@ using namespace std;
 class Cell;
 
 class TextDisplay : public Observer<Info, State> { // is there a template for observer?
-    Player & playerOne;
-    Player & playerTwo;
+    Player * playerOne;
+    Player * playerTwo;
     string nextOne;
     string nextTwo;
     
@@ -20,7 +20,7 @@ class TextDisplay : public Observer<Info, State> { // is there a template for ob
     const int row = 15;
 
     public:
-    TextDisplay(Player & playerOne, Player & playerTwo, string nextOne, string nextTwo);
+    TextDisplay(Player * playerOne, Player * playerTwo, string nextOne, string nextTwo);
     friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
 };
 

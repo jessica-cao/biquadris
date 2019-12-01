@@ -2,7 +2,7 @@
 
 using namespace std;
 
-TextDisplay::TextDisplay(Player & playerOne, Player & playerTwo, string nextOne, string nextTwo):
+TextDisplay::TextDisplay(Player * playerOne, Player * playerTwo, string nextOne, string nextTwo):
     playerOne{playerOne}, playerTwo{playerTwo}, nextOne{nextOne}, nextTwo{nextTwo} {}
 
 
@@ -60,17 +60,17 @@ string scoreSpacing(int score) {
 
 std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     // TODO
-    vector<vector<char>> & gOne = td.playerOne.theGrid->getGrid();
-    vector<vector<char>> & gTwo = td.playerTwo.theGrid->getGrid();
-    out << "Level:   " << td.playerOne.nLevel << "    Level:   " << td.playerTwo.nLevel << endl;
-    out << "Score:" << scoreSpacing(td.playerOne.getScore()) << td.playerOne.getScore() << "    Score:" << scoreSpacing(td.playerTwo.getScore()) << td.playerTwo.getScore() << endl;  // how to track score? in player
+    vector<vector<char>> & gOne = td.playerOne->theGrid->getGrid();
+    vector<vector<char>> & gTwo = td.playerTwo->theGrid->getGrid();
+    out << "Level:   " << td.playerOne->nLevel << "    Level:   " << td.playerTwo->nLevel << endl;
+    out << "Score:" << scoreSpacing(td.playerOne->getScore()) << td.playerOne->getScore() << "    Score:" << scoreSpacing(td.playerTwo.getScore()) << td.playerTwo.getScore() << endl;  // how to track score? in player
     out << "-----------    -----------" << endl;
     out << "                          " << endl;
     out << "                          " << endl;
     out << "                          " << endl;
     for (int i = 0; i < td.row; ++i) {
         for (int j = 0; j < td.col; ++j) {
-            if (td.playerOne.isBlind() && j >= 2 && j <= 8
+            if (td.playerOne->isBlind() && j >= 2 && j <= 8
                     && i >= 2 && i <= 11) {
                 out << "?";
             } else {
@@ -79,7 +79,7 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
         }
         out << "    ";
         for (int k = 0; k < td.col; ++k) {
-            if (td.playerTwo.isBlind() && k >= 2 && k <= 8
+            if (td.playerTwo->isBlind() && k >= 2 && k <= 8
                     && i >= 2 && i <= 11) {
                 out << "?";
             } else {
