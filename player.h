@@ -42,6 +42,7 @@ class Player {
 
     // for command stuff
     void move(std::string);
+    void drop();
     void rotate(std::string);
     void randomness(std::string);
     void levelup();

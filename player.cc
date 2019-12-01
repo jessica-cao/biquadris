@@ -38,7 +38,7 @@ void Player::setCurrPiece() { // you want to be able to set a specific piece
     this->curPiece->setLevel(this->nLevel);
     this->curPiece->attach(this->theGrid.get());
     std::cout << "HELLOOOOOOOOOOOOOOOOOOOOOO" << std::endl;
-    std::cout << this->theGrid->getInfo().base_row << " hey" << std::endl;
+    //std::cout << this->theGrid->getInfo().base_row << " hey" << std::endl;
     this->theGrid->attach(this->curPiece.get());
     this->curPiece->placePiece();
 }
@@ -98,12 +98,19 @@ void Player::move(std::string cmd) {
     if (cmd == "left") {
         this->curPiece->move_l();
     } else if (cmd == "right") {
+        std::cout << "before moving right\n";
         this->curPiece->move_r(); 
+        std::cout << this->curPiece->getInfo().base_col << std::endl;
+        std::cout << "after moving right \n";
     } else if (cmd == "down") {
         this->curPiece->move_d();
-    } else if (cmd == "drop") {
-        this->curPiece->drop();
     }
+}
+
+void Player::drop() {
+    this->curPiece->drop();
+    this->setCurrPiece();
+    this->setNextPiece();
 }
 
 void Player::rotate(std::string cmd) {
