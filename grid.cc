@@ -117,7 +117,7 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
         }
         bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, state_base_row, state_base_col);
         if (no_collision){
-            // this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
+            this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
             this->addOffset(whoFrom.getInfo().piece_type);
         } else {
             // throw exception

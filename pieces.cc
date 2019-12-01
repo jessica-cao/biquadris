@@ -4,6 +4,7 @@
 #include "player.h"
 #include "levels.h"
 #include <vector>
+#include <iostream>
 using namespace std;
 
 Piece::Piece(Grid * the_grid, PieceType piece_type){
@@ -27,8 +28,8 @@ Piece::Piece(Grid * the_grid, PieceType piece_type){
                 } else {
                     row.emplace_back(false);
                 }
-                offset.emplace_back(row);
             }
+            offset.emplace_back(row);
         }
     } else if (piece_type == PieceType::LBlock){
         this->offset_height = 2;
@@ -41,8 +42,8 @@ Piece::Piece(Grid * the_grid, PieceType piece_type){
                 } else {
                     row.emplace_back(false);
                 }
-                offset.emplace_back(row);
             }
+            offset.emplace_back(row);
         }
     } else if (piece_type == PieceType::OBlock){
         this->offset_height = 2;
@@ -62,8 +63,8 @@ Piece::Piece(Grid * the_grid, PieceType piece_type){
                 } else {
                     row.emplace_back(false);
                 }
-                offset.emplace_back(row);
             }
+            offset.emplace_back(row);
         }
     } else if (piece_type == PieceType::ZBlock){
         this->offset_height = 2;
@@ -76,8 +77,8 @@ Piece::Piece(Grid * the_grid, PieceType piece_type){
                 } else {
                     row.emplace_back(false);
                 }
-                offset.emplace_back(row);
             }
+            offset.emplace_back(row);
         }
     } else if (piece_type == PieceType::TBlock){
         this->offset_height = 2;
@@ -90,8 +91,8 @@ Piece::Piece(Grid * the_grid, PieceType piece_type){
                 } else {
                     row.emplace_back(false);
                 }
-                offset.emplace_back(row);
             }
+            offset.emplace_back(row);
         }
     } else {
         // throw exception
@@ -100,11 +101,13 @@ Piece::Piece(Grid * the_grid, PieceType piece_type){
 
 void Piece::placePiece(){
     this->setState({this->base_row, this->base_col, this->offset, this->offset_height, this->offset_width, FromType::Piece, CommandType::SetPiece});
-    try {
+    // try {
+        cout << "place piece" << endl;
         this->notifyObservers();
-    } catch (...) {
+        
+    // } catch (...) {
         // throw another exception
-    }
+    // }
 }
 
 void Piece::setPlayer(Player * player){

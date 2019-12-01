@@ -3,7 +3,7 @@
 using namespace std;
 
 Player::Player() {
-    cout << "hello" << endl;
+    // cout << "hello" << endl;
     this->theGrid->init();
 }
 
