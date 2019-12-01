@@ -69,8 +69,40 @@ void Player::restart() {
 }
 
 void Player::setSpecificPieceType(PieceType pt) {
-    std::unique_ptr<Piece> p {new Piece()};
+    std::unique_ptr<Piece> p {new Piece(theGrid.get())};
     p->setPiece(pt);
     setCurrPiece(std::move(p));
 
+}
+
+void Player::move(std::string cmd) {
+    if (cmd == "left") {
+        this->curPiece->move_l();
+    } else if (cmd == "right") {
+        this->curPiece->move_r(); 
+    } else if (cmd == "down") {
+        this->curPiece->move_d();
+    } else if (cmd == "drop") {
+        this->curPiece->drop();
+    }
+}
+
+void Player::rotate(std::string cmd) {
+    if (cmd == "clockwise") {
+        this->curPiece->rotate_cw();
+    } else (cmd == "counterclockwise") {
+        this->curPiece->rotate_ccw();
+    }
+}
+
+void Player::randomness(std::string cmd) {
+    if (cmd == "random") {
+        // do this thing
+    } else if (cmd == "norandom") {
+        // do this other thing
+    }
+}
+
+void Player::sequence() {
+    // do something
 }

@@ -36,10 +36,12 @@ class Player {
     void setHeavy(int heaviness);
 
     // for command stuff
+    void move(std::string);
+    void rotate(std::string);
+    void randomness(std::string);
     void levelup();
     void leveldown();
-    void random();
-    void norandom();
+    void sequence();
     void restart();
     void setSpecificPieceType(PieceType);
 };
