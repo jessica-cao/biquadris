@@ -2,43 +2,45 @@
 
 using namespace std;
 
-TextDisplay::TextDisplay(Player * playerOne, Player * playerTwo, string nextOne, string nextTwo):
-    playerOne{playerOne}, playerTwo{playerTwo}, nextOne{nextOne}, nextTwo{nextTwo} {}
+TextDisplay::TextDisplay(Player * playerOne, Player * playerTwo):
+    playerOne{playerOne}, playerTwo{playerTwo} {}
 
 
-string PieceTop(string pieceIs) {
-    if (pieceIs == "I") {
+string PieceTop(Piece * nextPiece) {
+    PieceType pieceIs = nextPiece->getInfo().piece_type;
+    if (pieceIs == PieceType::IBlock) {
         return "IIII       ";
-    } else if (pieceIs == "J") {
+    } else if (pieceIs == PieceType::JBlock) {
         return "J          ";
-    } else if (pieceIs == "L") {
+    } else if (pieceIs == PieceType::LBlock) {
         return "  L        ";
-    } else if (pieceIs == "T") {
+    } else if (pieceIs == PieceType::TBlock) {
         return "TTT        ";
-    } else if (pieceIs == "Z") {
+    } else if (pieceIs == PieceType::ZBlock) {
         return "ZZ         ";
-    } else if (pieceIs == "S") {
+    } else if (pieceIs == PieceType::SBlock) {
         return " SS        ";
-    } else if (pieceIs == "O") {
+    } else if (pieceIs == PieceType::OBlock) {
         return "OO         ";
     }
     return "";
 }
 
-string PieceBot(string pieceIs) {
-    if (pieceIs == "I") {
+string PieceBot(Piece * nextPiece) {
+    PieceType pieceIs = nextPiece->getInfo().piece_type;
+    if (pieceIs == PieceType::IBlock) {
         return "           ";
-    } else if (pieceIs == "J") {
+    } else if (pieceIs == PieceType::JBlock) {
         return "JJJ        ";
-    } else if (pieceIs == "L") {
+    } else if (pieceIs == PieceType::LBlock) {
         return "LLL        ";
-    } else if (pieceIs == "T") {
+    } else if (pieceIs == PieceType::TBlock) {
         return " T         ";
-    } else if (pieceIs == "Z") {
+    } else if (pieceIs == PieceType::ZBlock) {
         return " ZZ        ";
-    } else if (pieceIs == "S") {
+    } else if (pieceIs == PieceType::SBlock) {
         return "SS         ";
-    } else if (pieceIs == "O") {
+    } else if (pieceIs == PieceType::OBlock) {
         return "OO         ";
     }
     return "";
@@ -90,8 +92,8 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     }
     out << "-----------    -----------" << endl;
     out << "Next:          Next:" << endl;
-    out << PieceTop(td.nextOne) << "    " << PieceTop(td.nextTwo) << endl;
-    out << PieceBot(td.nextOne) << "    " << PieceBot(td.nextTwo) << endl;
+    out << PieceTop(td.playerOne->next) << "    " << PieceTop(td.playerTwo->next) << endl;
+    out << PieceBot(td.playerOne->next) << "    " << PieceBot(td.playerTwo->next) << endl;
     return out;
 }
 

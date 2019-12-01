@@ -13,14 +13,14 @@ class Cell;
 class TextDisplay : public Observer<Info, State> { // is there a template for observer?
     Player * playerOne;
     Player * playerTwo;
-    string nextOne;
-    string nextTwo;
+//    string nextOne;
+//    string nextTwo;
     
     const int col = 11;
     const int row = 15;
 
     public:
-    TextDisplay(Player * playerOne, Player * playerTwo, string nextOne, string nextTwo);
+    TextDisplay(Player * playerOne, Player * playerTwo);
     friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
 };
 
