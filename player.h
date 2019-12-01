@@ -10,6 +10,7 @@ class Player {
     bool blind = false;
     int heavy = 0;
 
+    std::vector<Piece> playerPieces;
     public: // sorry probably bad practice again
     std::unique_ptr<Grid> theGrid;
     std::unique_ptr<Levels> pLevel{new LevelZero()};

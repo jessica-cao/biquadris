@@ -10,7 +10,7 @@
 
 class Player;
 
-class Grid: public Observer<Info, State>, Subject<Info, State> {
+class Grid: public Observer<Info, State>, public Subject<Info, State> {
     size_t height = 15;
     size_t width = 11;
     Player * player;
@@ -35,4 +35,3 @@ class Grid: public Observer<Info, State>, Subject<Info, State> {
 };
 
 #endif
-

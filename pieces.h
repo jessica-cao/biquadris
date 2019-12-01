@@ -9,7 +9,7 @@
 
 class Player;
 
-class Piece: public Observer<Info, State>, Subject<Info, State> {
+class Piece: public Observer<Info, State>, public Subject<Info, State> {
     Player * player;
     int level;
     size_t base_row, base_col;

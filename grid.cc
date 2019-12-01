@@ -44,7 +44,7 @@ void Grid::addOffset(const PieceType piece_type){
     size_t base_col = this->getState().base_col;
     for (int i = rows - 1; i >= 0; --i){
         for (int j = 0; j < cols; ++j){
-            if (offset.at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) == ' '){
+            if (offset.at(i).at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) == ' '){
                 if (piece_type == PieceType::IBlock){
                     the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) = 'I';
                 } else if (piece_type == PieceType::JBlock){
@@ -60,7 +60,7 @@ void Grid::addOffset(const PieceType piece_type){
                 } else if (piece_type == PieceType::ZBlock){
                     the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) = 'Z';
                 }
-            } else if (offset.at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) != ' ') {
+            } else if (offset.at(i).at(j) && the_grid.at(base_row - (rows - 1 - i)).at(base_col + j) != ' ') {
                 // throw exception - dunno how to do it with strong guarantee
             }
         }
@@ -82,12 +82,12 @@ void Grid::deleteRows(){
     int num_rows_deleted = 0;
     for (int i = height - 1; i >= 0; --i){
         for (int j = 0; j < width; --i){
-            if (theGrid.at(i).at(i).at(j) == ' '){
+            if (the_grid.at(i).at(i).at(j) == ' '){ //was theGrid
                 is_full = false;
             }
         }
         if (is_full){
-            this->setState(this->getState().base_row, this->getState().base_col, this->getState().offset, this->getState().offset_height, this->getState().offset_width, FromType::Board, CommandType::DeleteRow, i);
+            this->setState({this->getState().base_row, this->getState().base_col, this->getState().offset, this->getState().offset_height, this->getState().offset_width, FromType::Board, CommandType::DeleteRow, i});
             this->notifyObservers();
             vector<char> new_row(width, ' ');
             the_grid.emplace(the_grid.begin(), new_row);
@@ -98,7 +98,7 @@ void Grid::deleteRows(){
     player->incrementScoreBy((level + 1) * (level + 1));
 }
 
-void Grid::notify(Subject<Info, State> &whoFrom) override{
+void Grid::notify(Subject<Info, State> &whoFrom) {
     if (whoFrom.getState().from_type == FromType::Board){
         return;
     }
@@ -134,14 +134,14 @@ void Grid::notify(Subject<Info, State> &whoFrom) override{
         if (no_collision){
             // If no collision, change the grid's state to the new state and add the new offset
             this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
-            this->addOffset(whoFrom.getInfo().piece_type)
+            this->addOffset(whoFrom.getInfo().piece_type);
             this->notifyObservers();
             // Check if the entire row is full and delete the row
             this->deleteRows();
         } else {
             // If has a collsion, change the grid's state to the old state and add the old offset
             this->setState({whoFrom.getInfo().base_row, whoFrom.getInfo().base_col, whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, FromType::Board, state_command_type});
-            this->addOffset(whoFrom.getInfo().piece_type)
+            this->addOffset(whoFrom.getInfo().piece_type);
             this->notifyObservers();
         }
 
@@ -156,13 +156,13 @@ void Grid::notify(Subject<Info, State> &whoFrom) override{
                 }
             }
             this->setState({new_base_row, state_base_col, state_offset, state_offset_height, state_offset_width});
-            this->addOffset(whoFrom.getInfo().piece_type)
+            this->addOffset(whoFrom.getInfo().piece_type);
             this->deleteRows();
         }
     }
 }
 
-Info Grid::getInfo(){
+Info Grid::getInfo() const {
     Info info = {0, 0, vector<vector<bool>>, 0, 0, PieceType::IBlock};
     return info;
 }
