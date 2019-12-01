@@ -6,6 +6,7 @@
 
 class Player {
     int score = 0;
+    bool blind = false;
 
     public: // sorry probably bad practice again
     std::unique_ptr<Grid> theGrid;
@@ -17,7 +18,9 @@ class Player {
 
 
     // for the special actions
-    bool blind = false;
+    bool isBlind(); // get blind
+    void setBlind(bool blindness);
+
     bool heavy = false;
 
     // for command stuff
