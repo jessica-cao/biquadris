@@ -6,10 +6,12 @@
 #include "player.h"
 #include "levels.h"
 #include "levelZero.h"
+/*
 #include "levelOne.h"
 #include "levelTwo.h"
 #include "levelThree.h"
 #include "levelFour.h"
+*/
 #include "trie.h"
 #include "textdisplay.h"
 
