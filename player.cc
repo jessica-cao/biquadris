@@ -98,6 +98,8 @@ void Player::move(std::string cmd) {
     if (cmd == "left") {
         this->curPiece->move_l();
     } else if (cmd == "right") {
+        cout << "Right command" << endl;
+        cout << this->curPiece->getInfo().base_row << endl;
         this->curPiece->move_r(); 
     } else if (cmd == "down") {
         this->curPiece->move_d();

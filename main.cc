@@ -155,9 +155,12 @@ int main(int argc, char *argv[]) {
                     if (currComm == "left" || currComm == "right" || currComm == "down" || currComm == "drop") {
                         cout << "hola i'm the right command\n" << endl;
                         for (int i = 0; i < multiplier; ++i) {
+                            cout << "it moves" << endl;
                             if (countTurns % 2 == 0) {
+                                cout << "player 1" << endl;
                                 player1->move(cmd);
                             } else {
+                                cout << "player 1" << endl;
                                 player2->move(cmd);
                             }
                         }
