@@ -17,8 +17,8 @@ class Piece: public Observer<Info, State>, Subject<Info, State> {
     size_t offset_height;
     size_t offset_width;
     PieceType piece_type;
-    Piece();
     public:
+    Piece();
     void setPiece(PieceType piece_type);
     void setLevel(int level);
     void setPlayer(Player * player);
