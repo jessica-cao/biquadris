@@ -64,7 +64,7 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     // TODO
     vector<vector<char>> & gOne = td.playerOne->theGrid->getGrid();
     vector<vector<char>> & gTwo = td.playerTwo->theGrid->getGrid();
-    out << "Level:   " << td.playerOne->nLevel << "    Level:   " << td.playerTwo->nLevel << endl;
+    out << "Level:    " << td.playerOne->nLevel << "    Level:    " << td.playerTwo->nLevel << endl;
     out << "Score:" << scoreSpacing(td.playerOne->getScore()) << td.playerOne->getScore() << "    Score:" << scoreSpacing(td.playerTwo->getScore()) << td.playerTwo->getScore() << endl;  // how to track score? in player
     out << "-----------    -----------" << endl;
     for (int i = 0; i < td.row; ++i) {
