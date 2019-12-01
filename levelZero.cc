@@ -19,7 +19,7 @@ unique_ptr<Piece> LevelZero::create(Grid * grid) {
     PieceType curPiece = this->playPieces.back();
     this->playPieces.pop_back();
     this->playPieces.emplace(this->playPieces.begin(), curPiece);
-    unique_ptr<Piece> nPiece {new Piece(grid)};
+    unique_ptr<Piece> nPiece {new Piece(grid, curPiece)};
     // nPiece->setPiece(curPiece);
     return nPiece;
 
