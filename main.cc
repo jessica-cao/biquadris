@@ -73,13 +73,13 @@ int main(int argc, char *argv[]) {
 
                 // ignore other levels for now
             /*
-            } else if (nLevel == 1) {
+            } else if (nLevel == "1") {
                 //
-            } else if (nLevel == 2) {
+            } else if (nLevel == "2") {
                 //
-            } else if (nLevel == 3) {
+            } else if (nLevel == "3") {
                 //
-            } else if (nLevel == 4) {
+            } else if (nLevel == "4") {
                 //
                 */
             }
@@ -101,17 +101,17 @@ int main(int argc, char *argv[]) {
 
     try {
         
-        // Command interpreter stuff pour Jessica it is I. The frenchiest fry
+        // Command interpreter
         while (true) { // game not over; break when done
         // create a piece for command interpreter:
             player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
             player1->pLevel->setFile(fn2);
             
             p1 = make_unique<Piece>(player1->pLevel->create()); // create your piece; this is the current piece that the cmd is acting on
-            //set piece
+            p1->attach(player1->theGrid.get());
             player1->theGrid->attach(p1.get()); // TODO check on this tmr and see if it still works
             p2 = make_unique<Piece>(player2->pLevel->create()); // create the opponent's piece; the opponent's current piece
-            // set piece
+            p2->attach(player1->theGrid.get());
             player2->theGrid->attach(p2.get()); // TODO check on this tmr and see if it still works
 
             std::cin >> cmd;
@@ -124,60 +124,62 @@ int main(int argc, char *argv[]) {
             }
             
             try {
+
                 string currComm = head->search(cmd);
 
-                if (currComm == "left") {
-                    for (int i = 0; i < multiplier; ++i) {
-                        if (countTurns % 2 == 0) {
-                            p1->move_l();
-                        } else {
-                            p2->move_l();
-                        }
-                    }
-                } else if (currComm == "right") {
-                    for (int i = 0; i < multiplier; ++i) {
-                        if (countTurns % 2 == 0) {
-                            p1->move_r();
-                        } else {
-                            p2->move_r();
-                        }
-                    }
+                try {
+                    string currComm = head->search(cmd);
 
-                } else if (currComm == "down") {
-                    for (int i = 0; i < multiplier; ++i) {
-                        if (countTurns % 2 == 0) {
-                            p1->move_d();
-                        } else {
-                            p2->move_d();
+                    if (currComm == "left") {
+                        for (int i = 0; i < multiplier; ++i) {
+                            if (countTurns % 2 == 0) {
+                                p1->move_l();
+                            } else {
+                                p2->move_l();
+                            }
                         }
-                    }
-                } else if (currComm == "clockwise") {
-                    for (int i = 0; i < multiplier; ++i) {
-                        if (countTurns % 2 == 0) {
-                            p1->rotate_cw();
-                        } else {
-                            p2->rotate_cw();
+                    } else if (currComm == "right") {
+                        for (int i = 0; i < multiplier; ++i) {
+                            if (countTurns % 2 == 0) {
+                                p1->move_r();
+                            } else {
+                                p2->move_r();
+                            }
                         }
-                    }
-
-                } else if (currComm == "counterclockwise") {
-                    for (int i = 0; i < multiplier; ++i) {
-                        if (countTurns % 2 == 0) {
-                            p1->rotate_ccw();
-                        } else {
-                            p2->rotate_ccw();
+                    } else if (currComm == "down") {
+                        for (int i = 0; i < multiplier; ++i) {
+                            if (countTurns % 2 == 0) {
+                                p1->move_d();
+                            } else {
+                                p2->move_d();
+                            }
                         }
-                    }
-                } else if (currComm == "drop") {
-                    for (int i = 0; i < multiplier; ++i) {
-                        if (countTurns % 2 == 0) {
-                            p1->drop();
-                        } else {
-                            p2->drop();
+                    } else if (currComm == "clockwise") {
+                        for (int i = 0; i < multiplier; ++i) {
+                            if (countTurns % 2 == 0) {
+                                p1->rotate_cw();
+                            } else {
+                                p2->rotate_cw();
+                            }
                         }
-                    }
-                } else if (currComm == "levelup") {
-                    /*
+                    } else if (currComm == "counterclockwise") {
+                        for (int i = 0; i < multiplier; ++i) {
+                            if (countTurns % 2 == 0) {
+                                p1->rotate_ccw();
+                            } else {
+                                p2->rotate_ccw();
+                            }
+                        }
+                    } else if (currComm == "drop") {
+                        for (int i = 0; i < multiplier; ++i) {
+                            if (countTurns % 2 == 0) {
+                                p1->drop();
+                            } else {
+                                p2->drop();
+                            }
+                        }
+                    } else if (currComm == "levelup") {
+                        /*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
                         desiredLvl = multiplier + player1->nLevel;
@@ -228,8 +230,8 @@ int main(int argc, char *argv[]) {
                         }
                     }
                     */
-                } else if (currComm == "leveldown") {
-                    /*
+                    } else if (currComm == "leveldown") {
+                        /*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
                         desiredLvl = player1->nLevel - multiplier;
@@ -283,40 +285,52 @@ int main(int argc, char *argv[]) {
                         
                     }
                     */
-                } else if (currComm == "random") { // no multiplier
+                    } else if (currComm == "random") { // no multiplier
+                    }
+                    else if (currComm == "norandom")
+                    { // no multiplier
+                    }
+                    else if (currComm == "sequence")
+                    {
+                    }
+                    else if (currComm == "restart")
+                    { // no multiplier
+                        //clear grid, clear score, reset turn to 0,
+                        player1->restart(); // clears the first grid
+                        player2->restart(); // clears the second grid
+                        countTurns = -1;    // This makes sure that no matter who calls restart, player one always plays first
+                    }
+                    else if (currComm == "I")
+                    { // replace current block w the I block
+                        // make a method in player that replaces the current block with the I block
+                    }
+                    else if (currComm == "J")
+                    {
+                    }
+                    else if (currComm == "L")
+                    {
+                    }
+                    else if (currComm == "O")
+                    {
+                    }
+                    else if (currComm == "S")
+                    {
+                    }
+                    else if (currComm == "Z")
+                    {
+                    }
+                    else if (currComm == "T")
+                    {
+                    }
 
-                } else if (currComm == "norandom") { // no multiplier
-                
-                } else if (currComm == "sequence") {
+                    // TODO print the board right here
+                    cout << td.get();
 
-                } else if (currComm == "restart") { // no multiplier
-                //clear grid, clear score, reset turn to 0, 
-                player1->restart(); // clears the first grid
-                player2->restart(); // clears the second grid
-                countTurns = -1; // This makes sure that no matter who calls restart, player one always plays first
-                
-                } else if (currComm == "I") { // replace current block w the I block
-                // make a method in player that replaces the current block with the I block
+                    multiplier = 1;
+                    ++countTurns;
+                } catch (logic_error &le) { // any invalid command prints an error message
 
-                } else if (currComm == "J") {
-
-                } else if (currComm == "L") {
-                    
-                } else if (currComm == "O") {
-
-                } else if (currComm == "S") {
-
-                } else if (currComm == "Z") {
-
-                } else if (currComm == "T") {
-
-                }
-
-                // TODO print the board right here
-                
-
-                // check for victory condition here 
-                // if (victory) 
+                // check for victory condition here
                 // If a piece can no longer be played, a specific error message is thrown. We need to check for that error message.
                 player1Score = player1->getScore();
                 player2Score = player2->getScore();
@@ -328,19 +342,19 @@ int main(int argc, char *argv[]) {
                 } else {
                     cout << "A tie!" << endl;
                 }
-                
-                break;
-                
 
-                multiplier = 1;
-                ++countTurns;
-            } catch (logic_error &le) { // any invalid command prints an error message
+                break;
+                }
+            } catch (logic_error &le) {
+                // any invalid command prints an error message
                 cout << le.what() << endl;
             }
+       
             
         }
     } catch (ios::failure &) {
         // any I/O failure quits the game automatically 
+    
     }
 
 }
