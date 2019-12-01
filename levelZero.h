@@ -8,7 +8,7 @@
 
 class LevelZero : public Levels {
     std::string fileName = ""; // file name
-    vector<PieceType> playPieces; // vector for all pieces: the one at the back is meant to play next
+    std::vector<PieceType> playPieces; // vector for all pieces: the one at the back is meant to play next
     public:
     int getLevel();
     std::unique_ptr<Piece> create() override;

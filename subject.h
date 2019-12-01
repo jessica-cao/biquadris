@@ -11,11 +11,22 @@ template <typename InfoType, typename StateType> class Subject {
  protected:
   void setState(StateType newS);
  public:
+  void detatch(Observer<InfoType, StateType> *o)
   void attach(Observer<InfoType, StateType> *o);  
   void notifyObservers();
   virtual InfoType getInfo() const = 0;
   StateType getState() const;
 };
+
+template <typename InfoType, typename StateType>
+void Subject<InfoType, StateType>::detach(Observer<InfoType, StateType> *o) {
+  for (auto it = observers.begin(); it != observers.end(); ++it) {
+    if (*it == o) {
+      observers.erase(it);
+      break;
+    }
+  }
+}
 
 template <typename InfoType, typename StateType>
 void Subject<InfoType, StateType>::attach(Observer<InfoType, StateType> *o) {
