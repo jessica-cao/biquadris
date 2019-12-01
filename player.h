@@ -13,8 +13,13 @@ class Player {
     std::unique_ptr<Piece> curPiece;
     std::unique_ptr<Piece> nextPiece;
     std::vector<Piece> playerPieces;
+
+
     public: // sorry probably bad practice again
-    std::unique_ptr<Grid> theGrid;
+    
+    Player();
+    std::unique_ptr<Grid> theGrid{new Grid()};
+
     std::unique_ptr<Levels> pLevel{new LevelZero()};
     int nLevel = 0;
     int getScore(); // returns the score

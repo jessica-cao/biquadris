@@ -25,9 +25,9 @@ class Grid: public Observer<Info, State>, public Subject<Info, State> {
     void addOffset(const PieceType piece_type);
     void deleteOffset(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col);
     void deleteRows();
-    Info getInfo() const override;
 
     public:
+    Info getInfo() const override;
     void init();
     void clear();
     std::vector<std::vector<char>>& getGrid();

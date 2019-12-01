@@ -5,6 +5,7 @@
 #include "observer.h"
 #include "player.h"
 #include <vector>
+#include <iostream>
 using namespace std;
 
 void Grid::setPlayer(Player * player){
@@ -16,6 +17,7 @@ vector<vector<char>>& Grid::getGrid(){
 }
 
 void Grid::init(){
+    cout << height << " " << width << endl;
     for(int i = 0; i < height; ++i){          
         vector<char> row(width, ' ');
         the_grid.emplace_back(row);

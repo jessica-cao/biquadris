@@ -98,9 +98,11 @@ int main(int argc, char *argv[]) {
 	head->insertCommands();
     int multiplier = 1; // some commands have a multiplier prefix; to show how many times a command is executed
 
+    cout << "BEFORE ALLLL" << endl;
     player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
     player2->pLevel->setFile(fn2);
     player1->setNextPiece();
+    cout << "BEFORE CURR PIECE" << endl;
     player1->setCurrPiece(player1->getNext());
     player2->setNextPiece();
     player2->setCurrPiece(player2->getNext());

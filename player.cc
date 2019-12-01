@@ -1,4 +1,11 @@
 #include "player.h"
+#include <iostream>
+using namespace std;
+
+Player::Player() {
+    cout << "hello" << endl;
+    this->theGrid->init();
+}
 
 // returns this player's score
 int Player::getScore() {
@@ -30,7 +37,10 @@ void Player::setCurrPiece(std::unique_ptr<Piece> nPiece) { // you want to be abl
     this->curPiece = std::move(nPiece);
     this->curPiece->setLevel(this->nLevel);
     this->curPiece->attach(this->theGrid.get());
+    std::cout << "HELLOOOOOOOOOOOOOOOOOOOOOO" << std::endl;
+    std::cout << this->theGrid->getInfo().base_row << " hey" << std::endl;
     this->theGrid->attach(this->curPiece.get());
+    this->curPiece->placePiece();
 }
 
 std::unique_ptr<Piece> Player::getNext() {
