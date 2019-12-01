@@ -19,15 +19,23 @@ std::unique_ptr<Piece> Player::getCur() {
     return std::move(this->curPiece);
 }
 
-void Player::setCur() {
-    this->curPiece = this->pLevel->create();
+//
+std::unique_ptr<Piece> Player::createPiece() {
+    return std::move(this->pLevel->create());
+}
+
+void Player::setCurrPiece(std::unique_ptr<Piece> nPiece) { // you want to be able to set a specific piece
+    this->curPiece.reset();
+    this->curPiece = std::move(nPiece);
+    this->curPiece->attach(theGrid.get());
 }
 
 std::unique_ptr<Piece> Player::getNext() {
+
     return std::move(this->nextPiece);
 }
 
-void Player::setNext() { // should only ever run after setCur!
+void Player::setNextPiece() { // should only ever run after setCurrPiece
     this->nextPiece = this->pLevel->create();
 }
 
@@ -58,4 +66,11 @@ void Player::setHeavy(int heaviness) {
 void Player::restart() {
     this->theGrid->clear();
     this->clearScore();
+}
+
+void Player::setSpecificPieceType(PieceType pt) {
+    std::unique_ptr<Piece> p {new Piece()};
+    p->setPiece(pt);
+    setCurrPiece(std::move(p));
+
 }

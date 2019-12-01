@@ -35,8 +35,8 @@ int main(int argc, char *argv[]) {
     // ctors need to set default level to 0
     // will need a field that points to Level obj, which then specifies the lvl (eg. LevelZero)
     // call Piece * pLevel (playerLevel) and string nLevel (numLevel)
-    unique_ptr<Player> player1{new Player()};
-    unique_ptr<Player> player2{new Player()};
+    unique_ptr<Player> player1;
+    unique_ptr<Player> player2;
     
     string nLevel = "0"; // intialized level: THIS MAY BE A PROBLEM LATER DEPENDING ON HOW WE SET LEVELUP AND DOWN
     string fn1 = "sequence1.txt";
@@ -68,8 +68,8 @@ int main(int argc, char *argv[]) {
             nLevel = argv[i+1];
             // WHAT WILL BE KEEPING TRACK OF THE LEVELS?
             if (nLevel == "0") {
-                player1->pLevel = make_unique<LevelZero>(new LevelZero());
-                player2->pLevel = make_unique<LevelZero>(new LevelZero());
+                player1->pLevel = make_unique<LevelZero>{};
+                player2->pLevel = make_unique<LevelZero>{};
 
                 // ignore other levels for now
             /*
@@ -300,27 +300,61 @@ int main(int argc, char *argv[]) {
                         player2->restart(); // clears the second grid
                         countTurns = -1;    // This makes sure that no matter who calls restart, player one always plays first
                     }
-                    else if (currComm == "I")
-                    { // replace current block w the I block
+                    else if (currComm == "I") { // replace current block w the I block
                         // make a method in player that replaces the current block with the I block
+                        if (countTurns % 2 == 0) {
+                            player1->setSpecificPieceType(PieceType::IBlock);
+                        } else {
+                            player2->setSpecificPieceType(PieceType::IBlock);
+                        }
                     }
                     else if (currComm == "J")
                     {
+                        if (countTurns % 2 == 0) {
+                            player1->setSpecificPieceType(PieceType::JBlock);
+                        } else {
+                            player2->setSpecificPieceType(PieceType::JBlock);
+                        }
                     }
                     else if (currComm == "L")
                     {
+                        if (countTurns % 2 == 0) {
+                            player1->setSpecificPieceType(PieceType::LBlock);
+                        } else {
+                            player2->setSpecificPieceType(PieceType::LBlock);
+                        }
                     }
                     else if (currComm == "O")
                     {
+                        if (countTurns % 2 == 0) {
+                            player1->setSpecificPieceType(PieceType::OBlock);
+                        } else {
+                            player2->setSpecificPieceType(PieceType::OBlock);
+                        }
                     }
                     else if (currComm == "S")
                     {
+                        if (countTurns % 2 == 0) {
+                            player1->setSpecificPieceType(PieceType::SBlock);
+                        } else {
+                            player2->setSpecificPieceType(PieceType::SBlock);
+                        }
                     }
                     else if (currComm == "Z")
                     {
+                        if (countTurns % 2 == 0) {
+                            player1->setSpecificPieceType(PieceType::ZBlock);
+                        } else {
+                            player2->setSpecificPieceType(PieceType::ZBlock);
+                        }
                     }
                     else if (currComm == "T")
                     {
+                        if (countTurns % 2 == 0) {
+                            player1->setSpecificPieceType(PieceType::TBlock);
+                        } else {
+                            player2->setSpecificPieceType(PieceType::TBlock);
+                        }
                     }
 
                     // TODO print the board right here

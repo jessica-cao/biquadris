@@ -12,7 +12,6 @@ class Player {
 
     std::unique_ptr<Piece> curPiece;
     std::unique_ptr<Piece> nextPiece;
-
     std::vector<Piece> playerPieces;
     public: // sorry probably bad practice again
     std::unique_ptr<Grid> theGrid;
@@ -23,9 +22,10 @@ class Player {
     void clearScore(); // resets the score to zero
 
     std::unique_ptr<Piece> getCur();
-    void setCur();
+    std::unique_ptr<Piece> createPiece();
+    void setCurrPiece(std::unique_ptr<Piece>);
     std::unique_ptr<Piece> getNext();
-    void setNext();
+    void setNextPiece();
 
     // for the special actions
     bool canEffect(); // get effect
@@ -41,13 +41,7 @@ class Player {
     void random();
     void norandom();
     void restart();
-    void I();
-    void J();
-    void L();
-    void O();
-    void S();
-    void Z();
-    void T();
+    void setSpecificPieceType(PieceType);
 };
 
 #endif
