@@ -68,6 +68,10 @@ void Player::setHeavy(int heaviness) {
 void Player::restart() {
     this->theGrid->clear();
     this->clearScore();
+    this->pLevel.reset();
+    this->pLevel = std::unique_ptr<LevelZero>(new LevelZero());
+//    this->pLevel->setFile
+    this->nLevel = 0;
 }
 
 void Player::setSpecificPieceType(PieceType pt) { // new Piece constructor takes in a grid and a PieceType

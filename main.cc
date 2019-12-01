@@ -98,21 +98,26 @@ int main(int argc, char *argv[]) {
 	head->insertCommands();
     int multiplier = 1; // some commands have a multiplier prefix; to show how many times a command is executed
 
-    //player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
-    //player2->pLevel->setFile(fn2);
-    player1->setCurrPiece(player1->createPiece());
-    player2->setCurrPiece(player2->createPiece());
+    player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
+    player2->pLevel->setFile(fn2);
+    player1->setNextPiece();
+    player1->setCurrPiece(player1->getNext());
+    player2->setNextPiece();
+    player2->setCurrPiece(player2->getNext());
+    player1->setNextPiece();
+    player2->setNextPiece();
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
-    int player1Score;
-    int player2Score;
+    int player1Score = 0;
+    int player2Score = 0;
 
-    cout << *td; 
+    cout << *td;
     
     try {
         
         // Command interpreter
         while (true) { // game not over; break when done
         // create a piece for command interpreter:
+        
             std::cin >> cmd;
             multiplier = head->parsePrefix(cmd); // check if the command we have has a prefix
 
@@ -333,6 +338,10 @@ int main(int argc, char *argv[]) {
 
                     multiplier = 1;
                     ++countTurns;
+                    player1->setCurrPiece(player1->getNext());
+                    player1->setNextPiece();
+                    player2->setCurrPiece(player2->getNext());
+                    player2->setNextPiece();
                 } catch (logic_error &le) { // any invalid command prints an error message
 
                 // check for victory condition here
