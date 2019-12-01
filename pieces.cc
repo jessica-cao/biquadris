@@ -169,21 +169,26 @@ void Piece::move_l(){
         // Throw exceptions
     }
     this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
+    this->notifyObservers();
 }
 void Piece::move_d(){
     if (base_row == 0){
         // Throw exceptions
     }
     this->setState({base_row - 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
+    this->notifyObservers();
 }
 
 void Piece::move_r(){
+    cout << "moves" << endl;
     this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
-
+    this->notifyObservers();
+    cout << "notifies the observers" << endl;
 }
 
 void Piece::drop(){
     this->setState({base_row, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::Drop});
+    this->notifyObservers();
 }
 
 

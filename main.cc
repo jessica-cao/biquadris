@@ -153,6 +153,7 @@ int main(int argc, char *argv[]) {
                     if (currComm == "left" || currComm == "right" || currComm == "down") {
                         cout << "hola i'm the right command\n" << endl;
                         for (int i = 0; i < multiplier; ++i) {
+                            cout << "it moves" << endl;
                             if (countTurns % 2 == 0) {
                                 cout << "inside the loop of the right command, player1\n";
                                 player1->move(cmd);

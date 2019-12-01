@@ -125,6 +125,7 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
     }
     if (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW || state_command_type == CommandType::MoveL || state_command_type == CommandType::MoveR || state_command_type == CommandType::MoveD){
         // Check if it's a valid move
+        cout << "trying to move" << endl;
         if ((state_offset_width + state_base_col >= width) || (state_offset_height + state_base_row >= width) || (state_base_row < 0) || (state_base_col < 0)){
             // This is an invalid move - throw exception
         }
@@ -134,13 +135,17 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
         this->deleteOffset(whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, whoFrom.getInfo().base_row, whoFrom.getInfo().base_col);
         // Check if the new stuff has a collision
         bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, state_base_row, state_base_col);
+        cout << "no_collision: " << no_collision << endl;
         if (no_collision){
             // If no collision, change the grid's state to the new state and add the new offset
             this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
+            cout << state_base_col << endl;
             this->addOffset(whoFrom.getInfo().piece_type);
+            cout << "set state" << endl;
             this->notifyObservers();
+            cout << "observers notified" << endl;
             // Check if the entire row is full and delete the row
-            this->deleteRows();
+            // this->deleteRows();
         } else {
             // If has a collsion, change the grid's state to the old state and add the old offset
             this->setState({whoFrom.getInfo().base_row, whoFrom.getInfo().base_col, whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, FromType::Board, state_command_type});
