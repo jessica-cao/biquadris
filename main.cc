@@ -97,6 +97,11 @@ int main(int argc, char *argv[]) {
     Trie* head = new Trie();
 	head->insertCommands();
     int multiplier = 1; // some commands have a multiplier prefix; to show how many times a command is executed
+
+    //player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
+    //player2->pLevel->setFile(fn2);
+    player1->setCurrPiece(player1->createPiece());
+    player2->setCurrPiece(player2->createPiece());
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
     int player1Score;
     int player2Score;
@@ -108,9 +113,6 @@ int main(int argc, char *argv[]) {
         // Command interpreter
         while (true) { // game not over; break when done
         // create a piece for command interpreter:
-            player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
-            player1->pLevel->setFile(fn2);
-
             std::cin >> cmd;
             multiplier = head->parsePrefix(cmd); // check if the command we have has a prefix
 

@@ -21,8 +21,9 @@ std::unique_ptr<Piece> Player::getCur() {
 
 //
 std::unique_ptr<Piece> Player::createPiece() {
-    return std::move(this->pLevel->create());
+    return std::move(this->pLevel->create(this->theGrid.get()));
 }
+
 
 void Player::setCurrPiece(std::unique_ptr<Piece> nPiece) { // you want to be able to set a specific piece
     this->curPiece.reset();
@@ -33,12 +34,11 @@ void Player::setCurrPiece(std::unique_ptr<Piece> nPiece) { // you want to be abl
 }
 
 std::unique_ptr<Piece> Player::getNext() {
-
     return std::move(this->nextPiece);
 }
 
 void Player::setNextPiece() { // should only ever run after setCurrPiece
-    this->nextPiece = this->pLevel->create();
+    this->nextPiece = this->pLevel->create(this->theGrid.get());
 }
 
 bool Player::canEffect() {
