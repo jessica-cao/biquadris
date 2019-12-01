@@ -25,6 +25,20 @@ const int MAXLEVEL = 4;
 // The lowest level you can reach
 const int MINLEVEL = 0;
 
+// first letter in the string and not a number
+int firstLetter(string s) {
+    int count = 0;
+    while (count <= s.length()) {
+        if (('A' <= s[count] && s[count] <= 'Z') || ('a' <= s[count] && s[count] <= 'z')) {
+            break;
+        } else {
+            ++count;
+        }
+    }
+    
+    return count;
+}
+
 int main(int argc, char *argv[]) {
     // sorry the following is probably filled with bugs and syntax errors
     // meant for taking in arguments
@@ -128,15 +142,18 @@ int main(int argc, char *argv[]) {
             if (multiplier == 0) {
                 multiplier = 1;
             }
-            
+
+            int firstL = firstLetter(cmd);
+            cmd = cmd.substr(firstL, cmd.length() - firstL + 1);
+
             try {
 
                 string currComm = head->search(cmd);
 
                 try {
-                    string currComm = head->search(cmd);
 
                     if (currComm == "left" || currComm == "right" || currComm == "down" || currComm == "drop") {
+                        cout << "hola i'm the right command\n" << endl;
                         for (int i = 0; i < multiplier; ++i) {
                             if (countTurns % 2 == 0) {
                                 player1->move(cmd);
