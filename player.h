@@ -12,7 +12,7 @@ class Player {
     Levels * pLevel = new LevelZero();
     std::string nLevel = "0";
     int getScore(); // returns the score
-    void incrementScore(); // increments the score by one
+    void incrementScoreBy(int); // increments the score by a certain number
     void clearScore(); // resets the score to zero
 
 

@@ -6,8 +6,8 @@ int Player::getScore() {
 }
 
 // increments this player's score by one
-void Player::incrementScore() {
-    ++this->score;
+void Player::incrementScoreBy(int sc) {
+    this->score += sc;
 }
 
 // reset this player's score to 0
