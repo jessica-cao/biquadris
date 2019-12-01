@@ -5,11 +5,15 @@
 #include "levelZero.h"
 
 class Player {
+    int score = 0;
+
     public: // sorry probably bad practice again
     std::unique_ptr<Grid> theGrid;
-    int score = 0;
     Levels * pLevel = new LevelZero();
-    string nLevel = "0";
+    std::string nLevel = "0";
+    int getScore();
+    void incrementScore();
+
 
     // for the special actions
     bool blind = false;
