@@ -7,7 +7,7 @@ using namespace std;
 Piece::Piece(){
     base_row = 3;
     base_col = 0;
-    setPiece(PieceType PieceType::IBlock);
+    setPiece(PieceType::IBlock);
 }
 
 void Piece::setPiece(PieceType piece_type){
@@ -132,17 +132,17 @@ void Piece::move_l(){
     if (base_col == 0){
         // Throw exceptions
     }
-    this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
+    this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
 }
 void Piece::move_d(){
     if (base_row == 0){
         // Throw exceptions
     }
-    this->setState({base_row - 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
+    this->setState({base_row - 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
 }
 
 void Piece::move_r(){
-    this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW})
+    this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
 
 }
 
@@ -150,7 +150,7 @@ void Piece::drop(){
     
 }
 
-void Piece::notify(Subject<InfoType, StateType> &whoFrom){
+void Piece::notify(Subject<InfoType, StateType> &whoFrom){ // change to Info, State ?
     if (whoFrom.getState().from_type == FromType::Piece){
         return;
     }
