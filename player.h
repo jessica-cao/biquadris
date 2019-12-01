@@ -19,6 +19,8 @@ class Player {
     void incrementScoreBy(int); // increments the score by a certain number
     void clearScore(); // resets the score to zero
 
+    Piece * next; // Sorry im completely unfunctional rn, EDIT!!!!!!!!!!!
+                  // assuming that we are creating all pieces in player, this is fine
 
     // for the special actions
     bool canEffect(); // get effect
