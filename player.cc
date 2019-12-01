@@ -15,10 +15,18 @@ void Player::clearScore() {
     this->score = 0; 
 }
 
-bool isBlind() {
+bool Player::isBlind() {
     return this->blind;
 }
 
-void setBlind(bool blindness) {
-    this->setBlind = blindness;
+void Player::setBlind(bool blindness) {
+    this->blind = blindness;
+}
+
+int Player::getHeavy() {
+    return this->heavy;
+}
+
+void Player::setHeavy(int heaviness) {
+    this->heavy = heaviness;
 }
