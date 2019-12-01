@@ -10,7 +10,7 @@ class Player {
     public: // sorry probably bad practice again
     std::unique_ptr<Grid> theGrid;
     std::unique_ptr<Levels> pLevel{new LevelZero()};
-    std::string nLevel = "0";
+    int nLevel = 0;
     int getScore(); // returns the score
     void incrementScoreBy(int); // increments the score by a certain number
     void clearScore(); // resets the score to zero
