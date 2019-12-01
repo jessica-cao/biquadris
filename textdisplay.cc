@@ -6,7 +6,7 @@ TextDisplay::TextDisplay(Player * playerOne, Player * playerTwo):
     playerOne{playerOne}, playerTwo{playerTwo} {}
 
 
-string PieceTop(Piece * nextPiece) {
+string PieceTop(unique_ptr<Piece> nextPiece) {
     PieceType pieceIs = nextPiece->getInfo().piece_type;
     if (pieceIs == PieceType::IBlock) {
         return "IIII       ";
@@ -26,7 +26,7 @@ string PieceTop(Piece * nextPiece) {
     return "";
 }
 
-string PieceBot(Piece * nextPiece) {
+string PieceBot(unique_ptr<Piece> nextPiece) {
     PieceType pieceIs = nextPiece->getInfo().piece_type;
     if (pieceIs == PieceType::IBlock) {
         return "           ";
@@ -92,8 +92,8 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     }
     out << "-----------    -----------" << endl;
     out << "Next:          Next:" << endl;
-    out << PieceTop(td.playerOne->getNext) << "    " << PieceTop(td.playerTwo->getNext) << endl;
-    out << PieceBot(td.playerOne->getNext) << "    " << PieceBot(td.playerTwo->getNext) << endl;
+    out << PieceTop(td.playerOne->getNext()) << "    " << PieceTop(td.playerTwo->getNext()) << endl;
+    out << PieceBot(td.playerOne->getNext()) << "    " << PieceBot(td.playerTwo->getNext()) << endl;
     return out;
 }
 
