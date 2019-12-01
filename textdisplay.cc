@@ -67,9 +67,6 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     out << "Level:   " << td.playerOne->nLevel << "    Level:   " << td.playerTwo->nLevel << endl;
     out << "Score:" << scoreSpacing(td.playerOne->getScore()) << td.playerOne->getScore() << "    Score:" << scoreSpacing(td.playerTwo->getScore()) << td.playerTwo->getScore() << endl;  // how to track score? in player
     out << "-----------    -----------" << endl;
-    out << "                          " << endl;
-    out << "                          " << endl;
-    out << "                          " << endl;
     for (int i = 0; i < td.row; ++i) {
         for (int j = 0; j < td.col; ++j) {
             if (td.playerOne->isBlind() && j >= 2 && j <= 8
