@@ -1,7 +1,8 @@
 #ifndef _LEVELS_H_
 #define _LEVELS_H_
-
+//#include "grid.h"
 #include "pieces.h"
+#include "state.h"
 #include <string>
 
 class Levels {
