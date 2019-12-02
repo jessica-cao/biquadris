@@ -6,7 +6,7 @@
 //#include "state.h"
 
 class LevelThree : public Levels {
-    bool random = false;
+    bool random = true;
     std::string fileName = ""; // file name
     std::vector<PieceType> playPieces; // vector for all pieces: the one at the back is meant to play next
     public:
