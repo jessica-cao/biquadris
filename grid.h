@@ -6,6 +6,10 @@
 #include "info.h"
 #include "state.h"
 #include "levelZero.h"
+#include "levelOne.h"
+#include "levelTwo.h"
+#include "levelThree.h"
+#include "levelFour.h"
 #include <vector>
 
 class Player;
