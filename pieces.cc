@@ -12,6 +12,10 @@ Piece::Piece(Grid * the_grid, PieceType piece_type){
     base_row = 3;
     base_col = 0;
     this->piece_type = piece_type;
+}
+
+void Piece::placePiece(){
+    offset.clear();
     if (piece_type == PieceType::IBlock){
         this->offset_height = 1;
         this->offset_width = 4;
@@ -97,12 +101,18 @@ Piece::Piece(Grid * the_grid, PieceType piece_type){
     } else {
         // throw exception
     }
-}
-
-void Piece::placePiece(){
+    base_row = 3;
+    base_col = 0;
     this->setState({this->base_row, this->base_col, this->offset, this->offset_height, this->offset_width, FromType::Piece, CommandType::SetPiece});
     // try {
         cout << "place piece" << endl;
+        cout << "print the offset in piece" << endl;
+        for (int i =  0; i < offset_height; ++i){
+            for (int j = 0; j < offset_width; ++j){
+                cout << offset.at(i).at(j);
+            }
+            cout << endl;
+        }
         this->notifyObservers();
         
     // } catch (...) {
@@ -180,6 +190,7 @@ void Piece::move_d(){
 }
 
 void Piece::move_r(){
+    cout << "moves right" << endl;
     this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::MoveR});
     this->notifyObservers();
 }
@@ -225,16 +236,16 @@ void Piece::notify(Subject<Info, State> &whoFrom){
         offset = whoFrom.getState().offset;
         offset_height = whoFrom.getState().offset_height;
         offset_width = whoFrom.getState().offset_width;
-        // cout << "offset_height: " << whoFrom.getState().offset_height << endl;
-        // cout << "offset_height: " << offset_height << endl;
-        // cout << "offset_width: " << offset_width << endl;
-        // cout << "print the new offset in piece" << endl;
-        // for (int i =  0; i < offset_height; ++i){
-        //     for (int j = 0; j < offset_width; ++j){
-        //         cout << whoFrom.getState().offset.at(i).at(j);
-        //     }
-        //     cout << endl;
-        // }
+        cout << "offset_height: " << whoFrom.getState().offset_height << endl;
+        cout << "offset_height: " << offset_height << endl;
+        cout << "offset_width: " << offset_width << endl;
+        cout << "print the new offset in piece" << endl;
+        for (int i =  0; i < offset_height; ++i){
+            for (int j = 0; j < offset_width; ++j){
+                cout << whoFrom.getState().offset.at(i).at(j);
+            }
+            cout << endl;
+        }
         this->setState({base_col, base_row, offset, offset_height, offset_width, FromType::Piece, CommandType::NoCommand});
     }
 }

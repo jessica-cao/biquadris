@@ -116,7 +116,9 @@ void Grid::deleteRows(){
         }
     }
     int level = player->pLevel->getLevel();
-    player->incrementScoreBy((level + num_rows_deleted) * (level + num_rows_deleted));
+    if (num_rows_deleted != 0){
+        player->incrementScoreBy((level + num_rows_deleted) * (level + num_rows_deleted));
+    }
     if (num_rows_deleted >= 2){
         player->setEffect(true);
     }
@@ -143,7 +145,10 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
     }
     if (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW || state_command_type == CommandType::MoveL || state_command_type == CommandType::MoveR || state_command_type == CommandType::MoveD){
         // Check if it's a valid move
-        if (((state_offset_width + whoFrom.getInfo().base_col >= width) || (state_offset_height + whoFrom.getInfo().base_row >= width)) && (state_command_type == CommandType::MoveR)){
+        cout << "gets to notify" << endl;
+        if (((state_offset_width + whoFrom.getInfo().base_col >= width) || (state_offset_height - whoFrom.getInfo().base_row <= 0)) && (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW)){
+            return;
+        } else if ((state_offset_width + state_base_col >= width) && (state_command_type == CommandType::MoveR)) {
             return;
         } else if ((whoFrom.getInfo().base_col == 0) && (state_command_type == CommandType::MoveL)){
             return;
@@ -154,22 +159,22 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
         // Delete the old stuff from the grid
         this->deleteOffset(whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, whoFrom.getInfo().base_row, whoFrom.getInfo().base_col);
         // Check if the new stuff has a collision
-        // cout << "print grid" << endl;
-        // for(int i = 0; i < height; ++i){
-        //     for (int j = 0; j < width; ++j) {
-        //         cout << the_grid.at(i).at(j);
-        //     }
-        //     cout << endl;
-        // }
+        cout << "print grid" << endl;
+        for(int i = 0; i < height; ++i){
+            for (int j = 0; j < width; ++j) {
+                cout << the_grid.at(i).at(j);
+            }
+            cout << endl;
+        }
 
-        // cout << "print offset" << endl;
-        // cout << "offset_height: " << whoFrom.getInfo().offset_height << endl;
-        // for (int i =  0; i < whoFrom.getInfo().offset_height; ++i){
-        //     for (int j = 0; j < whoFrom.getInfo().offset_width; ++j){
-        //         cout << whoFrom.getInfo().offset.at(i).at(j);
-        //     }
-        //     cout << endl;
-        // }
+        cout << "print offset" << endl;
+        cout << "offset_height: " << whoFrom.getInfo().offset_height << endl;
+        for (int i =  0; i < whoFrom.getInfo().offset_height; ++i){
+            for (int j = 0; j < whoFrom.getInfo().offset_width; ++j){
+                cout << whoFrom.getInfo().offset.at(i).at(j);
+            }
+            cout << endl;
+        }
 
         bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, state_base_row, state_base_col);
         // cout << "no_collision: " << no_collision << endl;
@@ -178,14 +183,14 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
             this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
             this->addOffset(whoFrom.getInfo().piece_type);
 
-            // cout << "print new offset" << endl;
-            // for (int i =  0; i < state_offset_height; ++i){
-            //     for (int j = 0; j < state_offset_width; ++j){
-            //         cout << state_offset.at(i).at(j);
-            //     }
-            //     cout << endl;
-            // }
-            // cout << "finished printing new offset" << endl;
+            cout << "print new offset" << endl;
+            for (int i =  0; i < state_offset_height; ++i){
+                for (int j = 0; j < state_offset_width; ++j){
+                    cout << state_offset.at(i).at(j);
+                }
+                cout << endl;
+            }
+            cout << "finished printing new offset" << endl;
             this->notifyObservers();
 
             // Check if the entire row is full and delete the row
