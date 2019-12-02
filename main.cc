@@ -362,8 +362,110 @@ int main(int argc, char *argv[]) {
                         }
                     }
 
+                    // move downs for heavy
+                    if (countTurns % 2 == 0) {
+                        int amt = player1->getHeavy();
+                        for (int i = 0; i < amt; ++i) {
+                            player1->move("down");
+                        }
+                    } else {
+                        int amt = player2->getHeavy();
+                        for (int i = 0; i < amt; ++i) {
+                            player2->move("down");
+                        }
+                    }
+
                     // TO DO print the board right here
                     cout << *td;
+
+                    // special effects
+                    string effect;
+                    if (player1->canEffect()) {
+                        cout << "Enter effect: ";
+                        while (cin >> effect) {
+                            if (effect == "blind") {
+                                player2->setBlind(true);  // where to unset? in textdisplay
+                                break;
+                            } else if (effect == "heavy") {
+                                player2->setHeavy(player2->getHeavy() + 2);
+                                break;
+                            } else if (effect == "force") {
+                                cout << "\nChoose piece: ";
+                                string fPiece;
+                                while (cin >> fPiece) {
+                                    if (fPiece == "I") {
+                                        player2->setSpecificPieceType(PieceType::IBlock);
+                                        break;
+                                    } else if (fPiece == "J") {
+                                        player2->setSpecificPieceType(PieceType::JBlock);
+                                        break;
+                                    } else if (fPiece == "L") {
+                                        player2->setSpecificPieceType(PieceType::LBlock);
+                                        break;
+                                    } else if (fPiece == "T") {
+                                        player2->setSpecificPieceType(PieceType::TBlock);
+                                        break;
+                                    } else if (fPiece == "Z") {
+                                        player2->setSpecificPieceType(PieceType::ZBlock);
+                                        break;
+                                    } else if (fPiece == "S") {
+                                        player2->setSpecificPieceType(PieceType::SBlock);
+                                        break;
+                                    } else if (fPiece == "O") {
+                                        player2->setSpecificPieceType(PieceType::OBlock);
+                                        break;
+                                    } else {
+                                        cout << "\nTry again \nChoose piece: ";
+                                    }
+                                }
+                                break;
+                            } else {
+                                cout << "\nTry again \nEnter effect: ";
+                            }
+                        }
+                        player1->setEffect(false);
+                    } else if (player2->canEffect()) {
+                        if (effect == "blind") {
+                                player1->setBlind(true);  // where to unset? in textdisplay
+                                break;
+                            } else if (effect == "heavy") {
+                                player1->setHeavy(player1->getHeavy() + 2);
+                                break;
+                            } else if (effect == "force") {
+                                cout << "\nChoose piece: ";
+                                string fPiece;
+                                while (cin >> fPiece) {
+                                    if (fPiece == "I") {
+                                        player1->setSpecificPieceType(PieceType::IBlock);
+                                        break;
+                                    } else if (fPiece == "J") {
+                                        player1->setSpecificPieceType(PieceType::JBlock);
+                                        break;
+                                    } else if (fPiece == "L") {
+                                        player1->setSpecificPieceType(PieceType::LBlock);
+                                        break;
+                                    } else if (fPiece == "T") {
+                                        player1->setSpecificPieceType(PieceType::TBlock);
+                                        break;
+                                    } else if (fPiece == "Z") {
+                                        player1->setSpecificPieceType(PieceType::ZBlock);
+                                        break;
+                                    } else if (fPiece == "S") {
+                                        player1->setSpecificPieceType(PieceType::SBlock);
+                                        break;
+                                    } else if (fPiece == "O") {
+                                        player1->setSpecificPieceType(PieceType::OBlock);
+                                        break;
+                                    } else {
+                                        cout << "\nTry again \nChoose piece: ";
+                                    }
+                                }
+                                break;
+                            } else {
+                                cout << "\nTry again \nEnter effect: ";
+                            }
+                        player2->setEffect(false);
+                    }
 
                     multiplier = 1;
                     ++countTurns;

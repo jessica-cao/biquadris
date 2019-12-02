@@ -87,6 +87,8 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
         }
         out << endl;
     }
+    td.playerOne->setBlind(false);
+    td.playerTwo->setBlind(false);
     out << "-----------    -----------" << endl;
     out << "Next:          Next:" << endl;
 
