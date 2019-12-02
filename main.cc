@@ -14,7 +14,7 @@
 
 #include "trie.h"
 #include "textdisplay.h"
-//#include "graphicsdisplay.h"
+#include "graphicsdisplay.h"
 
 using namespace std;
 
