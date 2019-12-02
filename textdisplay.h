@@ -13,8 +13,6 @@ class Cell;
 class TextDisplay {
     Player * playerOne;
     Player * playerTwo;
-//    string nextOne;
-//    string nextTwo;
     
     const int col = 11;
     const int row = 15;

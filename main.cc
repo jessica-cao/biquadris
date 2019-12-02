@@ -146,12 +146,12 @@ int main(int argc, char *argv[]) {
     player1->setNextPiece();
     player2->setNextPiece();
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
-//    unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
+    unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
     int player1Score = 0;
     int player2Score = 0;
 
     cout << *td;
-//    gd->render();
+    gd->render();
     
     try {
         
@@ -448,7 +448,7 @@ int main(int argc, char *argv[]) {
 
                     // TO DO print the board right here
                     cout << *td;
-//                    gd->render();
+                    gd->render();
 
                     // special effects
                     string effect;

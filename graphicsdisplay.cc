@@ -3,7 +3,7 @@
 using namespace std;
 
 GraphicsDisplay::GraphicsDisplay(Player *playerOne, Player *playerTwo) :
-    playerOne{playerOne}, playerTwo{playerTwo}, xw {new Xwindow(500, 500)} {};
+    playerOne{playerOne}, playerTwo{playerTwo}, xw {new Xwindow(750, 1000)} {};
 
 GraphicsDisplay::~GraphicsDisplay() {
     delete playerOne;
@@ -26,19 +26,20 @@ string squareSpacing(int score) {
 }
 
 void GraphicsDisplay::setColourBlock(int start, int end, int mult, int dim, int colour) {
+
     for (int u = start; u < end; ++u) {
-        this->xw->fillRectangle(u * dim, mult * dim, dim, dim, colour);
+        this->xw->fillRectangle(u * dim + 70, mult * dim, dim, dim, colour);
     }
 }
 
 void GraphicsDisplay::render() {
-    int lineHeight = 500 / 26;
+    int lineHeight = 750 / 26;
     std::vector<std::vector<char>> &gOne = this->playerOne->theGrid->getGrid();
     std::vector<std::vector<char>> &gTwo = this->playerTwo->theGrid->getGrid();
     this->xw->drawString(75, lineHeight, "Level:      " + to_string(this->playerOne->nLevel) + 
-    "                              Level:    " + to_string(this->playerTwo->nLevel), Xwindow::SeaGreen);
+    "                                                         Level:    " + to_string(this->playerTwo->nLevel), Xwindow::DarkBlue);
     this->xw->drawString(75, 2 * lineHeight, "Score:" + squareSpacing(this->playerOne->getScore()) + to_string(this->playerOne->getScore())
-    + "                               Score:" + squareSpacing(this->playerTwo->getScore()) + to_string(this->playerTwo->getScore()), Xwindow::SeaGreen);
+    + "                                                          Score:" + squareSpacing(this->playerTwo->getScore()) + to_string(this->playerTwo->getScore()), Xwindow::DarkBlue);
     
     int middle = 0;
 
@@ -50,21 +51,21 @@ void GraphicsDisplay::render() {
             } else {
                 // print stuff as usual
                 if (gOne[i][j] == 'I') {
-                    this->xw->fillRectangle(1 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Gold);
+                    this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Gold);
                 } else if (gOne[i][j] == 'J') {
-                    this->xw->fillRectangle(1 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Magenta);
+                    this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Turqoise);
                 } else if (gOne[i][j] == 'L') {
-                    this->xw->fillRectangle(1 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::DarkGreen);
+                    this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Lavender);
                 } else if (gOne[i][j] == 'T') {
-                    this->xw->fillRectangle(1 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Cyan);
+                    this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Black);
                 } else if (gOne[i][j] == 'Z') {
-                    this->xw->fillRectangle(1 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::RebeccaPurple);
+                    this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Purple);
                 } else if (gOne[i][j] == 'S') {
-                    this->xw->fillRectangle(1 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Firebrick);
+                    this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Firebrick);
                 } else if (gOne[i][j] == 'O') {
-                    this->xw->fillRectangle(1 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Salmon);
+                    this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Salmon);
                 } else {
-                    this->xw->fillRectangle(1 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Lavender);
+                    this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::DarkBlue);
                 }
             }
             middle = 1 + j;
@@ -79,27 +80,27 @@ void GraphicsDisplay::render() {
             } else {
                 // prints out stuff as usual
                 if (gTwo[i][l] == 'I') {
-                    this->xw->fillRectangle((1 + l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Gold);
+                    this->xw->fillRectangle(( l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Gold);
                 } else if (gTwo[i][l] == 'J') {
-                    this->xw->fillRectangle((1 + l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Magenta);
+                    this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Turqoise);
                 } else if (gTwo[i][l] == 'L') {
-                    this->xw->fillRectangle((1 + l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::DarkGreen);
+                    this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Lavender);
                 } else if (gTwo[i][l] == 'T') {
-                    this->xw->fillRectangle((1 + l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Cyan);
+                    this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Black);
                 } else if (gTwo[i][l] == 'Z') {
-                    this->xw->fillRectangle((1 + l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::RebeccaPurple);
+                    this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Purple);
                 } else if (gTwo[i][l] == 'S') {
-                    this->xw->fillRectangle((1 + l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Firebrick);
+                    this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Firebrick);
                 } else if (gTwo[i][l] == 'O') {
-                    this->xw->fillRectangle((1 + l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Salmon);
+                    this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Salmon);
                 } else {
-                    this->xw->fillRectangle((1 + l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Lavender);
+                    this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::DarkBlue);
                 }
             }
         }
     }
 
-    this->xw->drawString(75, 20 * lineHeight,  "Next:                                         Next:", Xwindow::SeaGreen);
+    this->xw->drawString(100, 20 * lineHeight,  "Next:                                                                  Next:", Xwindow::DarkBlue);
 
     
     PieceType pieceIs1 = this->playerOne->getNext()->getInfo().piece_type;
@@ -109,20 +110,20 @@ void GraphicsDisplay::render() {
         this->setColourBlock(4, 11, 22, lineHeight, Xwindow::White);
 
     } else if (pieceIs1 == PieceType::JBlock) {
-        this->setColourBlock(0, 1, 22, lineHeight, Xwindow::Magenta);
+        this->setColourBlock(0, 1, 22, lineHeight, Xwindow::Turqoise);
         this->setColourBlock(1, 11, 22, lineHeight, Xwindow::White);
 
     } else if (pieceIs1 == PieceType::LBlock) {
-        this->setColourBlock(1, 3, 22, lineHeight, Xwindow::White);
-        this->setColourBlock(3, 4, 22, lineHeight, Xwindow::DarkGreen);
-        this->setColourBlock(4, 11, 22, lineHeight, Xwindow::White);
+        this->setColourBlock(1, 2, 22, lineHeight, Xwindow::White);
+        this->setColourBlock(2, 3, 22, lineHeight, Xwindow::Lavender);
+        this->setColourBlock(3, 11, 22, lineHeight, Xwindow::White);
 
     } else if (pieceIs1 == PieceType::TBlock) {
-        this->setColourBlock(0, 3, 22, lineHeight, Xwindow::Cyan);
+        this->setColourBlock(0, 3, 22, lineHeight, Xwindow::Black);
         this->setColourBlock(3, 11, 22, lineHeight, Xwindow::White);
         
     } else if (pieceIs1 == PieceType::ZBlock) {
-        this->setColourBlock(0, 2, 22, lineHeight, Xwindow::RebeccaPurple);
+        this->setColourBlock(0, 2, 22, lineHeight, Xwindow::Purple);
         this->setColourBlock(2, 11, 22, lineHeight, Xwindow::White);
 
     } else if (pieceIs1 == PieceType::SBlock) {
@@ -137,7 +138,7 @@ void GraphicsDisplay::render() {
     }
 
     // middle space
-     this->setColourBlock(11, 14, 22, lineHeight, Xwindow::Black);
+     this->setColourBlock(11, 13, 22, lineHeight, Xwindow::White);
 
     // Piece 2
     PieceType pieceIs2 = this->playerTwo->getNext()->getInfo().piece_type;
@@ -147,26 +148,26 @@ void GraphicsDisplay::render() {
         this->setColourBlock(18, 25, 22, lineHeight, Xwindow::White);
     
     } else if (pieceIs1 == PieceType::JBlock) {
-        this->setColourBlock(18, 19, 22, lineHeight, Xwindow::Magenta);
+        this->setColourBlock(18, 19, 22, lineHeight, Xwindow::Turqoise);
         this->setColourBlock(19, 25, 22, lineHeight, Xwindow::White);
         
     } else if (pieceIs1 == PieceType::LBlock) {
         this->setColourBlock(14, 16, 22, lineHeight, Xwindow::White);
-        this->setColourBlock(16, 17, 22, lineHeight, Xwindow::DarkGreen);
+        this->setColourBlock(16, 17, 22, lineHeight, Xwindow::Lavender);
         this->setColourBlock(17, 25, 22, lineHeight, Xwindow::White);
 
     } else if (pieceIs2 == PieceType::TBlock) {
-        this->setColourBlock(14, 17, 22, lineHeight, Xwindow::Cyan);
+        this->setColourBlock(14, 17, 22, lineHeight, Xwindow::Black);
         this->setColourBlock(17, 25, 22, lineHeight, Xwindow::White);
         
     } else if (pieceIs1 == PieceType::ZBlock) {
-        this->setColourBlock(14, 16, 22, lineHeight, Xwindow::RebeccaPurple);
+        this->setColourBlock(14, 16, 22, lineHeight, Xwindow::Purple);
         this->setColourBlock(16, 25, 22, lineHeight, Xwindow::White);
         
 
     } else if (pieceIs2 == PieceType::SBlock) {
         this->setColourBlock(15, 17, 22, lineHeight, Xwindow::White);
-        this->setColourBlock(17, 20, 22, lineHeight, Xwindow::Firebrick);
+        this->setColourBlock(17, 19, 22, lineHeight, Xwindow::Firebrick);
         this->setColourBlock(20, 25, 22, lineHeight, Xwindow::White);
 
     } else if (pieceIs2 == PieceType::OBlock) {
@@ -182,21 +183,21 @@ void GraphicsDisplay::render() {
         this->setColourBlock(0, 11, 23, lineHeight, Xwindow::White);
 
     } else if (pieceIs1 == PieceType::JBlock) {
-        this->setColourBlock(0, 3, 23, lineHeight, Xwindow::Magenta);
+        this->setColourBlock(0, 3, 23, lineHeight, Xwindow::Turqoise);
         this->setColourBlock(3, 11, 23, lineHeight, Xwindow::White);
 
     } else if (pieceIs1 == PieceType::LBlock) {
-        this->setColourBlock(0, 3, 23, lineHeight, Xwindow::DarkGreen);
+        this->setColourBlock(0, 3, 23, lineHeight, Xwindow::Lavender);
         this->setColourBlock(3, 11, 23, lineHeight, Xwindow::White);
 
     } else if (pieceIs1 == PieceType::TBlock) {
         this->setColourBlock(0, 1, 23, lineHeight, Xwindow::White);
-        this->setColourBlock(1, 2, 23, lineHeight, Xwindow::Cyan);
+        this->setColourBlock(1, 2, 23, lineHeight, Xwindow::Black);
         this->setColourBlock(2, 11, 23, lineHeight, Xwindow::White);
         
     } else if (pieceIs1 == PieceType::ZBlock) {
         this->setColourBlock(0, 1, 23, lineHeight, Xwindow::White);
-        this->setColourBlock(1, 3, 23, lineHeight, Xwindow::RebeccaPurple);
+        this->setColourBlock(1, 3, 23, lineHeight, Xwindow::Purple);
         this->setColourBlock(3, 11, 23, lineHeight, Xwindow::White);
         
     } else if (pieceIs1 == PieceType::SBlock) {
@@ -210,26 +211,26 @@ void GraphicsDisplay::render() {
     }
     
     // set middle space
-    this->setColourBlock(11, 14, 23, lineHeight, Xwindow::Black);
+    this->setColourBlock(11, 13, 23, lineHeight, Xwindow::White);
 
     if (pieceIs2 == PieceType::IBlock) {
         this->setColourBlock(14, 25, 23, lineHeight, Xwindow::White);
     } else if (pieceIs2 == PieceType::JBlock) {
-        this->setColourBlock(14, 17, 23, lineHeight, Xwindow::Magenta);
+        this->setColourBlock(14, 17, 23, lineHeight, Xwindow::Turqoise);
         this->setColourBlock(17, 25, 23, lineHeight, Xwindow::White);
         //out << "JJJ        ";
     } else if (pieceIs2 == PieceType::LBlock) {
-        this->setColourBlock(14, 17, 23, lineHeight, Xwindow::DarkGreen);
+        this->setColourBlock(14, 17, 23, lineHeight, Xwindow::Lavender);
         this->setColourBlock(17, 25, 23, lineHeight, Xwindow::White);
         //out << "LLL        ";
     } else if (pieceIs2 == PieceType::TBlock) {
         this->setColourBlock(14, 15, 23, lineHeight, Xwindow::White);
-        this->setColourBlock(15, 16, 23, lineHeight, Xwindow::Cyan);
+        this->setColourBlock(15, 16, 23, lineHeight, Xwindow::Black);
         this->setColourBlock(16, 25, 23, lineHeight, Xwindow::White);
         //out << " T         ";
     } else if (pieceIs2 == PieceType::ZBlock) {
         this->setColourBlock(14, 16, 23, lineHeight, Xwindow::White);
-        this->setColourBlock(16, 18, 23, lineHeight, Xwindow::RebeccaPurple);
+        this->setColourBlock(16, 18, 23, lineHeight, Xwindow::Purple);
         this->setColourBlock(18, 25, 23, lineHeight, Xwindow::White);
         //out << " ZZ        ";
     } else if (pieceIs2 == PieceType::SBlock) {
