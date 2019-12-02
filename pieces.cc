@@ -217,8 +217,8 @@ void Piece::notify(Subject<Info, State> &whoFrom){
             cout << "offset_height " << offset_height << endl;
             cout << "offset_height " << whoFrom.getState().offset_height << endl;
             cout << "offset_height " << this->offset_height << endl;
-            size_t orig_offset_height = whoFrom.getState().offset_height;
-            for (int i = 0; i < whoFrom.getState().offset_height; ++i){
+            size_t orig_offset_height = offset_height;
+            for (int i = 0; i < offset_height; ++i){
                 if (base_row + i == whoFrom.getState().deleted_row){
                     // remove row
                     // TODO I remember Nomair said not to do this but I dunno what else to do
