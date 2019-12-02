@@ -14,7 +14,7 @@
 
 #include "trie.h"
 #include "textdisplay.h"
-//#include "graphicsdisplay.h"
+#include "graphicsdisplay.h"
 
 using namespace std;
 
@@ -145,11 +145,12 @@ int main(int argc, char *argv[]) {
     player1->setNextPiece();
     player2->setNextPiece();
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
-//    unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
+    //unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
     int player1Score = 0;
     int player2Score = 0;
 
     cout << *td;
+    //gd->render();
     
     try {
         
@@ -172,6 +173,7 @@ int main(int argc, char *argv[]) {
             try {
 
                 string currComm = head->search(cmd);
+                cout << currComm;
 
                 try {
 
@@ -181,10 +183,10 @@ int main(int argc, char *argv[]) {
 //                            cout << "it moves" << endl;
                             if (countTurns % 2 == 0) {
 //                                cout << "inside the loop of the right command, player1\n";
-                                player1->move(cmd);
+                                player1->move(currComm);
                             } else {
 //                                cout << "inside the loop of the command, player 2\n";
-                                player2->move(cmd);
+                                player2->move(currComm);
                             }
                         }
                     } else if (currComm == "drop") {
@@ -200,9 +202,9 @@ int main(int argc, char *argv[]) {
                     }else if (currComm == "clockwise" || currComm == "counterclockwise") {
                         for (int i = 0; i < multiplier; ++i) {
                             if (countTurns % 2 == 0) {
-                                player1->rotate(cmd);
+                                player1->rotate(currComm);
                             } else {
-                                player2->rotate(cmd);
+                                player2->rotate(currComm);
                             }
                         }
                     } else if (currComm == "levelup") {
@@ -334,9 +336,9 @@ int main(int argc, char *argv[]) {
                     //*/
                     } else if (currComm == "random" || currComm == "noRandom") { // no multiplier
                     if (countTurns % 2 == 0) {
-                                player1->randomness(cmd);
+                                player1->randomness(currComm);
                             } else {
-                                player2->randomness(cmd);
+                                player2->randomness(currComm);
                             }
                     } else if (currComm == "sequence") {
                         if (countTurns % 2 == 0) {
