@@ -17,7 +17,8 @@ class Xwindow {
 	~Xwindow();                              // Destructor; destroys the window.
 
 	enum { White = 0, Black, Red, Green, Blue, Cyan, Yellow, Magenta,
-		Orange, Brown, DarkGreen }; // Available colours.
+		Orange, Brown, DarkGreen, Gray, Gold, RebeccaPurple, Firebrick, Salmon, Plum,
+		SeaGreen, Lavender}; // Available colours.
 
 
 	// Draws a string

@@ -16,6 +16,7 @@ class GraphicsDisplay {
 
     public:
     GraphicsDisplay(Player * playerOne, Player * playerTwo);
+    ~GraphicsDisplay();
     void setColourBlock(int start, int end, int mult, int dim, int colour);
     void printSquare();
     void render();
