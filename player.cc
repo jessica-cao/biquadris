@@ -83,6 +83,7 @@ void Player::restart() {
     this->pLevel = std::unique_ptr<LevelZero>(new LevelZero());
 //    this->pLevel->setFile
     this->nLevel = 0;
+    this->theGrid->init();
 }
 
 void Player::setSpecificPieceType(PieceType pt) { // new Piece constructor takes in a grid and a PieceType
