@@ -334,18 +334,28 @@ int main(int argc, char *argv[]) {
                         
                     }
                     //*/
-                } else if (currComm == "random" || currComm == "noRandom") { // no multiplier
+                } else if (currComm == "random") { // no multiplier
                     if (countTurns % 2 == 0) {
-                                player1->randomness(currComm);
-                            } else {
-                                player2->randomness(currComm);
-                            }
+                        player1->randomness(currComm, "");
+                    } else {
+                        player2->randomness(currComm, "");
+                    }
+                } else if (currComm == "norandom") { // no multiplier
+                    string fn;
+                    while(!(cin >> fn)) {
+                        cout << "\nPlease provide a file name." << endl;
+                    }
+                    if (countTurns % 2 == 0) {
+                        player1->randomness(currComm, fn);
+                    } else {
+                        player2->randomness(currComm, fn);
+                    }
                 } else if (currComm == "sequence") {
-                        if (countTurns % 2 == 0) {
-                                player1->sequence();
-                            } else {
-                                player2->sequence();
-                            }
+                    if (countTurns % 2 == 0) {
+                        player1->sequence();
+                    } else {
+                        player2->sequence();
+                    }
                 } else if (currComm == "restart"){ // no multiplier
                         //clear grid, clear score, reset turn to 0,
                         player1->restart(); // clears the first grid

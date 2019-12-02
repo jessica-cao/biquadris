@@ -49,7 +49,7 @@ class Player {
     void move(std::string);
     void drop();
     void rotate(std::string);
-    void randomness(std::string);
+    void randomness(std::string, std::string);
     void levelup();
     void leveldown();
     void sequence();

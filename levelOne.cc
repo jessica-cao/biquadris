@@ -4,6 +4,14 @@
 
 using namespace std;
 
+bool LevelOne::isRandom() {
+    return true;
+}
+
+void LevelOne::setRandom(bool randomness) {
+    return;
+}
+
 int LevelOne::getLevel() {
     return 1;
 }

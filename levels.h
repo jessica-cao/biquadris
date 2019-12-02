@@ -7,6 +7,9 @@
 
 class Levels {
     public:
+    virtual bool isRandom() = 0;
+    virtual void setRandom(bool randomness) = 0;
+    
     virtual int getLevel() = 0;
     virtual std::unique_ptr<Piece> create(Grid * grid) = 0;
 //    virtual string getFile() = 0;  // will need to add to 0, 3, 4
