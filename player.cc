@@ -5,6 +5,7 @@ using namespace std;
 Player::Player() {
     // cout << "hell o" << endl;
     this->theGrid->init();
+    theGrid->setPlayer(this);
 }
 
 // returns this player's score
@@ -37,7 +38,7 @@ void Player::setCurrPiece() { // you want to be able to set a specific piece
     this->curPiece = std::move(this->nextPiece);
     this->curPiece->setLevel(this->nLevel);
     this->curPiece->attach(this->theGrid.get());
-    std::cout << "HELLOOOOOOOOOOOOOOOOOOOOOO" << std::endl;
+    // std::cout << "HELLOOOOOOOOOOOOOOOOOOOOOO" << std::endl;
     //std::cout << this->theGrid->getInfo().base_row << " hey" << std::endl;
     this->theGrid->attach(this->curPiece.get());
     this->curPiece->placePiece();

@@ -168,22 +168,20 @@ void Piece::move_l(){
     if (base_col == 0){
         // Throw exceptions
     }
-    this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
+    this->setState({base_row, base_col - 1, offset, offset_height, offset_width, FromType::Piece, CommandType::MoveL});
     this->notifyObservers();
 }
 void Piece::move_d(){
     if (base_row == 0){
         // Throw exceptions
     }
-    this->setState({base_row + 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
+    this->setState({base_row + 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::MoveD});
     this->notifyObservers();
 }
 
 void Piece::move_r(){
-    cout << "moves" << endl;
-    this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
+    this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::MoveR});
     this->notifyObservers();
-    cout << "notifies the observers" << endl;
 }
 
 void Piece::drop(){
@@ -194,6 +192,7 @@ void Piece::drop(){
 
 void Piece::notify(Subject<Info, State> &whoFrom){
     if (whoFrom.getState().from_type == FromType::Piece){
+        cout << "hello" << endl;
         return;
     }
     // If it's a deleted row
@@ -225,7 +224,17 @@ void Piece::notify(Subject<Info, State> &whoFrom){
         base_row = whoFrom.getState().base_row;
         offset = whoFrom.getState().offset;
         offset_height = whoFrom.getState().offset_height;
-        offset_width = whoFrom.getState().offset_height;
+        offset_width = whoFrom.getState().offset_width;
+        // cout << "offset_height: " << whoFrom.getState().offset_height << endl;
+        // cout << "offset_height: " << offset_height << endl;
+        // cout << "offset_width: " << offset_width << endl;
+        // cout << "print the new offset in piece" << endl;
+        // for (int i =  0; i < offset_height; ++i){
+        //     for (int j = 0; j < offset_width; ++j){
+        //         cout << whoFrom.getState().offset.at(i).at(j);
+        //     }
+        //     cout << endl;
+        // }
         this->setState({base_col, base_row, offset, offset_height, offset_width, FromType::Piece, CommandType::NoCommand});
     }
 }
