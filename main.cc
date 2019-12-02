@@ -6,12 +6,12 @@
 #include "player.h"
 #include "levels.h"
 #include "levelZero.h"
-/*
+
 #include "levelOne.h"
 #include "levelTwo.h"
 #include "levelThree.h"
 #include "levelFour.h"
-*/
+
 #include "trie.h"
 #include "textdisplay.h"
 
@@ -90,13 +90,17 @@ int main(int argc, char *argv[]) {
                 // ignore other levels for now
             /*
             } else if (nLevel == "1") {
-                //
+                player1->pLevel = make_unique<LevelOne>();
+                player2->pLevel = make_unique<LevelOne>();
             } else if (nLevel == "2") {
-                //
+                player1->pLevel = make_unique<LevelTwo>();
+                player2->pLevel = make_unique<LevelTwo>();
             } else if (nLevel == "3") {
-                //
+                player1->pLevel = make_unique<LevelThree>();
+                player2->pLevel = make_unique<LevelThree>();
             } else if (nLevel == "4") {
-                //
+                player1->pLevel = make_unique<LevelFour>();
+                player2->pLevel = make_unique<LevelFour>();
                 */
             }
         }
@@ -151,24 +155,24 @@ int main(int argc, char *argv[]) {
                 try {
 
                     if (currComm == "left" || currComm == "right" || currComm == "down") {
-                        cout << "hola i'm the right command\n" << endl;
+//                        cout << "hola i'm the right command\n" << endl;
                         for (int i = 0; i < multiplier; ++i) {
-                            cout << "it moves" << endl;
+//                            cout << "it moves" << endl;
                             if (countTurns % 2 == 0) {
-                                cout << "inside the loop of the right command, player1\n";
+//                                cout << "inside the loop of the right command, player1\n";
                                 player1->move(cmd);
                             } else {
-                                cout << "inside the loop of the command, player 2\n";
+//                                cout << "inside the loop of the command, player 2\n";
                                 player2->move(cmd);
                             }
                         }
                     } else if (currComm == "drop") {
                         for (int i = 0; i < multiplier; ++i) {
                             if (countTurns % 2 == 0) {
-                                cout << "inside the loop of the drop command, player1\n";
+//                                cout << "inside the loop of the drop command, player1\n";
                                 player1->drop();
                             } else {
-                                cout << "inside the loop of the drop command, player2\n";
+//                                cout << "inside the loop of the drop command, player2\n";
                                 player2->drop();
                             }
                         }
