@@ -208,16 +208,23 @@ void Piece::notify(Subject<Info, State> &whoFrom){
     }
     // If it's a deleted row
     if (whoFrom.getState().command_type == CommandType::DeleteRow){
+        cout <<"deleting row" << endl;
         if (whoFrom.getState().deleted_row <= 0){
+            cout<<"pls no" << endl;
             // throw error
         } else {
             // check if it's any of the offset ones
+            cout << "offset_height " << offset_height << endl;
+            cout << "offset_height " << whoFrom.getState().offset_height << endl;
+            cout << "offset_height " << this->offset_height << endl;
             size_t orig_offset_height = offset_height;
             for (int i = 0; i < offset_height; ++i){
                 if (base_row + i == whoFrom.getState().deleted_row){
                     // remove row
                     // TODO I remember Nomair said not to do this but I dunno what else to do
+                    cout << "before erase" << i << endl;
                     offset.erase(offset.begin() + i); // was vec.begin() + i
+                    cout << "after erase" << endl;
                 } else if (base_row < whoFrom.getState().deleted_row){
                     ++this->base_row;
                 }

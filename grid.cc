@@ -105,24 +105,37 @@ void Grid::deleteRows(){
         for (int j = 0; j < width; ++j){
             if (the_grid.at(i).at(j) == ' '){
                 is_full = false;
+                cout << is_full << endl;
             }
         }
         if (is_full){
+            cout << "full in" << i << endl;
+            cout << this->getState().base_row << endl;
+            cout << "this->getState().base_row" << endl;            
+            cout << this->getState().base_col << endl;
+            cout << "this->getState().base_col" << endl;
             this->setState({this->getState().base_row, this->getState().base_col, this->getState().offset, this->getState().offset_height, this->getState().offset_width, FromType::Board, CommandType::DeleteRow, i});
+            cout << "set state" << endl;
             this->notifyObservers();
+            cout << "notified" << endl;
             vector<char> new_row(width, ' ');
             the_grid.emplace(the_grid.begin(), new_row);
             ++num_rows_deleted;
         }
     }
+    cout << "before lvl" << endl;
     int level = player->pLevel->getLevel();
+    cout << "after lvl" << endl;
     if (num_rows_deleted != 0){
         player->incrementScoreBy((level + num_rows_deleted) * (level + num_rows_deleted));
     }
+    cout << "between ifs" << endl;
     if (num_rows_deleted >= 2){
         player->setEffect(true);
     }
+    cout << "before setDeleted" << endl;
     this->setDeletedRows(num_rows_deleted);  // LEVELFOUR EDITING
+    cout << "end" << endl;
 }
 
 // LEVELFOUR EDITING
@@ -162,7 +175,7 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
         cout << "gets to notify" << endl;
         if (((state_offset_width + whoFrom.getInfo().base_col >= width) || (state_offset_height - whoFrom.getInfo().base_row <= 0)) && (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW)){
             return;
-        } else if ((state_offset_width + state_base_col >= width) && (state_command_type == CommandType::MoveR)) {
+        } else if ((state_offset_width + state_base_col > width) && (state_command_type == CommandType::MoveR)) { // editing >= before
             return;
         } else if ((whoFrom.getInfo().base_col == 0) && (state_command_type == CommandType::MoveL)){
             return;
@@ -230,6 +243,7 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
             }
             this->setState({new_base_row, state_base_col, state_offset, state_offset_height, state_offset_width});
             this->addOffset(whoFrom.getInfo().piece_type);
+            cout << "before delete" << endl;
             this->deleteRows();
         }
     }
