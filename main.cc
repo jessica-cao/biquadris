@@ -14,7 +14,7 @@
 
 #include "trie.h"
 #include "textdisplay.h"
-#include "graphicsdisplay.h"
+//#include "graphicsdisplay.h"
 
 using namespace std;
 
@@ -75,6 +75,7 @@ int main(int argc, char *argv[]) {
             // isn't a string following, it is an invalid command!
         } else if (arg == "-seed") {
             string seed = argv[i+1];
+            srand(stoi(seed));
             // rng but tbh not sure for what?? for pieces?? bc i already dealt w that in the levels
         } else if (arg == "-scriptfile1") {
             // file to replace sequence1.txt
@@ -175,39 +176,38 @@ int main(int argc, char *argv[]) {
                 string currComm = head->search(cmd);
                 cout << currComm;
 
-                try {
 
-                    if (currComm == "left" || currComm == "right" || currComm == "down") {
+                if (currComm == "left" || currComm == "right" || currComm == "down") {
 //                        cout << "hola i'm the right command\n" << endl;
-                        for (int i = 0; i < multiplier; ++i) {
+                    for (int i = 0; i < multiplier; ++i) {
 //                            cout << "it moves" << endl;
-                            if (countTurns % 2 == 0) {
+                        if (countTurns % 2 == 0) {
 //                                cout << "inside the loop of the right command, player1\n";
-                                player1->move(currComm);
-                            } else {
+                            player1->move(currComm);
+                        } else {
 //                                cout << "inside the loop of the command, player 2\n";
-                                player2->move(currComm);
-                            }
+                            player2->move(currComm);
                         }
-                    } else if (currComm == "drop") {
-                        for (int i = 0; i < multiplier; ++i) {
-                            if (countTurns % 2 == 0) {
+                    }
+                } else if (currComm == "drop") {
+                    for (int i = 0; i < multiplier; ++i) {
+                        if (countTurns % 2 == 0) {
 //                                cout << "inside the loop of the drop command, player1\n";
-                                player1->drop();
-                            } else {
+                            player1->drop();
+                        } else {
 //                                cout << "inside the loop of the drop command, player2\n";
-                                player2->drop();
-                            }
+                            player2->drop();
                         }
-                    }else if (currComm == "clockwise" || currComm == "counterclockwise") {
-                        for (int i = 0; i < multiplier; ++i) {
-                            if (countTurns % 2 == 0) {
-                                player1->rotate(currComm);
-                            } else {
-                                player2->rotate(currComm);
-                            }
+                    }
+                }else if (currComm == "clockwise" || currComm == "counterclockwise") {
+                    for (int i = 0; i < multiplier; ++i) {
+                        if (countTurns % 2 == 0) {
+                            player1->rotate(currComm);
+                        } else {
+                            player2->rotate(currComm);
                         }
-                    } else if (currComm == "levelup") {
+                    }
+                } else if (currComm == "levelup") {
                         ///*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
@@ -269,7 +269,7 @@ int main(int argc, char *argv[]) {
                         }
                     }
                     //*/
-                    } else if (currComm == "leveldown") {
+                } else if (currComm == "leveldown") {
                         ///*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
@@ -334,40 +334,37 @@ int main(int argc, char *argv[]) {
                         
                     }
                     //*/
-                    } else if (currComm == "random" || currComm == "noRandom") { // no multiplier
+                } else if (currComm == "random" || currComm == "noRandom") { // no multiplier
                     if (countTurns % 2 == 0) {
                                 player1->randomness(currComm);
                             } else {
                                 player2->randomness(currComm);
                             }
-                    } else if (currComm == "sequence") {
+                } else if (currComm == "sequence") {
                         if (countTurns % 2 == 0) {
                                 player1->sequence();
                             } else {
                                 player2->sequence();
                             }
-                    } else if (currComm == "restart"){ // no multiplier
+                } else if (currComm == "restart"){ // no multiplier
                         //clear grid, clear score, reset turn to 0,
                         player1->restart(); // clears the first grid
                         player2->restart(); // clears the second grid
                         countTurns = -1;    // This makes sure that no matter who calls restart, player one always plays first
+                } else if (currComm == "I") { // replace current block w the I block
+                    // make a method in player that replaces the current block with the I block
+                    if (countTurns % 2 == 0) {
+                        player1->setSpecificPieceType(PieceType::IBlock);
+                    } else {
+                        player2->setSpecificPieceType(PieceType::IBlock);
                     }
-                    else if (currComm == "I") { // replace current block w the I block
-                        // make a method in player that replaces the current block with the I block
-                        if (countTurns % 2 == 0) {
-                            player1->setSpecificPieceType(PieceType::IBlock);
-                        } else {
-                            player2->setSpecificPieceType(PieceType::IBlock);
-                        }
+                } else if (currComm == "J") {
+                    if (countTurns % 2 == 0) {
+                        player1->setSpecificPieceType(PieceType::JBlock);
+                    } else {
+                        player2->setSpecificPieceType(PieceType::JBlock);
                     }
-                    else if (currComm == "J")
-                    {
-                        if (countTurns % 2 == 0) {
-                            player1->setSpecificPieceType(PieceType::JBlock);
-                        } else {
-                            player2->setSpecificPieceType(PieceType::JBlock);
-                        }
-                    }
+                }
                     else if (currComm == "L")
                     {
                         if (countTurns % 2 == 0) {
@@ -419,6 +416,23 @@ int main(int argc, char *argv[]) {
                         int amt = player2->getHeavy();
                         for (int i = 0; i < amt; ++i) {
                             player2->move("down");
+                        }
+                    }
+
+                    // levelFour *block condition
+                    // sorry im dumb but how do i keep track of deleted rows? not currently stored anywhere
+                    // storing in grid
+                    if (countTurns % 10 == 8 && player1->nLevel == 4) {
+                        if (player1->theGrid->getDeletedRows() == 0) {
+                            player1->theGrid->insertStarBlock();
+                        } else {
+                            player1->theGrid->setDeletedRows(0);
+                        }
+                    } else if (countTurns % 10 == 9 && player2->nLevel == 4) {
+                        if (player2->theGrid->getDeletedRows() == 0) {
+                            player2->theGrid->insertStarBlock();
+                        } else {
+                            player2->theGrid->setDeletedRows(0);
                         }
                     }
 
@@ -520,23 +534,18 @@ int main(int argc, char *argv[]) {
                     if (currComm == "drop"){
                         ++countTurns;
                     }
-                } catch (logic_error &le) {
-                // check for victory condition here THIS NEEDS TO BE SPECIFIC
-                // If a piece can no longer be played, a specific error message is thrown. We need to check for that error message.
-                player1Score = player1->getScore();
-                player2Score = player2->getScore();
-
-                if (player1Score > player2Score) {
-                    cout << "Player 1 wins!" << endl;
-                } else if (player1Score < player2Score) {
-                    cout << "Player 2 wins!" << endl;
-                } else {
-                    cout << "A tie!" << endl;
-                }
-
-
-                break;
-                }
+/*       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!
+                    if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
+                        player1Score = player1->getScore();
+                        player2Score = player2->getScore();
+                        if (player1Score > player2Score) {
+                            cout << "Player 1 wins!" << endl;
+                        } else if (player1Score < player2Score) {
+                            cout << "Player 2 wins!" << endl;
+                        } else {
+                            cout << "A tie!" << endl;
+                        }
+                    }*/
             } catch (logic_error &le) {
                 // any invalid command prints an error message
                 cout << le.what() << endl;

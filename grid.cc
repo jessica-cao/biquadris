@@ -22,7 +22,7 @@ bool Grid::isDone(){
 }
 
 void Grid::insertStarBlock(){
-    for (int i = height - 1; i >= 0; ++i){
+    for (int i = height - 1; i >= 0; --i){
         if(the_grid.at(i).at(5) == ' '){
             the_grid.at(i).at(5) = '*';
             break;
@@ -122,7 +122,21 @@ void Grid::deleteRows(){
     if (num_rows_deleted >= 2){
         player->setEffect(true);
     }
+    this->setDeletedRows(num_rows_deleted);  // LEVELFOUR EDITING
 }
+
+// LEVELFOUR EDITING
+
+int Grid::getDeletedRows() {
+    return this->deletedRows;
+}
+
+//maybe check that greater than 0 or use size_t
+void Grid::setDeletedRows(int num) {
+    this->deletedRows = num;
+}
+
+// LEVELFOUR EDITING
 
 void Grid::notify(Subject<Info, State> &whoFrom) {
     if (whoFrom.getState().from_type == FromType::Board){
