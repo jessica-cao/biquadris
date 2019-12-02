@@ -192,7 +192,7 @@ void Piece::drop(){
 
 void Piece::notify(Subject<Info, State> &whoFrom){
     if (whoFrom.getState().from_type == FromType::Piece){
-        cout << "hello" << endl;
+        // cout << "hello" << endl;
         return;
     }
     // If it's a deleted row

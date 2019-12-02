@@ -468,7 +468,10 @@ int main(int argc, char *argv[]) {
                     }
 
                     multiplier = 1;
-                    ++countTurns;
+
+                    if (currComm == "drop"){
+                        ++countTurns;
+                    }
                     /*
                     player1->setCurrPiece();
                     player1->setNextPiece();

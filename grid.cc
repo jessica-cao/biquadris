@@ -12,6 +12,12 @@ void Grid::setPlayer(Player * player){
     this->player = player;
 }
 
+// bool Grid::isDone(){
+//     for (int i = 0; i < height; ++i){
+        
+//     }
+// }
+
 vector<vector<char>>& Grid::getGrid(){
     return the_grid;
 }
