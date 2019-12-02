@@ -112,9 +112,6 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
     size_t state_base_col = whoFrom.getState().base_col;
     CommandType state_command_type =  whoFrom.getState().command_type;
     if (state_command_type == CommandType::SetPiece){
-        if ((state_offset_width + state_base_col >= width) || (state_offset_height + state_base_row >= width) || (state_base_row < 0) || (state_base_col < 0)){
-            // This is an invalid move - throw exception
-        }
         bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, state_base_row, state_base_col);
         if (no_collision){
             this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
@@ -126,14 +123,26 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
     if (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW || state_command_type == CommandType::MoveL || state_command_type == CommandType::MoveR || state_command_type == CommandType::MoveD){
         // Check if it's a valid move
         cout << "trying to move" << endl;
-        if ((state_offset_width + state_base_col >= width) || (state_offset_height + state_base_row >= width) || (state_base_row < 0) || (state_base_col < 0)){
-            // This is an invalid move - throw exception
+        if (((state_offset_width + whoFrom.getInfo().base_col >= width) || (state_offset_height + whoFrom.getInfo().base_row >= width)) && (state_command_type == CommandType::MoveR)){
+            return;
+        } else if ((whoFrom.getInfo().base_col == 0) && (state_command_type == CommandType::MoveL)){
+            return;
+        } else if ((whoFrom.getInfo().base_row == 0) && (state_command_type == CommandType::MoveD)){
+            return;
         }
 
         // Note that getInfo still has the old offset and old height and old base_row and stuff
         // Delete the old stuff from the grid
         this->deleteOffset(whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, whoFrom.getInfo().base_row, whoFrom.getInfo().base_col);
         // Check if the new stuff has a collision
+        cout << "print grid" << endl;
+        for(int i = 0; i < height; ++i){
+            for (int j = 0; j < width; ++j) {
+                cout << the_grid.at(i).at(j);
+            }
+            cout << endl;
+        }
+
         bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, state_base_row, state_base_col);
         cout << "no_collision: " << no_collision << endl;
         if (no_collision){
@@ -144,6 +153,14 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
             cout << "set state" << endl;
             this->notifyObservers();
             cout << "observers notified" << endl;
+
+            cout << "print new offset" << endl;
+            for (int i =  0; i < state_offset_height; ++i){
+                for (int j = 0; j < state_offset_width; ++j){
+                    cout << state_offset.at(i).at(j);
+                }
+            }
+
             // Check if the entire row is full and delete the row
             // this->deleteRows();
         } else {

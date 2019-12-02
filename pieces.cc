@@ -175,7 +175,7 @@ void Piece::move_d(){
     if (base_row == 0){
         // Throw exceptions
     }
-    this->setState({base_row - 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
+    this->setState({base_row + 1, base_col, offset, offset_height, offset_width, FromType::Piece, CommandType::RotateCW});
     this->notifyObservers();
 }
 
