@@ -6,46 +6,6 @@ TextDisplay::TextDisplay(Player * playerOne, Player * playerTwo):
     playerOne{playerOne}, playerTwo{playerTwo} {}
 
 
-string PieceTop(unique_ptr<Piece> nextPiece) {
-    PieceType pieceIs = nextPiece->getInfo().piece_type;
-    if (pieceIs == PieceType::IBlock) {
-        return "IIII       ";
-    } else if (pieceIs == PieceType::JBlock) {
-        return "J          ";
-    } else if (pieceIs == PieceType::LBlock) {
-        return "  L        ";
-    } else if (pieceIs == PieceType::TBlock) {
-        return "TTT        ";
-    } else if (pieceIs == PieceType::ZBlock) {
-        return "ZZ         ";
-    } else if (pieceIs == PieceType::SBlock) {
-        return " SS        ";
-    } else if (pieceIs == PieceType::OBlock) {
-        return "OO         ";
-    }
-    return "";
-}
-
-string PieceBot(unique_ptr<Piece> nextPiece) {
-    PieceType pieceIs = nextPiece->getInfo().piece_type;
-    if (pieceIs == PieceType::IBlock) {
-        return "           ";
-    } else if (pieceIs == PieceType::JBlock) {
-        return "JJJ        ";
-    } else if (pieceIs == PieceType::LBlock) {
-        return "LLL        ";
-    } else if (pieceIs == PieceType::TBlock) {
-        return " T         ";
-    } else if (pieceIs == PieceType::ZBlock) {
-        return " ZZ        ";
-    } else if (pieceIs == PieceType::SBlock) {
-        return "SS         ";
-    } else if (pieceIs == PieceType::OBlock) {
-        return "OO         ";
-    }
-    return "";
-}
-
 string scoreSpacing(int score) {
     if (score < 10) {
         return "    ";
