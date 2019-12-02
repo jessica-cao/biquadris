@@ -12,11 +12,23 @@ void Grid::setPlayer(Player * player){
     this->player = player;
 }
 
-// bool Grid::isDone(){
-//     for (int i = 0; i < height; ++i){
-        
-//     }
-// }
+bool Grid::isDone(){
+    for (int i = 0; i < width; ++i){
+        if(the_grid.at(3).at(i) != ' '){
+            return true;
+        }
+    }
+    return false;
+}
+
+void Grid::insertStarBlock(){
+    for (int i = height - 1; i >= 0; ++i){
+        if(the_grid.at(i).at(5) == ' '){
+            the_grid.at(i).at(5) = '*';
+            break;
+        }
+    }
+}
 
 vector<vector<char>>& Grid::getGrid(){
     return the_grid;

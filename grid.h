@@ -26,6 +26,8 @@ class Grid: public Observer<Info, State>, public Subject<Info, State> {
     void deleteRows();
 
     public:
+    bool isDone();
+    void insertStarBlock();
     void setPlayer(Player * player);
     Info getInfo() const override;
     void init();
