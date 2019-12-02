@@ -14,6 +14,7 @@
 
 #include "trie.h"
 #include "textdisplay.h"
+#include "graphicsdisplay.h"
 
 using namespace std;
 
@@ -125,6 +126,7 @@ int main(int argc, char *argv[]) {
     player1->setNextPiece();
     player2->setNextPiece();
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
+    unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
     int player1Score = 0;
     int player2Score = 0;
 
@@ -476,12 +478,6 @@ int main(int argc, char *argv[]) {
                     if (currComm == "drop"){
                         ++countTurns;
                     }
-                    /*
-                    player1->setCurrPiece();
-                    player1->setNextPiece();
-                    player2->setCurrPiece();
-                    player2->setNextPiece();
-                    */
                 } catch (logic_error &le) {
                 // check for victory condition here THIS NEEDS TO BE SPECIFIC
                 // If a piece can no longer be played, a specific error message is thrown. We need to check for that error message.
