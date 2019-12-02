@@ -112,11 +112,9 @@ int main(int argc, char *argv[]) {
 	head->insertCommands();
     int multiplier = 1; // some commands have a multiplier prefix; to show how many times a command is executed
 
-    cout << "BEFORE ALLLL" << endl;
     player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
     player2->pLevel->setFile(fn2);
     player1->setNextPiece();
-    cout << "BEFORE CURR PIECE" << endl;
     player1->setCurrPiece();
     player2->setNextPiece();
     player2->setCurrPiece();
@@ -152,19 +150,29 @@ int main(int argc, char *argv[]) {
 
                 try {
 
-                    if (currComm == "left" || currComm == "right" || currComm == "down" || currComm == "drop") {
+                    if (currComm == "left" || currComm == "right" || currComm == "down") {
                         cout << "hola i'm the right command\n" << endl;
                         for (int i = 0; i < multiplier; ++i) {
                             cout << "it moves" << endl;
                             if (countTurns % 2 == 0) {
-                                cout << "player 1" << endl;
+                                cout << "inside the loop of the right command, player1\n";
                                 player1->move(cmd);
                             } else {
-                                cout << "player 1" << endl;
+                                cout << "inside the loop of the command, player 2\n";
                                 player2->move(cmd);
                             }
                         }
-                    } else if (currComm == "clockwise" || currComm == "counterclockwise") {
+                    } else if (currComm == "drop") {
+                        for (int i = 0; i < multiplier; ++i) {
+                            if (countTurns % 2 == 0) {
+                                cout << "inside the loop of the drop command, player1\n";
+                                player1->drop();
+                            } else {
+                                cout << "inside the loop of the drop command, player2\n";
+                                player2->drop();
+                            }
+                        }
+                    }else if (currComm == "clockwise" || currComm == "counterclockwise") {
                         for (int i = 0; i < multiplier; ++i) {
                             if (countTurns % 2 == 0) {
                                 player1->rotate(cmd);
@@ -291,8 +299,7 @@ int main(int argc, char *argv[]) {
                             } else {
                                 player2->sequence();
                             }
-                    } else if (currComm == "restart")
-                    { // no multiplier
+                    } else if (currComm == "restart"){ // no multiplier
                         //clear grid, clear score, reset turn to 0,
                         player1->restart(); // clears the first grid
                         player2->restart(); // clears the second grid
@@ -355,19 +362,19 @@ int main(int argc, char *argv[]) {
                         }
                     }
 
-                    // TODO print the board right here
-                    cout << "END OF LOOOOOOOOOOOOOOOOOOOOOOOOOOP" << endl;
+                    // TO DO print the board right here
                     cout << *td;
 
                     multiplier = 1;
                     ++countTurns;
+                    /*
                     player1->setCurrPiece();
                     player1->setNextPiece();
                     player2->setCurrPiece();
                     player2->setNextPiece();
-                } catch (logic_error &le) { // any invalid command prints an error message
-
-                // check for victory condition here
+                    */
+                } catch (logic_error &le) {
+                // check for victory condition here THIS NEEDS TO BE SPECIFIC
                 // If a piece can no longer be played, a specific error message is thrown. We need to check for that error message.
                 player1Score = player1->getScore();
                 player2Score = player2->getScore();
@@ -379,6 +386,7 @@ int main(int argc, char *argv[]) {
                 } else {
                     cout << "A tie!" << endl;
                 }
+
 
                 break;
                 }
