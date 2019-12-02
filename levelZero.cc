@@ -5,6 +5,14 @@
 
 using namespace std;
 
+bool LevelZero::isRandom() {
+    return false;
+}
+
+void LevelZero::setRandom(bool randomness) {
+    return;
+}
+
 int LevelZero::getLevel() {
     return 0;
 }

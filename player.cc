@@ -88,6 +88,7 @@ void Player::restart() {
 
 void Player::setSpecificPieceType(PieceType pt) { // new Piece constructor takes in a grid and a PieceType
     std::unique_ptr<Piece> p {new Piece(theGrid.get(), pt)};
+//    this->theGrid->detach(this->curPiece.get());            // AM I DETACHING CORRECTLY HERE
     this->curPiece.reset();
     this->curPiece = std::move(p);
     this->curPiece->setLevel(this->nLevel);
@@ -123,11 +124,14 @@ void Player::rotate(std::string cmd) {
     }
 }
 
-void Player::randomness(std::string cmd) {
+void Player::randomness(std::string cmd, std::string fn) {
     if (cmd == "random") {
         // do this thing
+        this->pLevel->setRandom(true);
     } else if (cmd == "norandom") {
         // do this other thing
+        this->pLevel->setRandom(false);
+        this->pLevel->setFile(fn); //need file name
     }
 }
 
