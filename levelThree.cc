@@ -52,13 +52,26 @@ unique_ptr<Piece> LevelThree::create(Grid * grid) {
 }
 
 void LevelThree::setFile(string fn) {
-    if (fn == this->fileName) {
+     if (fn == this->fileName) {
         return;  // don't recreate the vector
+    }
+    string pieceInputs;
+    ifstream ifs(fn);
+    if (!ifs) {
+        if (this->playPieces.size() == 0) {
+            this->playPieces.emplace(this->playPieces.begin(), PieceType::IBlock);
+            this->playPieces.emplace(this->playPieces.begin(), PieceType::JBlock);
+            this->playPieces.emplace(this->playPieces.begin(), PieceType::LBlock);
+            this->playPieces.emplace(this->playPieces.begin(), PieceType::TBlock);
+            this->playPieces.emplace(this->playPieces.begin(), PieceType::ZBlock);
+            this->playPieces.emplace(this->playPieces.begin(), PieceType::SBlock);
+            this->playPieces.emplace(this->playPieces.begin(), PieceType::OBlock);
+        }
+        return;
     }
     this->fileName = fn;
     this->playPieces.clear();
-    string pieceInputs;
-    ifstream ifs(fn);
+
     while (getline(ifs, pieceInputs)) {
         istringstream piecesString(pieceInputs);
         string newPiece;
