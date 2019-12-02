@@ -4,6 +4,11 @@
 #include "pieces.h"
 #include "levelZero.h"
 
+#include "levelOne.h"
+#include "levelTwo.h"
+#include "levelThree.h"
+#include "levelFour.h"
+
 class Player {
     int score = 0;
     bool effect = false;

@@ -14,7 +14,7 @@
 
 #include "trie.h"
 #include "textdisplay.h"
-#include "graphicsdisplay.h"
+//#include "graphicsdisplay.h"
 
 using namespace std;
 
@@ -70,6 +70,7 @@ int main(int argc, char *argv[]) {
         if (arg == "-text") {
             // disable graphics
         } else if (arg[0] == '-' && i+1 == argc) {
+            // ERROR
             // the following else ifs need two args. If the current one starts as -notText and there
             // isn't a string following, it is an invalid command!
         } else if (arg == "-seed") {
@@ -84,25 +85,43 @@ int main(int argc, char *argv[]) {
         } else if (arg == "-startlevel") {
             nLevel = argv[i+1];
             // WHAT WILL BE KEEPING TRACK OF THE LEVELS?
-            if (nLevel == "0") {
-                player1->pLevel = make_unique<LevelZero>();
-                player2->pLevel = make_unique<LevelZero>();
-
-                // ignore other levels for now
-            /*
+            if (nLevel == "0"){
+                continue;
             } else if (nLevel == "1") {
-                player1->pLevel = make_unique<LevelOne>();
-                player2->pLevel = make_unique<LevelOne>();
+                player1->pLevel.reset();
+                player2->pLevel.reset();
+                player1->pLevel = make_unique<Levels>(new LevelOne());
+                player2->pLevel = make_unique<Levels>(new LevelOne());
+                player1->nLevel = 1;
+                player2->nLevel = 1;
             } else if (nLevel == "2") {
-                player1->pLevel = make_unique<LevelTwo>();
-                player2->pLevel = make_unique<LevelTwo>();
+                player1->pLevel.reset();
+                player2->pLevel.reset();
+                player1->pLevel = make_unique<Levels>(new LevelTwo());
+                player2->pLevel = make_unique<Levels>(new LevelTwo());
+                player1->nLevel = 2;
+                player2->nLevel = 2;
             } else if (nLevel == "3") {
-                player1->pLevel = make_unique<LevelThree>();
-                player2->pLevel = make_unique<LevelThree>();
+                player1->pLevel.reset();
+                player2->pLevel.reset();
+                player1->pLevel = make_unique<Levels>(new LevelThree());
+                player2->pLevel = make_unique<Levels>(new LevelThree());
+                player1->nLevel = 3;
+                player2->nLevel = 3;
+                player1->setHeavy(1);
+                player2->setHeavy(1);
             } else if (nLevel == "4") {
-                player1->pLevel = make_unique<LevelFour>();
-                player2->pLevel = make_unique<LevelFour>();
-                */
+                player1->pLevel.reset();
+                player2->pLevel.reset();
+                player1->pLevel = make_unique<Levels>(new LevelFour());
+                player2->pLevel = make_unique<Levels>(new LevelFour());
+                player1->nLevel = 4;
+                player2->nLevel = 4;
+                player1->setHeavy(1);
+                player2->setHeavy(1);
+                //*/
+            } else {
+                // ERROR
             }
         }
     }
@@ -126,7 +145,7 @@ int main(int argc, char *argv[]) {
     player1->setNextPiece();
     player2->setNextPiece();
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
-    unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
+//    unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
     int player1Score = 0;
     int player2Score = 0;
 
@@ -187,7 +206,7 @@ int main(int argc, char *argv[]) {
                             }
                         }
                     } else if (currComm == "levelup") {
-                        /*
+                        ///*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
                         desiredLvl = multiplier + player1->nLevel;
@@ -195,19 +214,19 @@ int main(int argc, char *argv[]) {
                             player1->pLevel.reset();
                             
                             if (desiredLvl == 1) {
-                                player1->pLevel = make_unique<LevelOne>(new LevelOne());
+                                player1->pLevel = make_unique<Levels>(new LevelOne());
                             } else if (desiredLvl == 2) {
-                                player1->pLevel = make_unique<LevelTwo>(new LevelTwo());
+                                player1->pLevel = make_unique<Levels>(new LevelTwo());
                             } else if (desiredLvl == 3) {
-                                player1->pLevel = make_unique<LevelThree>(new LevelThree());
+                                player1->pLevel = make_unique<Levels>(new LevelThree());
                             } else if (desiredLvl == 4) {
-                                player1->pLevel = make_unique<LevelFour>(new LevelFour());
+                                player1->pLevel = make_unique<Levels>(new LevelFour());
                             }
                             player1->nLevel = desiredLvl;
                         } else {
                             if (player1->nLevel != MAXLEVEL) {
                                 player1->pLevel.reset();
-                                player1->pLevel = make_unique<LevelFour>(new LevelFour());
+                                player1->pLevel = make_unique<Levels>(new LevelFour());
                             }
                             
                             player1->nLevel = MAXLEVEL;
@@ -219,27 +238,27 @@ int main(int argc, char *argv[]) {
                             player2->pLevel.reset();
 
                             if (desiredLvl == 1) {
-                                player2->pLevel = make_unique<LevelOne>(new LevelOne());
+                                player2->pLevel = make_unique<Levels>(new LevelOne());
                             } else if (desiredLvl == 2) {
-                                player2->pLevel = make_unique<LevelTwo>(new LevelTwo());
+                                player2->pLevel = make_unique<Levels>(new LevelTwo());
                             } else if (desiredLvl == 3) {
-                                player2->pLevel = make_unique<LevelThree>(new LevelThree());
+                                player2->pLevel = make_unique<Levels>(new LevelThree());
                             } else if (desiredLvl == 4) {
-                                player2->pLevel = make_unique<LevelFour>(new LevelFour());
+                                player2->pLevel = make_unique<Levels>(new LevelFour());
                             }
                             player2->nLevel = desiredLvl;
                         } else {
                             if (player2->nLevel != MAXLEVEL) {
                                 player2->pLevel.reset();
-                                player2->pLevel = make_unique<LevelFour>(new LevelFour());
+                                player2->pLevel = make_unique<Levels>(new LevelFour());
                             }
                             
                             player2->nLevel = MAXLEVEL;
                         }
                     }
-                    */
+                    //*/
                     } else if (currComm == "leveldown") {
-                        /*
+                        ///*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
                         desiredLvl = player1->nLevel - multiplier;
@@ -247,13 +266,13 @@ int main(int argc, char *argv[]) {
                             player1->pLevel.reset();
                             
                             if (desiredLvl == 0) {
-                                player1->pLevel = make_unique<LevelZero>(new LevelZero());
+                                player1->pLevel = make_unique<Levels>(new LevelZero());
                             } else if (desiredLvl == 1) {
-                                player1->pLevel = make_unique<LevelOne>(new LevelOne());
+                                player1->pLevel = make_unique<Levels>(new LevelOne());
                             } else if (desiredLvl == 2) {
-                                player1->pLevel = make_unique<LevelTwo>(new LevelTwo());
+                                player1->pLevel = make_unique<Levels>(new LevelTwo());
                             } else if (desiredLvl == 3) {
-                                player1->pLevel = make_unique<LevelThree>(new LevelThree());
+                                player1->pLevel = make_unique<Levels>(new LevelThree());
                             }
                             player1->nLevel = desiredLvl;
                             
@@ -261,7 +280,7 @@ int main(int argc, char *argv[]) {
 
                              if (player1->nLevel != MINLEVEL) {
                                 player1->pLevel.reset();
-                                player1->pLevel = make_unique<LevelZero>(new LevelZero());
+                                player1->pLevel = make_unique<Levels>(new LevelZero());
                             }
                             
                             player1->nLevel = MINLEVEL;
@@ -272,27 +291,27 @@ int main(int argc, char *argv[]) {
                             player2->pLevel.reset();
                             
                             if (desiredLvl == 0) {
-                                player2->pLevel = make_unique<LevelZero>(new LevelZero());
+                                player2->pLevel = make_unique<Levels>(new LevelZero());
                             } else if (desiredLvl == 1) {
-                                player2->pLevel = make_unique<LevelOne>(new LevelOne());
+                                player2->pLevel = make_unique<Levels>(new LevelOne());
                             } else if (desiredLvl == 2) {
-                                player2->pLevel = make_unique<LevelTwo>(new LevelTwo());
+                                player2->pLevel = make_unique<Levels>(new LevelTwo());
                             } else if (desiredLvl == 3) {
-                                player2->pLevel = make_unique<LevelThree>(new LevelThree());
+                                player2->pLevel = make_unique<Levels>(new LevelThree());
                             }
                             player1->nLevel = desiredLvl;
                             
                         } else {
                             if (player2->nLevel != MINLEVEL) {
                                 player2->pLevel.reset();
-                                player2->pLevel = make_unique<LevelZero>(new LevelZero());
+                                player2->pLevel = make_unique<Levels>(new LevelZero());
                             }
                             
                             player2->nLevel = MINLEVEL;
                         }
                         
                     }
-                    */
+                    //*/
                     } else if (currComm == "random" || currComm == "noRandom") { // no multiplier
                     if (countTurns % 2 == 0) {
                                 player1->randomness(cmd);
