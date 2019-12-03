@@ -40,6 +40,26 @@ int firstLetter(string s) {
     return count;
 }
 
+// helper function to check for victory
+// FIX THIS ONE
+/*
+void checkVictory(unique_ptr<Player> player1, unique_ptr<Player> player2) {
+    if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
+        int player1Score = player1->getScore();
+        int player2Score = player2->getScore();
+        
+        if (player1Score > player2Score) {
+            std::cout << "Player 1 wins!" << endl;
+        } else if (player1Score < player2Score) {
+            std::cout << "Player 2 wins!" << endl;
+        } else {
+        std::cout << "A tie!" << endl;
+        }
+    }
+}
+*/
+
+
 int main(int argc, char *argv[]) {
     // sorry the following is probably filled with bugs and syntax errors
     // meant for taking in arguments
@@ -134,7 +154,6 @@ int main(int argc, char *argv[]) {
 //    unique_ptr<Piece> p2 {new Piece(player1->theGrid.get())}; // piece pointer for player2's grid
     int countTurns = 0;
     unique_ptr<Trie> head {new Trie()};
-    //Trie* head = new Trie();
 	head->insertCommands();
     int multiplier = 1; // some commands have a multiplier prefix; to show how many times a command is executed
 
@@ -151,7 +170,7 @@ int main(int argc, char *argv[]) {
     //int player1Score = 0;
     //int player2Score = 0;
 
-    cout << *td;
+    std::cout << *td;
     gd->render();
     
     try {
@@ -344,7 +363,7 @@ int main(int argc, char *argv[]) {
                 } else if (currComm == "norandom") { // no multiplier
                     string fn;
                     while(!(cin >> fn)) {
-                        cout << "\nPlease provide a file name." << endl;
+                        std::cout << "\nPlease provide a file name." << endl;
                     }
                     if (countTurns % 2 == 0) {
                         player1->randomness(currComm, fn);
@@ -352,192 +371,239 @@ int main(int argc, char *argv[]) {
                         player2->randomness(currComm, fn);
                     }
                 } else if (currComm == "sequence") { // reads in a file name, eh
+
                     string fn;
-                    ifstream file(fn);
                     string cmd;
-                    int turns = countTurns;
+
+                    while(!(cin >> fn)) {
+                        std::cout << "\nPlease provide a file name." << endl;
+                    }
+
+                    ifstream file(fn);
 
                     while (file >> cmd) {
-                        if (cmd == "restart") { // this is a special case
-                        //clear grid, clear score, reset turn to 0,
-                        player1->restart(); // clears the first grid
-                        player2->restart(); // clears the second grid
-                        countTurns = -1;    // This makes sure that no matter who calls restart, player one always plays first
-                        player1->pLevel->setFile(fn1);
-                        player1->setNextPiece();
-                        player1->setCurrPiece();
-                        player2->pLevel->setFile(fn2);
-                        player2->setNextPiece();
-                        player2->setCurrPiece();
-                        player1->setNextPiece();
-                        player2->setNextPiece();
-
-                        // effects
-                        player1->setEffect(false);
-                        player2->setEffect(false);
-                        player1->setBlind(false);
-                        player2->setBlind(false);
-                        player1->setHeavy(0);
-                        player2->setHeavy(0);
+                        cout << "reading" << endl;
+                        multiplier = head->parsePrefix(cmd);
+                        if (multiplier == 0) {
+                            multiplier = 1;
                         }
 
-                        if (turns % 2 == 0) {
-                            player1->sequence(cmd, countTurns);
-
-                            if (countTurns % 2 == 0) {
-                        int amt = player1->getHeavy();
-                        for (int i = 0; i < amt; ++i) {
-                            player1->move("down");
-                        }
-                    } else {
-                        int amt = player2->getHeavy();
-                        for (int i = 0; i < amt; ++i) {
-                            player2->move("down");
-                        }
-                    }
-
-                    // levelFour *block condition
-                    // sorry im dumb but how do i keep track of deleted rows? not currently stored anywhere
-                    // storing in grid
-                    if (countTurns % 10 == 8 && player1->nLevel == 4) {
-                        if (player1->theGrid->getDeletedRows() == 0) {
-                            player1->theGrid->insertStarBlock();
-                        } else {
-                            player1->theGrid->setDeletedRows(0);
-                        }
-                    } else if (countTurns % 10 == 9 && player2->nLevel == 4) {
-                        if (player2->theGrid->getDeletedRows() == 0) {
-                            player2->theGrid->insertStarBlock();
-                        } else {
-                            player2->theGrid->setDeletedRows(0);
-                        }
-                    }
-
-                    // print the board right here
-                    cout << *td;
-                    gd->render();
-
-                    // special effects
-                    string effect;
-                    if (player1->canEffect()) {
-                        cout << "Enter effect: ";
-                        while (cin >> effect) {
-                            if (effect == "blind") {
-                                player2->setBlind(true);  // where to unset? in textdisplay
-                                break;
-                            } else if (effect == "heavy") {
-                                player2->setHeavy(player2->getHeavy() + 2);
-                                break;
-                            } else if (effect == "force") {
-                                cout << "\nChoose piece: ";
-                                string fPiece;
-                                while (cin >> fPiece) {
-                                    if (fPiece == "I") {
-                                        player2->setSpecificPieceType(PieceType::IBlock);
-                                        break;
-                                    } else if (fPiece == "J") {
-                                        player2->setSpecificPieceType(PieceType::JBlock);
-                                        break;
-                                    } else if (fPiece == "L") {
-                                        player2->setSpecificPieceType(PieceType::LBlock);
-                                        break;
-                                    } else if (fPiece == "T") {
-                                        player2->setSpecificPieceType(PieceType::TBlock);
-                                        break;
-                                    } else if (fPiece == "Z") {
-                                        player2->setSpecificPieceType(PieceType::ZBlock);
-                                        break;
-                                    } else if (fPiece == "S") {
-                                        player2->setSpecificPieceType(PieceType::SBlock);
-                                        break;
-                                    } else if (fPiece == "O") {
-                                        player2->setSpecificPieceType(PieceType::OBlock);
-                                        break;
-                                    } else {
-                                        cout << "\nTry again \nChoose piece: ";
-                                    }
-                                }
-                                break;
-                            } else {
-                                cout << "\nTry again \nEnter effect: ";
-                            }
-                        }
-                        player1->setEffect(false);
-                        cout << *td;
-                        // gd->render();
-                    } else if (player2->canEffect()) {
-                        cout << "Enter effect: ";
-                        while (cin >> effect) {
-                            if (effect == "blind") {
-                                player1->setBlind(true);  // where to unset? in textdisplay
-                                break;
-                            } else if (effect == "heavy") {
-                                player1->setHeavy(player1->getHeavy() + 2);
-                                break;
-                            } else if (effect == "force") {
-                                cout << "\nChoose piece: ";
-                                string fPiece;
-                                while (cin >> fPiece) {
-                                    if (fPiece == "I") {
-                                        player1->setSpecificPieceType(PieceType::IBlock);
-                                        break;
-                                    } else if (fPiece == "J") {
-                                        player1->setSpecificPieceType(PieceType::JBlock);
-                                        break;
-                                    } else if (fPiece == "L") {
-                                        player1->setSpecificPieceType(PieceType::LBlock);
-                                        break;
-                                    } else if (fPiece == "T") {
-                                        player1->setSpecificPieceType(PieceType::TBlock);
-                                        break;
-                                    } else if (fPiece == "Z") {
-                                        player1->setSpecificPieceType(PieceType::ZBlock);
-                                        break;
-                                    } else if (fPiece == "S") {
-                                        player1->setSpecificPieceType(PieceType::SBlock);
-                                        break;
-                                    } else if (fPiece == "O") {
-                                        player1->setSpecificPieceType(PieceType::OBlock);
-                                        break;
-                                    } else {
-                                        cout << "\nTry again \nChoose piece: ";
-                                    }
-                                }
-                                break;
-                            } else {
-                                cout << "\nTry again \nEnter effect: ";
-                            }
-                        }
-                        player2->setEffect(false);
-                        cout << *td;
-                        // gd->render();
-                    }
-
-                    multiplier = 1;
-
-                    if (currComm == "drop"){
-                        ++countTurns;
-                        if (countTurns % 2 == 0) {
-                            player2->setBlind(false);
-                        } else {
+                        firstL = firstLetter(cmd);
+                        cmd = cmd.substr(firstL, cmd.length() - firstL + 1);
+                        try {
+                            string currComm = head->search(cmd);
+                            
+                            if (cmd == "restart") { // this is a special case
+                            //clear grid, clear score, reset turn to 0,
+                            player1->restart(); // clears the first grid
+                            player2->restart(); // clears the second grid
+                            countTurns = -1;    // This makes sure that no matter who calls restart, player one always plays first
+                            player1->pLevel->setFile(fn1);
+                            player1->setNextPiece();
+                            player1->setCurrPiece();
+                            player2->pLevel->setFile(fn2);
+                            player2->setNextPiece();
+                            player2->setCurrPiece();
+                            player1->setNextPiece();
+                            player2->setNextPiece();
+                            
+                            // effects
+                            player1->setEffect(false);
+                            player2->setEffect(false);
                             player1->setBlind(false);
-                        }
+                            player2->setBlind(false);
+                            player1->setHeavy(0);
+                            player2->setHeavy(0);
+                            } else {
+                                if (countTurns % 2 == 0) {
+                                    player1->sequence(currComm, multiplier);
+                                } else {
+                                    player2->sequence(currComm, multiplier);
+                                }
+                            }
+                            
+                            if (countTurns % 2 == 0) {
+                                int amt = player1->getHeavy();
+                                for (int i = 0; i < amt; ++i) {
+                                    player1->move("down");
+                                }
+                            } else {
+                                int amt = player2->getHeavy();
+                                for (int i = 0; i < amt; ++i) {
+                                    player2->move("down");
+                                }
+                            }
+                            
+                            // levelFour *block condition
+                            // sorry im dumb but how do i keep track of deleted rows? not currently stored anywhere
+                            // storing in grid
+                            
+                            if (countTurns % 10 == 8 && player1->nLevel == 4 && cmd == "drop") {
+                                if (player1->theGrid->getDeletedRows() == 0) {
+                                    player1->theGrid->insertStarBlock();
+                                } else {
+                                    player1->theGrid->setDeletedRows(0);
+                                }
+                            } else if (countTurns % 10 == 9 && player2->nLevel == 4 && cmd == "drop") {
+                                if (player2->theGrid->getDeletedRows() == 0) {
+                                    player2->theGrid->insertStarBlock();
+                                } else {
+                                    player2->theGrid->setDeletedRows(0);
+                                }
+                            }
+
+                    
+                            std::cout << *td;
+                            gd->render();
+
+                            // special effects
+                            string effect;
+                            if (player1->canEffect()) {
+                                std::cout << "Enter effect: ";
+                                while (cin >> effect) {
+                                    if (effect == "blind") {
+                                        player2->setBlind(true); 
+                                        break;
+                                    } else if (effect == "heavy") {
+                                        player2->setHeavy(player2->getHeavy() + 2);
+                                        break;
+                                    } else if (effect == "force") {
+                                        std::cout << "\nChoose piece: ";
+                                        string fPiece;
+                                        while (cin >> fPiece) {
+                                            if (fPiece == "I") {
+                                                player2->setSpecificPieceType(PieceType::IBlock);
+                                                break;
+                                            } else if (fPiece == "J") {
+                                                player2->setSpecificPieceType(PieceType::JBlock);
+                                                break;
+                                            } else if (fPiece == "L") {
+                                                player2->setSpecificPieceType(PieceType::LBlock);
+                                                break;
+                                            } else if (fPiece == "T") {
+                                                player2->setSpecificPieceType(PieceType::TBlock);
+                                                break;
+                                            } else if (fPiece == "Z") {
+                                                player2->setSpecificPieceType(PieceType::ZBlock);
+                                                break;
+                                            } else if (fPiece == "S") {
+                                                player2->setSpecificPieceType(PieceType::SBlock);
+                                                break;
+                                            } else if (fPiece == "O") {
+                                                player2->setSpecificPieceType(PieceType::OBlock);
+                                                break;
+                                            } else {
+                                                std::cout << "\nTry again \nChoose piece: ";
+                                            }
+                                        }
+                                        break;
+                                    } else {
+                                        std::cout << "\nTry again \nEnter effect: ";
+                                    }
+                                }
+                                player1->setEffect(false);
+                                std::cout << *td;
+                                gd->render();
+                            } else if (player2->canEffect()) {
+                                std::cout << "Enter effect: ";
+                                while (cin >> effect) {
+                                    if (effect == "blind") {
+                                        player1->setBlind(true); // where to unset? in textdisplay
+                                        break;
+                                    } else if (effect == "heavy") {
+                                        player1->setHeavy(player1->getHeavy() + 2);
+                                        break;
+                                    } else if (effect == "force") {
+                                        std::cout << "\nChoose piece: ";
+                                        string fPiece;
+                                        while (cin >> fPiece)
+                                        {
+                                            if (fPiece == "I")
+                                            {
+                                                player1->setSpecificPieceType(PieceType::IBlock);
+                                                break;
+                                            }
+                                            else if (fPiece == "J")
+                                            {
+                                                player1->setSpecificPieceType(PieceType::JBlock);
+                                                break;
+                                            }
+                                            else if (fPiece == "L")
+                                            {
+                                                player1->setSpecificPieceType(PieceType::LBlock);
+                                                break;
+                                            }
+                                            else if (fPiece == "T")
+                                            {
+                                                player1->setSpecificPieceType(PieceType::TBlock);
+                                                break;
+                                            }
+                                            else if (fPiece == "Z")
+                                            {
+                                                player1->setSpecificPieceType(PieceType::ZBlock);
+                                                break;
+                                            }
+                                            else if (fPiece == "S")
+                                            {
+                                                player1->setSpecificPieceType(PieceType::SBlock);
+                                                break;
+                                            }
+                                            else if (fPiece == "O")
+                                            {
+                                                player1->setSpecificPieceType(PieceType::OBlock);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                std::cout << "\nTry again \nChoose piece: ";
+                                            }
+                                        }
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        std::cout << "\nTry again \nEnter effect: ";
+                                    }
+                                }
+                                player2->setEffect(false);
+                                std::cout << *td;
+                                gd->render();
+                            }
+
+                            multiplier = 1;
+
+                            if (currComm == "drop")
+                            {
+                                ++countTurns;
+                                if (countTurns % 2 == 0)
+                                {
+                                    player2->setBlind(false);
+                                }
+                                else
+                                {
+                                    player1->setBlind(false);
+                                }
                     }
-/*       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!
-                    if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
-                        player1Score = player1->getScore();
-                        player2Score = player2->getScore();
-                        if (player1Score > player2Score) {
-                            cout << "Player 1 wins!" << endl;
-                        } else if (player1Score < player2Score) {
-                            cout << "Player 2 wins!" << endl;
-                        } else {
-                            cout << "A tie!" << endl;
+
+                        } catch (logic_error &le) {
+                            std::cout << le.what() << endl;
                         }
-                    }*/
-                        } else {
-                            player2->sequence(fn, countTurns);
+                        // check victory - SHIT'S BROKEN
+                    /*
+                       if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
+                           int player1Score = player1->getScore();
+                           int player2Score = player2->getScore();
+                           
+                           if (player1Score > player2Score) {
+                               std::cout << "Player 1 wins!" << endl;
+                            } else if (player1Score < player2Score) {
+                                std::cout << "Player 2 wins!" << endl;
+                            } else {
+                            std::cout << "A tie!" << endl;
+                            }
                         }
+                    
+                    */
                     }
                 } else if (currComm == "restart"){ // no multiplier
                         //clear grid, clear score, reset turn to 0,
@@ -631,13 +697,13 @@ int main(int argc, char *argv[]) {
                     // levelFour *block condition
                     // sorry im dumb but how do i keep track of deleted rows? not currently stored anywhere
                     // storing in grid
-                    if (countTurns % 10 == 8 && player1->nLevel == 4) {
+                    if (countTurns % 10 == 8 && player1->nLevel == 4 && cmd == "drop") {
                         if (player1->theGrid->getDeletedRows() == 0) {
                             player1->theGrid->insertStarBlock();
                         } else {
                             player1->theGrid->setDeletedRows(0);
                         }
-                    } else if (countTurns % 10 == 9 && player2->nLevel == 4) {
+                    } else if (countTurns % 10 == 9 && player2->nLevel == 4 && cmd == "drop") {
                         if (player2->theGrid->getDeletedRows() == 0) {
                             player2->theGrid->insertStarBlock();
                         } else {
@@ -652,7 +718,7 @@ int main(int argc, char *argv[]) {
                     // special effects
                     string effect;
                     if (player1->canEffect()) {
-                        cout << "Enter effect: ";
+                        std::cout << "Enter effect: ";
                         while (cin >> effect) {
                             if (effect == "blind") {
                                 player2->setBlind(true);  // where to unset? in textdisplay
@@ -661,7 +727,7 @@ int main(int argc, char *argv[]) {
                                 player2->setHeavy(player2->getHeavy() + 2);
                                 break;
                             } else if (effect == "force") {
-                                cout << "\nChoose piece: ";
+                                std::cout << "\nChoose piece: ";
                                 string fPiece;
                                 while (cin >> fPiece) {
                                     if (fPiece == "I") {
@@ -686,17 +752,17 @@ int main(int argc, char *argv[]) {
                                         player2->setSpecificPieceType(PieceType::OBlock);
                                         break;
                                     } else {
-                                        cout << "\nTry again \nChoose piece: ";
+                                        std::cout << "\nTry again \nChoose piece: ";
                                     }
                                 }
                                 break;
                             } else {
-                                cout << "\nTry again \nEnter effect: ";
+                                std::cout << "\nTry again \nEnter effect: ";
                             }
                         }
                         player1->setEffect(false);
                         cout << *td;
-                        // gd->render();
+                        gd->render();
                     } else if (player2->canEffect()) {
                         cout << "Enter effect: ";
                         while (cin >> effect) {
@@ -742,7 +808,7 @@ int main(int argc, char *argv[]) {
                         }
                         player2->setEffect(false);
                         cout << *td;
-                        // gd->render();
+                        gd->render();
                     }
 
                     multiplier = 1;
@@ -755,18 +821,23 @@ int main(int argc, char *argv[]) {
                             player1->setBlind(false);
                         }
                     }
-/*       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!
-                    if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
-                        player1Score = player1->getScore();
-                        player2Score = player2->getScore();
-                        if (player1Score > player2Score) {
-                            cout << "Player 1 wins!" << endl;
-                        } else if (player1Score < player2Score) {
-                            cout << "Player 2 wins!" << endl;
-                        } else {
-                            cout << "A tie!" << endl;
+
+                    // check victory - SHIT'S BROKEN
+                    /*
+                       if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
+                           int player1Score = player1->getScore();
+                           int player2Score = player2->getScore();
+                           
+                           if (player1Score > player2Score) {
+                               std::cout << "Player 1 wins!" << endl;
+                            } else if (player1Score < player2Score) {
+                                std::cout << "Player 2 wins!" << endl;
+                            } else {
+                            std::cout << "A tie!" << endl;
+                            }
                         }
-                    }*/
+                    
+                    */
             } catch (logic_error &le) {
                 // any invalid command prints an error message
                 cout << le.what() << endl;

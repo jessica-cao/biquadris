@@ -152,37 +152,8 @@ void Player::randomness(std::string cmd, std::string fn) {
     }
 }
 
-int firstLetter(string s) {
-    int count = 0;
-    while (count <= s.length()) {
-        if (('A' <= s[count] && s[count] <= 'Z') || ('a' <= s[count] && s[count] <= 'z')) {
-            break;
-        } else {
-            ++count;
-        }
-    }
-    
-    return count;
-}
+void Player::sequence(std::string currComm, int multiplier) {
 
-void Player::sequence(std::string fn, int trackTurns) {
-    string cmd;
-    unique_ptr<Trie> tr {new Trie()};
-    tr->insertCommands();
-    int multiplier;
-
-
-    multiplier = tr->parsePrefix(cmd);
-    if (multiplier == 0) {
-        multiplier = 1;
-    }
-
-    int firstL = firstLetter(cmd);
-    cmd = cmd.substr(firstL, cmd.length() - firstL + 1);
-    try {
-    string currComm = tr->search(cmd);
-
-    // should prob parse commands in here?
     if (currComm == "left" || currComm == "right" || currComm == "down") {
         this->move(currComm);
 //                        cout << "hola i'm the right command\n" << endl;
@@ -204,7 +175,7 @@ void Player::sequence(std::string fn, int trackTurns) {
         int desiredLvl;
         desiredLvl = multiplier + this->nLevel;
         
-        if (desiredLvl <= MAXLEVEL) {
+        if (desiredLvl <= MAXLVL) {
             this->pLevel.reset();
                             
             if (desiredLvl == 1) {
@@ -222,18 +193,18 @@ void Player::sequence(std::string fn, int trackTurns) {
             }
             this->nLevel = desiredLvl;
             } else {
-                if (this->nLevel != MAXLEVEL) {
+                if (this->nLevel != MAXLVL) {
                     this->pLevel.reset();
                     this->pLevel = make_unique<LevelFour>();
                     this->setHeavy(1);
                 }          
-                this->nLevel = MAXLEVEL;
+                this->nLevel = MAXLVL;
             }
         } else if (currComm == "leveldown") {
             int desiredLvl;
             desiredLvl = this->nLevel - multiplier;
             
-            if (desiredLvl >= MINLEVEL) {
+            if (desiredLvl >= MINLVL) {
                 this->pLevel.reset();
                             
                 if (desiredLvl == 0) {
@@ -252,13 +223,13 @@ void Player::sequence(std::string fn, int trackTurns) {
                 this->nLevel = desiredLvl;
                             
             } else {
-                if (this->nLevel != MINLEVEL) {
+                if (this->nLevel != MINLVL) {
                     this->pLevel.reset();
                     this->pLevel = make_unique<LevelZero>();
                     this->setHeavy(0);
                 }
                             
-                this->nLevel = MINLEVEL;
+                this->nLevel = MINLVL;
             }
         } else if (currComm == "random") { // no multiplier
                 this->randomness(currComm, "");
@@ -298,8 +269,4 @@ void Player::sequence(std::string fn, int trackTurns) {
         } else if (currComm == "T") {
             this->setSpecificPieceType(PieceType::TBlock);
         }
-    } catch (logic_error &le) {
-                // any invalid command prints an error message
-                cout << le.what() << endl;
-    }
 }

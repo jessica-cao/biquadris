@@ -10,8 +10,8 @@
 #include "trie.h"
 #include <fstream>
 
-const int MAXLEVEL = 4;
-const int MINLEVEL = 0;
+const int MAXLVL = 4;
+const int MINLVL = 0;
 
 class Player {
     int score = 0;
