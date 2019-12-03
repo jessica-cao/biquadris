@@ -3,11 +3,15 @@
 #include "grid.h"
 #include "pieces.h"
 #include "levelZero.h"
-
 #include "levelOne.h"
 #include "levelTwo.h"
 #include "levelThree.h"
 #include "levelFour.h"
+#include "trie.h"
+#include <fstream>
+
+const int MAXLEVEL = 4;
+const int MINLEVEL = 0;
 
 class Player {
     int score = 0;
@@ -52,7 +56,7 @@ class Player {
     void randomness(std::string, std::string);
     void levelup();
     void leveldown();
-    void sequence();
+    void sequence(std::string, int);
     void restart();
     void setSpecificPieceType(PieceType);
 };

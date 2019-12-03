@@ -46,8 +46,6 @@ void Player::setCurrPiece() { // you want to be able to set a specific piece
     this->curPiece = std::move(this->nextPiece);
     this->curPiece->setLevel(this->nLevel);
     this->curPiece->attach(this->theGrid.get());
-    // std::cout << "HELLOOOOOOOOOOOOOOOOOOOOOO" << std::endl;
-    //std::cout << this->theGrid->getInfo().base_row << " hey" << std::endl;
     this->theGrid->attach(this->curPiece.get());
     this->curPiece->placePiece();
 }
@@ -154,6 +152,154 @@ void Player::randomness(std::string cmd, std::string fn) {
     }
 }
 
-void Player::sequence() {
-    // do something
+int firstLetter(string s) {
+    int count = 0;
+    while (count <= s.length()) {
+        if (('A' <= s[count] && s[count] <= 'Z') || ('a' <= s[count] && s[count] <= 'z')) {
+            break;
+        } else {
+            ++count;
+        }
+    }
+    
+    return count;
+}
+
+void Player::sequence(std::string fn, int trackTurns) {
+    string cmd;
+    unique_ptr<Trie> tr {new Trie()};
+    tr->insertCommands();
+    int multiplier;
+
+
+    multiplier = tr->parsePrefix(cmd);
+    if (multiplier == 0) {
+        multiplier = 1;
+    }
+
+    int firstL = firstLetter(cmd);
+    cmd = cmd.substr(firstL, cmd.length() - firstL + 1);
+    try {
+    string currComm = tr->search(cmd);
+
+    // should prob parse commands in here?
+    if (currComm == "left" || currComm == "right" || currComm == "down") {
+        this->move(currComm);
+//                        cout << "hola i'm the right command\n" << endl;
+        for (int i = 0; i < multiplier; ++i) {
+            this->move(currComm);
+        }
+    } else if (currComm == "drop") {
+        for (int i = 0; i < multiplier; ++i) {
+//          cout << "inside the loop of the drop command, player1\n";
+            this->drop();
+        }
+//      cout << "inside the loop of the drop command, player2\n";
+    } else if (currComm == "clockwise" || currComm == "counterclockwise") {
+        for (int i = 0; i < multiplier; ++i) {
+            this->rotate(currComm);
+        }
+
+    } else if (currComm == "levelup") {
+        int desiredLvl;
+        desiredLvl = multiplier + this->nLevel;
+        
+        if (desiredLvl <= MAXLEVEL) {
+            this->pLevel.reset();
+                            
+            if (desiredLvl == 1) {
+                this->pLevel = make_unique<LevelOne>();
+                this->setHeavy(0);
+            } else if (desiredLvl == 2) {
+                this->pLevel = make_unique<LevelTwo>();
+                this->setHeavy(0);
+            } else if (desiredLvl == 3) {
+                this->pLevel = make_unique<LevelThree>();
+                this->setHeavy(1);
+            } else if (desiredLvl == 4) {
+                this->pLevel = make_unique<LevelFour>();
+                this->setHeavy(1);
+            }
+            this->nLevel = desiredLvl;
+            } else {
+                if (this->nLevel != MAXLEVEL) {
+                    this->pLevel.reset();
+                    this->pLevel = make_unique<LevelFour>();
+                    this->setHeavy(1);
+                }          
+                this->nLevel = MAXLEVEL;
+            }
+        } else if (currComm == "leveldown") {
+            int desiredLvl;
+            desiredLvl = this->nLevel - multiplier;
+            
+            if (desiredLvl >= MINLEVEL) {
+                this->pLevel.reset();
+                            
+                if (desiredLvl == 0) {
+                    this->pLevel = make_unique<LevelZero>();
+                    this->setHeavy(0);
+                } else if (desiredLvl == 1) {
+                    this->pLevel = make_unique<LevelOne>();
+                    this->setHeavy(0);
+                } else if (desiredLvl == 2) {
+                    this->pLevel = make_unique<LevelTwo>();
+                    this->setHeavy(0);
+                } else if (desiredLvl == 3) {
+                    this->pLevel = make_unique<LevelThree>();
+                    this->setHeavy(1);
+                }
+                this->nLevel = desiredLvl;
+                            
+            } else {
+                if (this->nLevel != MINLEVEL) {
+                    this->pLevel.reset();
+                    this->pLevel = make_unique<LevelZero>();
+                    this->setHeavy(0);
+                }
+                            
+                this->nLevel = MINLEVEL;
+            }
+        } else if (currComm == "random") { // no multiplier
+                this->randomness(currComm, "");
+
+        } else if (currComm == "norandom") { // no multiplier
+            string fn;
+            while(!(cin >> fn)) {
+                cout << "\nPlease provide a file name." << endl;
+            }
+            this->randomness(currComm, fn);
+            /* } else if (currComm == "sequence") { // reads in a file name, eh
+                    string fn;
+                    if (countTurns % 2 == 0) {
+                        this->sequence(fn, countTurns);
+                    } else {
+                        player2->sequence(fn, countTurns);
+                    } no idea how this works tbh*/
+        // the case of restart is handled in main
+        } else if (currComm == "I") { // replace current block w the I block
+            this->setSpecificPieceType(PieceType::IBlock);
+        
+        } else if (currComm == "J") {
+            this->setSpecificPieceType(PieceType::JBlock);
+
+        } else if (currComm == "L") {
+            this->setSpecificPieceType(PieceType::LBlock);
+
+        } else if (currComm == "O") {
+            this->setSpecificPieceType(PieceType::OBlock);
+            
+        } else if (currComm == "S") {
+            this->setSpecificPieceType(PieceType::SBlock);
+
+        } else if (currComm == "Z") {
+            this->setSpecificPieceType(PieceType::ZBlock);
+
+        } else if (currComm == "T") {
+            this->setSpecificPieceType(PieceType::TBlock);
+        }
+    } catch (logic_error &le) {
+                // any invalid command prints an error message
+                cout << le.what() << endl;
+    }
 }
