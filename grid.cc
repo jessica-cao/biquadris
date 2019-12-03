@@ -106,9 +106,9 @@ void Grid::deleteRows(){
         for (int j = 0; j < width; ++j){
             if (the_grid.at(i).at(j) == ' '){
                 is_full = false;
-                cout << is_full << endl;
             }
         }
+        cout << is_full << endl;
         if (is_full){
             cout << "full in" << i << endl;
             cout << this->getState().base_row << endl;
@@ -122,8 +122,9 @@ void Grid::deleteRows(){
             vector<char> new_row(width, ' ');
             the_grid.emplace(the_grid.begin(), new_row);
             ++num_rows_deleted;
-            is_full = false;
+            ++i;
         }
+        is_full = true;
     }
     cout << "before lvl" << endl;
     int level = player->pLevel->getLevel();
