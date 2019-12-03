@@ -132,7 +132,7 @@ void Piece::setLevel(int level){
     this->level = level;
 }
 
-void Piece::rotate_cw(){
+void Piece::rotate_ccw(){
     size_t rows = offset_height;
     size_t cols = offset_width;
     vector<vector<bool>> final_offset(cols, vector<bool> (rows));
@@ -153,7 +153,7 @@ void Piece::rotate_cw(){
     this->notifyObservers();
 }
 
-void Piece::rotate_ccw(){
+void Piece::rotate_cw(){
     size_t rows = offset_height;
     size_t cols = offset_width;
     vector<vector<bool>> final_offset(cols, vector<bool> (rows));
