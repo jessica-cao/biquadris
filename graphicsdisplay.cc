@@ -92,7 +92,7 @@ void GraphicsDisplay::render() {
                     } else if (gOne[i][j] == 'O') {
                         this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Lime);
                     } else if (gOne[i][j] == '*') {
-                        this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Brown);
+                        this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Black);
                     } else {
                         this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::DarkBlue);
                     }
@@ -127,7 +127,7 @@ void GraphicsDisplay::render() {
                 } else if (gTwo[i][l] == 'O') {
                     this->xw-> fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Lime);
                 } else if (gTwo[i][l] == '*') {
-                    this->xw-> fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Brown);
+                    this->xw-> fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Black);
                 } else {
                     this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::DarkBlue);
                 }
