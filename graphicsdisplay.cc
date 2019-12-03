@@ -71,7 +71,7 @@ void GraphicsDisplay::render() {
 
     for (int i = 0; i < this->row; ++i) {
         for (int j = 0; j < this->col; ++j) {
-            if ((this->playerOne->isBlind()) && (j >= 2 && j <= 8) && (i >= 2 && i <= 11)) {
+            if ((this->playerOne->isBlind()) && (j >= 2 && j <= 8) && (i >= 6 && i <= 15)) { // 2 and 11 before
                 // Ghost mode
                 this->xw->fillRectangle(1 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Gray);
             } else {
@@ -105,7 +105,7 @@ void GraphicsDisplay::render() {
         }
 
         for (int l = 0; l < this->col; ++l) {
-            if (this->playerTwo->isBlind() && (l >= 2 && l <= 8) && (i >= 2 && i <= 11)) {
+            if (this->playerTwo->isBlind() && (l >= 2 && l <= 8) && (i >= 6 && i <= 15)) {
                 this->xw->fillRectangle(l * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Gray);
             } else {
                 // prints out stuff as usual

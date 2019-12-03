@@ -133,7 +133,8 @@ int main(int argc, char *argv[]) {
 //    unique_ptr<Piece> p1 {new Piece(player1->theGrid.get())}; // piece pointers for player1's grid
 //    unique_ptr<Piece> p2 {new Piece(player1->theGrid.get())}; // piece pointer for player2's grid
     int countTurns = 0;
-    Trie* head = new Trie();
+    unique_ptr<Trie> head {new Trie()};
+    //Trie* head = new Trie();
 	head->insertCommands();
     int multiplier = 1; // some commands have a multiplier prefix; to show how many times a command is executed
 
@@ -147,8 +148,8 @@ int main(int argc, char *argv[]) {
     player2->setNextPiece();
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
     unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
-    int player1Score = 0;
-    int player2Score = 0;
+    //int player1Score = 0;
+    //int player2Score = 0;
 
     cout << *td;
     gd->render();
