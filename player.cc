@@ -8,6 +8,13 @@ Player::Player() {
     theGrid->setPlayer(this);
 }
 
+Player::~Player(){
+    for(auto &piece: playerPieces){
+        theGrid->detach(piece.get());
+    }
+    this->playerPieces.clear();
+}
+
 // returns this player's score
 int Player::getScore() {
     return this->score;
@@ -34,6 +41,7 @@ std::unique_ptr<Piece> Player::createPiece() {
 
 
 void Player::setCurrPiece() { // you want to be able to set a specific piece
+    this->playerPieces.push_back(std::move(this->curPiece));
     this->curPiece.reset();
     this->curPiece = std::move(this->nextPiece);
     this->curPiece->setLevel(this->nLevel);
@@ -49,6 +57,7 @@ Piece * Player::getNext() {
 }
 
 void Player::setNextPiece() { // should only ever run after setCurrPiece
+    cout << "gets to next piece" << endl;
     this->nextPiece = this->pLevel->create(this->theGrid.get());
 }
 
@@ -77,6 +86,11 @@ void Player::setHeavy(int heaviness) {
 }
 
 void Player::restart() {
+    for(auto &piece: playerPieces){
+        theGrid->detach(piece.get());
+    }
+    this->playerPieces.clear();
+    this->nextPiece.reset();
     this->theGrid->clear();
     this->clearScore();
     this->pLevel.reset();
@@ -84,6 +98,7 @@ void Player::restart() {
 //    this->pLevel->setFile
     this->nLevel = 0;
     this->theGrid->init();
+    cout << "Grid has restarted" << endl;
 }
 
 void Player::setSpecificPieceType(PieceType pt) { // new Piece constructor takes in a grid and a PieceType

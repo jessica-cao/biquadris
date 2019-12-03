@@ -8,6 +8,7 @@
 using namespace std;
 
 Piece::Piece(Grid * the_grid, PieceType piece_type){
+    cout << "constructor has been called" << endl;
     this->the_grid = the_grid;
     base_row = 3;
     base_col = 0;

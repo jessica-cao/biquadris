@@ -14,7 +14,7 @@
 
 #include "trie.h"
 #include "textdisplay.h"
-#include "graphicsdisplay.h"
+// #include "graphicsdisplay.h"
 
 using namespace std;
 
@@ -146,12 +146,12 @@ int main(int argc, char *argv[]) {
     player1->setNextPiece();
     player2->setNextPiece();
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
-    unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
+    // unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
     int player1Score = 0;
     int player2Score = 0;
 
     cout << *td;
-    gd->render();
+    // gd->render();
     
     try {
         
@@ -361,6 +361,14 @@ int main(int argc, char *argv[]) {
                         player1->restart(); // clears the first grid
                         player2->restart(); // clears the second grid
                         countTurns = -1;    // This makes sure that no matter who calls restart, player one always plays first
+                        player1->pLevel->setFile(fn1);
+                        player1->setNextPiece();
+                        player1->setCurrPiece();
+                        player2->pLevel->setFile(fn2);
+                        player2->setNextPiece();
+                        player2->setCurrPiece();
+                        player1->setNextPiece();
+                        player2->setNextPiece();
                 } else if (currComm == "I") { // replace current block w the I block
                     // make a method in player that replaces the current block with the I block
                     if (countTurns % 2 == 0) {
@@ -448,7 +456,7 @@ int main(int argc, char *argv[]) {
 
                     // TO DO print the board right here
                     cout << *td;
-                    gd->render();
+                    // gd->render();
 
                     // special effects
                     string effect;

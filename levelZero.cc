@@ -23,7 +23,6 @@ unique_ptr<Piece> LevelZero::create(Grid * grid) {
 
     // check if last read in was EOF, then restart
     // else, generate appropriate block according to what was last read in
-
     PieceType curPiece = this->playPieces.back();
     this->playPieces.pop_back();
     this->playPieces.emplace(this->playPieces.begin(), curPiece);
@@ -40,6 +39,7 @@ string LevelZero::getFile() {
 */
 
 void LevelZero::setFile(string fn) {
+    cout<<fn<<endl;
     if (fn == this->fileName) {
         return;  // don't recreate the vector
     }

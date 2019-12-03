@@ -44,6 +44,7 @@ void Grid::init(){
 
 void Grid::clear(){
     the_grid.clear();
+    this->init();
 }
 
 bool Grid::noCollision(const std::vector<std::vector<bool>> &offset, const size_t rows, const size_t cols, const size_t base_row, const size_t base_col){
@@ -121,6 +122,7 @@ void Grid::deleteRows(){
             vector<char> new_row(width, ' ');
             the_grid.emplace(the_grid.begin(), new_row);
             ++num_rows_deleted;
+            is_full = false;
         }
     }
     cout << "before lvl" << endl;
@@ -173,7 +175,7 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
     if (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW || state_command_type == CommandType::MoveL || state_command_type == CommandType::MoveR || state_command_type == CommandType::MoveD){
         // Check if it's a valid move
         cout << "gets to notify" << endl;
-        if (((state_offset_width + whoFrom.getInfo().base_col >= width) || (state_offset_height - whoFrom.getInfo().base_row <= 0)) && (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW)){
+        if (((state_offset_width + whoFrom.getInfo().base_col >= width) || (state_offset_height - whoFrom.getInfo().base_row < 0)) && (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW)){
             return;
         } else if ((state_offset_width + state_base_col > width) && (state_command_type == CommandType::MoveR)) { // editing >= before
             return;

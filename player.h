@@ -17,11 +17,11 @@ class Player {
 
     std::unique_ptr<Piece> curPiece;
     std::unique_ptr<Piece> nextPiece;
-    std::vector<Piece> playerPieces;
+    std::vector<std::unique_ptr<Piece>> playerPieces;
 
 
-    public: // sorry probably bad practice a gain
-    
+    public:
+    ~Player();
     Player();
     std::unique_ptr<Grid> theGrid{new Grid()};
 
