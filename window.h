@@ -16,7 +16,7 @@ class Xwindow {
 	Xwindow(int width=500, int height=500);  // Constructor; displays the window.
 	~Xwindow();                              // Destructor; destroys the window.
 
-	enum {White = 0, Black, DarkBlue, Gold, Turqoise, Brown, Gray, Purple, Firebrick, Salmon, Lavender};
+	enum {White = 0, Black, DarkBlue, Gold, Turqoise, Brown, Gray, Purple, LightCoral, Lime, Lavender};
 		// Available colours.
 		
 
