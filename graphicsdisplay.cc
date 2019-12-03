@@ -50,7 +50,7 @@ void GraphicsDisplay::render() {
 
     }
 
-    this->xw->drawBigString(75, lineHeight, "Level:      " + to_string(this->playerOne->nLevel) + 
+    this->xw->drawString(75, lineHeight, "Level:      " + to_string(this->playerOne->nLevel) + 
     "                                                         Level:     " + to_string(this->playerTwo->nLevel), Xwindow::DarkBlue);
 
     if (this->player1score != playerOne->getScore()) {
@@ -64,7 +64,7 @@ void GraphicsDisplay::render() {
 
     }
 
-    this->xw->drawBigString(75, 2 * lineHeight, "Score:" + squareSpacing(this->playerOne->getScore()) + to_string(this->playerOne->getScore())
+    this->xw->drawString(75, 2 * lineHeight, "Score:" + squareSpacing(this->playerOne->getScore()) + to_string(this->playerOne->getScore())
     + "                                                          Score:" + squareSpacing(this->playerTwo->getScore()) + to_string(this->playerTwo->getScore()), Xwindow::DarkBlue);
     
     int middle = 0;
@@ -91,6 +91,8 @@ void GraphicsDisplay::render() {
                         this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::LightCoral);
                     } else if (gOne[i][j] == 'O') {
                         this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Lime);
+                    } else if (gOne[i][j] == '*') {
+                        this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Brown);
                     } else {
                         this->xw->fillRectangle(15 + j * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::DarkBlue);
                     }
@@ -123,7 +125,9 @@ void GraphicsDisplay::render() {
                 } else if (gTwo[i][l] == 'S') {
                     this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::LightCoral);
                 } else if (gTwo[i][l] == 'O') {
-                    this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Lime);
+                    this->xw-> fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Lime);
+                } else if (gTwo[i][l] == '*') {
+                    this->xw-> fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::Brown);
                 } else {
                     this->xw->fillRectangle((l + 14) * lineHeight, (i + 3) * lineHeight, lineHeight, lineHeight, Xwindow::DarkBlue);
                 }
@@ -133,7 +137,7 @@ void GraphicsDisplay::render() {
         }
     }
 
-    this->xw->drawBigString(100, 22 * lineHeight,  "Next:                                                                  Next:", Xwindow::DarkBlue);
+    this->xw->drawString(100, 22 * lineHeight,  "Next:                                                                  Next:", Xwindow::DarkBlue);
 
     
     PieceType pieceIs1 = this->playerOne->getNext()->getInfo().piece_type;
@@ -279,11 +283,11 @@ void GraphicsDisplay::render() {
     // checks for winning condition
     if (this->playerOne->theGrid->isDone() || this->playerTwo->theGrid->isDone()) {
         if (this->playerOne->getScore() > this->playerTwo->getScore()) {
-            this->xw->drawBigString(300, 28 * lineHeight, "Player 1 wins!!!!", Xwindow::DarkBlue);
+            this->xw->drawString(300, 28 * lineHeight, "Player 1 wins!!!!", Xwindow::DarkBlue);
         } else if (this->playerOne->getScore() < this->playerTwo->getScore()) {
-            this->xw->drawBigString(300, 28 * lineHeight, "Player 2 wins!!!!", Xwindow::DarkBlue);
+            this->xw->drawString(300, 28 * lineHeight, "Player 2 wins!!!!", Xwindow::DarkBlue);
         } else {
-            this->xw->drawBigString(300, 28 * lineHeight, "A tie!!!!", Xwindow::DarkBlue);
+            this->xw->drawString(300, 28 * lineHeight, "A tie!!!!", Xwindow::DarkBlue);
         }
     }
 
