@@ -27,10 +27,10 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     out << "Level:    " << td.playerOne->nLevel << "    Level:    " << td.playerTwo->nLevel << endl;
     out << "Score:" << scoreSpacing(td.playerOne->getScore()) << td.playerOne->getScore() << "    Score:" << scoreSpacing(td.playerTwo->getScore()) << td.playerTwo->getScore() << endl;  // how to track score? in player
     out << "-----------    -----------" << endl;
-    for (int i = 0; i < td.row; ++i) {
+    for (int i = 0; i < td.row + 3; ++i) {
         for (int j = 0; j < td.col; ++j) {
             if (td.playerOne->isBlind() && j >= 2 && j <= 8
-                    && i >= 2 && i <= 11) {
+                    && i >= 6 && i <= 15) {  // 2 and 11 before
                 out << "?";
             } else {
                 out << gOne[i][j];
@@ -39,7 +39,7 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
         out << "    ";
         for (int k = 0; k < td.col; ++k) {
             if (td.playerTwo->isBlind() && k >= 2 && k <= 8
-                    && i >= 2 && i <= 11) {
+                    && i >= 6 && i <= 15) {  // 1 and 10 before
                 out << "?";
             } else {
                 out << gTwo[i][k];
@@ -47,8 +47,8 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
         }
         out << endl;
     }
-    td.playerOne->setBlind(false);
-    td.playerTwo->setBlind(false);
+//    td.playerOne->setBlind(false);
+//    td.playerTwo->setBlind(false);
     out << "-----------    -----------" << endl;
     out << "Next:          Next:" << endl;
 
