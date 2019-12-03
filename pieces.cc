@@ -241,9 +241,6 @@ void Piece::notify(Subject<Info, State> &whoFrom){
         offset = whoFrom.getState().offset;
         offset_height = whoFrom.getState().offset_height;
         offset_width = whoFrom.getState().offset_width;
-        cout << "offset_height: " << whoFrom.getState().offset_height << endl;
-        cout << "offset_height: " << offset_height << endl;
-        cout << "offset_width: " << offset_width << endl;
         cout << "print the new offset in piece" << endl;
         for (int i =  0; i < offset_height; ++i){
             for (int j = 0; j < offset_width; ++j){

@@ -102,6 +102,10 @@ void Player::restart() {
 }
 
 void Player::setSpecificPieceType(PieceType pt) { // new Piece constructor takes in a grid and a PieceType
+    cout << "HEYYYYYYYYYYYYYYYY" << endl;
+    cout << this->curPiece->getInfo().base_col << endl;
+    cout << this->curPiece->getInfo().base_row << endl;
+    cout << "YYYYYYYYYYYYYYYYEH" << endl;
     std::unique_ptr<Piece> p {new Piece(theGrid.get(), pt)};
 //    this->theGrid->detach(this->curPiece.get());            // AM I DETACHING CORRECTLY HERE
     this->curPiece.reset();
