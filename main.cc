@@ -369,6 +369,14 @@ int main(int argc, char *argv[]) {
                         player2->setCurrPiece();
                         player1->setNextPiece();
                         player2->setNextPiece();
+
+                        // effects
+                        player1->setEffect(false);
+                        player2->setEffect(false);
+                        player1->setBlind(false);
+                        player2->setBlind(false);
+                        player1->setHeavy(0);
+                        player2->setHeavy(0);
                 } else if (currComm == "I") { // replace current block w the I block
                     // make a method in player that replaces the current block with the I block
                     if (countTurns % 2 == 0) {
@@ -504,8 +512,12 @@ int main(int argc, char *argv[]) {
                             }
                         }
                         player1->setEffect(false);
+                        cout << *td;
+                        // gd->render();
                     } else if (player2->canEffect()) {
-                        if (effect == "blind") {
+                        cout << "Enter effect: ";
+                        while (cin >> effect) {
+                            if (effect == "blind") {
                                 player1->setBlind(true);  // where to unset? in textdisplay
                                 break;
                             } else if (effect == "heavy") {
@@ -544,13 +556,21 @@ int main(int argc, char *argv[]) {
                             } else {
                                 cout << "\nTry again \nEnter effect: ";
                             }
+                        }
                         player2->setEffect(false);
+                        cout << *td;
+                        // gd->render();
                     }
 
                     multiplier = 1;
 
                     if (currComm == "drop"){
                         ++countTurns;
+                        if (countTurns % 2 == 0) {
+                            player2->setBlind(false);
+                        } else {
+                            player1->setBlind(false);
+                        }
                     }
 /*       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!       FIX!!
                     if (player1->theGrid->isDone() || player2->theGrid->isDone()) {

@@ -15,7 +15,7 @@
 class Player;
 
 class Grid: public Observer<Info, State>, public Subject<Info, State> {
-    size_t height = 15;
+    size_t height = 18;
     size_t width = 11;
     Player * player;
     std::vector<std::vector<char>> the_grid;
