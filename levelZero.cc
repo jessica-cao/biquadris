@@ -32,7 +32,6 @@ unique_ptr<Piece> LevelZero::create(Grid * grid) {
 }
 
 void LevelZero::setFile(string fn) {
-    cout<<fn<<endl;
     if (fn == this->fileName) {
         return;  // don't recreate the vector
     }

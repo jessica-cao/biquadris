@@ -104,13 +104,7 @@ void Piece::placePiece(){
     base_row = 3;
     base_col = 0;
     this->setState({this->base_row, this->base_col, this->offset, this->offset_height, this->offset_width, FromType::Piece, CommandType::SetPiece});
-        for (int i =  0; i < offset_height; ++i){
-            for (int j = 0; j < offset_width; ++j){
-                cout << offset.at(i).at(j);
-            }
-            cout << endl;
-        }
-        this->notifyObservers();
+    this->notifyObservers();
         
 }
 
@@ -228,12 +222,6 @@ void Piece::notify(Subject<Info, State> &whoFrom){
         offset = whoFrom.getState().offset;
         offset_height = whoFrom.getState().offset_height;
         offset_width = whoFrom.getState().offset_width;
-        for (int i =  0; i < offset_height; ++i){
-            for (int j = 0; j < offset_width; ++j){
-                cout << whoFrom.getState().offset.at(i).at(j);
-            }
-            cout << endl;
-        }
         this->setState({base_col, base_row, offset, offset_height, offset_width, FromType::Piece, CommandType::NoCommand});
     }
 }

@@ -3,7 +3,6 @@
 using namespace std;
 
 Player::Player() {
-    // cout << "hell o" << endl;
     this->theGrid->init();
     theGrid->setPlayer(this);
 }
@@ -97,8 +96,6 @@ void Player::restart() {
 }
 
 void Player::setSpecificPieceType(PieceType pt) { // new Piece constructor takes in a grid and a PieceType
-    cout << this->curPiece->getInfo().base_col << endl;
-    cout << this->curPiece->getInfo().base_row << endl;
     std::unique_ptr<Piece> p {new Piece(theGrid.get(), pt)};
     this->curPiece.reset();
     this->curPiece = std::move(p);
@@ -113,7 +110,6 @@ void Player::move(std::string cmd) {
         this->curPiece->move_l();
     } else if (cmd == "right") {
         this->curPiece->move_r(); 
-        std::cout << this->curPiece->getInfo().base_col << std::endl;
     } else if (cmd == "down") {
         this->curPiece->move_d();
     }

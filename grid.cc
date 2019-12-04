@@ -35,7 +35,6 @@ vector<vector<char>>& Grid::getGrid(){
 }
 
 void Grid::init(){
-    cout << height << " " << width << endl;
     for(int i = 0; i < height; ++i){          
         vector<char> row(width, ' ');
         the_grid.emplace_back(row);
@@ -108,10 +107,7 @@ void Grid::deleteRows(){
                 is_full = false;
             }
         }
-        cout << is_full << endl;
         if (is_full){
-            cout << this->getState().base_row << endl;         
-            cout << this->getState().base_col << endl;
             this->setState({this->getState().base_row, this->getState().base_col, this->getState().offset, this->getState().offset_height, this->getState().offset_width, FromType::Board, CommandType::DeleteRow, i});
             this->notifyObservers();
             vector<char> new_row(width, ' ');
@@ -181,19 +177,7 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
         // Delete the old stuff from the grid
         this->deleteOffset(whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, whoFrom.getInfo().base_row, whoFrom.getInfo().base_col);
         // Check if the new stuff has a collision
-        for(int i = 0; i < height; ++i){
-            for (int j = 0; j < width; ++j) {
-                cout << the_grid.at(i).at(j);
-            }
-            cout << endl;
-        }
 
-        for (int i =  0; i < whoFrom.getInfo().offset_height; ++i){
-            for (int j = 0; j < whoFrom.getInfo().offset_width; ++j){
-                cout << whoFrom.getInfo().offset.at(i).at(j);
-            }
-            cout << endl;
-        }
 
         bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, state_base_row, state_base_col);
         
@@ -203,12 +187,6 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
             this->addOffset(whoFrom.getInfo().piece_type);
 
             
-            for (int i =  0; i < state_offset_height; ++i){
-                for (int j = 0; j < state_offset_width; ++j){
-                    cout << state_offset.at(i).at(j);
-                }
-                cout << endl;
-            }
             
             this->notifyObservers();
 
