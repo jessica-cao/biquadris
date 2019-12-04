@@ -6,11 +6,12 @@
 #include "player.h"
 #include "levels.h"
 #include "levelZero.h"
-
 #include "levelOne.h"
 #include "levelTwo.h"
 #include "levelThree.h"
 #include "levelFour.h"
+
+#include "exception.h"
 
 #include "trie.h"
 #include "textdisplay.h"
@@ -52,6 +53,7 @@ int main(int argc, char *argv[]) {
     string fn2 = "sequence2.txt";
 
     bool showGD = true;
+    int hiScore = 0;
 
     for (int i = 1; i < argc; ++i) {
         arg = argv[i];
@@ -127,7 +129,8 @@ int main(int argc, char *argv[]) {
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())};
 
     unique_ptr<GraphicsDisplay> gd = nullptr;
-    cout << *td;
+    std::cout << "High Score : " << hiScore << endl;
+    std::cout << *td;
     if (showGD) {
         gd = std::make_unique<GraphicsDisplay>(player1.get(), player2.get());
         gd->render();
@@ -150,6 +153,8 @@ int main(int argc, char *argv[]) {
             try {
 
                 string currComm = head->search(cmd);
+
+                try {
 
 
                 if (currComm == "left" || currComm == "right" || currComm == "down") {
@@ -392,7 +397,7 @@ int main(int argc, char *argv[]) {
                                 }
                             }
 
-                    
+                            std::cout << "High Score : " << hiScore << endl;
                             std::cout << *td;
                             if (showGD) {
                                 gd->render();
@@ -444,6 +449,7 @@ int main(int argc, char *argv[]) {
                                     }
                                 }
                                 player1->setEffect(false);
+                                std::cout << "High Score : " << hiScore << endl;
                                 std::cout << *td;
                                 if (showGD) {
                                     gd->render();
@@ -510,6 +516,7 @@ int main(int argc, char *argv[]) {
                                     }
                                 }
                                 player2->setEffect(false);
+                                std::cout << "High Score : " << hiScore << endl;
                                 std::cout << *td;
                                 if (showGD) {
                                     gd->render();
@@ -658,7 +665,8 @@ int main(int argc, char *argv[]) {
                     }
 
                     // TO DO print the board right here
-                    cout << *td;
+                    std::cout << "High Score : " << hiScore << endl;
+                    std::cout << *td;
                     if (showGD) {
                         gd->render();
                     }
@@ -709,7 +717,8 @@ int main(int argc, char *argv[]) {
                             }
                         }
                         player1->setEffect(false);
-                        cout << *td;
+                        std::cout << "High Score : " << hiScore << endl;
+                        std::cout << *td;
                         if (showGD) {
                             gd->render();
                         }
@@ -757,7 +766,8 @@ int main(int argc, char *argv[]) {
                             }
                         }
                         player2->setEffect(false);
-                        cout << *td;
+                        std::cout << "High Score : " << hiScore << endl;
+                        std::cout << *td;
                         if (showGD) {
                             gd->render();
                         }
@@ -774,22 +784,22 @@ int main(int argc, char *argv[]) {
                         }
                     }
 
-                    // check victory - SHIT'S BROKEN
-                    /*
-                       if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
-                           int player1Score = player1->getScore();
-                           int player2Score = player2->getScore();
-                           
-                           if (player1Score > player2Score) {
-                               std::cout << "Player 1 wins!" << endl;
-                            } else if (player1Score < player2Score) {
-                                std::cout << "Player 2 wins!" << endl;
-                            } else {
-                            std::cout << "A tie!" << endl;
-                            }
-                        }
-                    
-                    */
+                } catch (DoneException &d) {
+                    int player1Score = player1->getScore();
+                    int player2Score = player2->getScore();
+                                        
+                    if (player1Score > player2Score) {
+                        std::cout << "Player 1 wins!" << endl;
+                        hiScore = player1Score;
+                    } else if (player1Score < player2Score) {
+                        std::cout << "Player 2 wins!" << endl;
+                        hiScore = player2Score;
+                    } else {
+                        std::cout << "A tie!" << endl;
+                        hiScore = player1Score;
+                    }
+                }
+
             } catch (logic_error &le) {
                 // any invalid command prints an error message
                 cout << le.what() << endl;

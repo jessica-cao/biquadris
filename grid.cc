@@ -4,6 +4,7 @@
 #include "subject.h"
 #include "observer.h"
 #include "player.h"
+#include "exception.h"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -159,7 +160,8 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
             this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
             this->addOffset(whoFrom.getInfo().piece_type);
         } else {
-            // throw exception
+            // throw exception AAAAAAAAAAAAAAAAAAAAAAA
+            throw DoneException {"Done game."};
         }
     }
     if (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW || state_command_type == CommandType::MoveL || state_command_type == CommandType::MoveR || state_command_type == CommandType::MoveD){
