@@ -42,55 +42,32 @@ int firstLetter(string s) {
 
 
 int main(int argc, char *argv[]) {
-    // sorry the following is probably filled with bugs and syntax errors
-    // meant for taking in arguments
-
-    // first I'm considering the arguments
-    // then the actual input that is being read in from the user
-    // THIS IS ALL SUBJECT TO CHANGE BC IDK WHAT IM DOING; FEEL FREE TO CORRECT JUST LMK!!
 
     string arg;
-    // ctors need to set default level to 0
-    // will need a field that points to Level obj, which then specifies the lvl (eg. LevelZero)
-    // call Piece * pLevel (playerLevel) and string nLevel (numLevel)
     unique_ptr<Player> player1 {new Player()};
     unique_ptr<Player> player2 {new Player()};
     
-    string nLevel = "0"; // intialized level: THIS MAY BE A PROBLEM LATER DEPENDING ON HOW WE SET LEVELUP AND DOWN
+    string nLevel = "0";
     string fn1 = "sequence1.txt";
     string fn2 = "sequence2.txt";
 
     bool showGD = true;
 
-    // defaults for things (without args) is:
-        // show texts AND graphics
-        // same sequence (no rng)
-        // use sequence1.txt
-        // use sequence2.txt
-        // start at levelZero
     for (int i = 1; i < argc; ++i) {
         arg = argv[i];
         if (arg == "-text") {
-            // disable graphics
             showGD = false;
         } else if (arg[0] == '-' && i+1 == argc) {
-            // ERROR
-            // the following else ifs need two args. If the current one starts as -notText and there
-            // isn't a string following, it is an invalid command!
-            throw std::logic_error {"Invalid argument."};
+            throw std::logic_error {"Invalid argument. Another argument is needed."};
         } else if (arg == "-seed") {
             string seed = argv[i+1];
             srand(stoi(seed));
-            // rng but tbh not sure for what?? for pieces?? bc i already dealt w that in the levels
         } else if (arg == "-scriptfile1") {
-            // file to replace sequence1.txt
             fn1 = argv[i+1];
         } else if (arg == "-scriptfile2") {
-            // file to replace sequence2.txt
             fn2 = argv[i+1];
         } else if (arg == "-startlevel") {
             nLevel = argv[i+1];
-            // WHAT WILL BE KEEPING TRACK OF THE LEVELS?
             if (nLevel == "0"){
                 continue;
             } else if (nLevel == "1") {
@@ -125,22 +102,21 @@ int main(int argc, char *argv[]) {
                 player2->nLevel = 4;
                 player1->setHeavy(1);
                 player2->setHeavy(1);
-                //*/
             } else {
-                // ERROR
+                throw std::logic_error {"Invalid level."};
             }
         }
     }
 
-    std::cin.exceptions(ios::eofbit|ios::failbit); // why is cin ambiguous here. Jackass.
-    // add any additional intializations here
-    string cmd; // reads in a command
+    std::cin.exceptions(ios::eofbit|ios::failbit);
+
+    string cmd;
     int countTurns = 0;
     unique_ptr<Trie> head {new Trie()};
 	head->insertCommands();
-    int multiplier = 1; // some commands have a multiplier prefix; to show how many times a command is executed
+    int multiplier = 1;
 
-    player1->pLevel->setFile(fn1);  // to clean later: just set immediately in for loop for args
+    player1->pLevel->setFile(fn1);
     player2->pLevel->setFile(fn2);
     player1->setNextPiece();
     player1->setCurrPiece();
@@ -148,7 +124,7 @@ int main(int argc, char *argv[]) {
     player2->setCurrPiece();
     player1->setNextPiece();
     player2->setNextPiece();
-    unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
+    unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())};
 
     unique_ptr<GraphicsDisplay> gd = nullptr;
     cout << *td;
@@ -159,15 +135,11 @@ int main(int argc, char *argv[]) {
     
     try {
         
-        // Command interpreter
         while (true) { // game not over; break when done
-        // create a piece for command interpreter:
         
             std::cin >> cmd;
             multiplier = head->parsePrefix(cmd); // check if the command we have has a prefix
 
-            // if the cmd doesn't have a prefix, or if someone wants to mess w it
-            // the multiplier is set to 1, so the command executes once
             if (multiplier == 0) {
                 multiplier = 1;
             }
@@ -178,28 +150,21 @@ int main(int argc, char *argv[]) {
             try {
 
                 string currComm = head->search(cmd);
-                //cout << currComm;
 
 
                 if (currComm == "left" || currComm == "right" || currComm == "down") {
-//                        cout << "hola i'm the right command\n" << endl;
                     for (int i = 0; i < multiplier; ++i) {
-//                            cout << "it moves" << endl;
                         if (countTurns % 2 == 0) {
-//                                cout << "inside the loop of the right command, player1\n";
                             player1->move(currComm);
                         } else {
-//                                cout << "inside the loop of the command, player 2\n";
                             player2->move(currComm);
                         }
                     }
                 } else if (currComm == "drop") {
                     for (int i = 0; i < multiplier; ++i) {
                         if (countTurns % 2 == 0) {
-//                                cout << "inside the loop of the drop command, player1\n";
                             player1->drop();
                         } else {
-//                                cout << "inside the loop of the drop command, player2\n";
                             player2->drop();
                         }
                     }
@@ -212,7 +177,6 @@ int main(int argc, char *argv[]) {
                         }
                     }
                 } else if (currComm == "levelup") {
-                        ///*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
                         desiredLvl = multiplier + player1->nLevel;
@@ -272,9 +236,7 @@ int main(int argc, char *argv[]) {
                             player2->nLevel = MAXLEVEL;
                         }
                     }
-                    //*/
                 } else if (currComm == "leveldown") {
-                        ///*
                     int desiredLvl;
                     if (countTurns % 2 == 0) {
                         desiredLvl = player1->nLevel - multiplier;
@@ -337,7 +299,6 @@ int main(int argc, char *argv[]) {
                         }
                         
                     }
-                    //*/
                 } else if (currComm == "random") { // no multiplier
                     if (countTurns % 2 == 0) {
                         player1->randomness(currComm, "");
@@ -354,8 +315,7 @@ int main(int argc, char *argv[]) {
                     } else {
                         player2->randomness(currComm, fn);
                     }
-                } else if (currComm == "sequence") { // reads in a file name, eh
-
+                } else if (currComm == "sequence") { 
                     string fn;
                     string cmd;
 
@@ -366,7 +326,6 @@ int main(int argc, char *argv[]) {
                     ifstream file(fn);
 
                     while (file >> cmd) {
-                        cout << "reading" << endl;
                         multiplier = head->parsePrefix(cmd);
                         if (multiplier == 0) {
                             multiplier = 1;
@@ -418,9 +377,6 @@ int main(int argc, char *argv[]) {
                                 }
                             }
                             
-                            // levelFour *block condition
-                            // sorry im dumb but how do i keep track of deleted rows? not currently stored anywhere
-                            // storing in grid
                             
                             if (countTurns % 10 == 8 && player1->nLevel == 4 && cmd == "drop") {
                                 if (player1->theGrid->getDeletedRows() == 0) {
@@ -578,7 +534,7 @@ int main(int argc, char *argv[]) {
                         } catch (logic_error &le) {
                             std::cout << le.what() << endl;
                         }
-                        // check victory - SHIT'S BROKEN
+                        // check victory
                     /*
                        if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
                            int player1Score = player1->getScore();
