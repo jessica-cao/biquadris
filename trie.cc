@@ -5,14 +5,10 @@ Trie::Trie() {
     this->isLeaf = false; // empty retrieval tree is not a leaf
 
     for (int i = 0; i < CHAR_SIZE; ++i) {
-        this->character[i] = nullptr;
+        //this->character[i] = nullptr;
+		this->character.push_back(nullptr);
     }
 };
-/*
-Trie::~Trie() {
-    delete character;
-}
-*/
 
 // Insert a new key in the Trie.
 void Trie::insert(std::string key) {
@@ -22,12 +18,13 @@ void Trie::insert(std::string key) {
 	Trie* curr = this;
 	for (int i = 0; i < KEYLEN; i++) {
 		// create a new node if path doesn't exists
-		if (curr->character[(int)key[i]] == nullptr) {
-			curr->character[(int)key[i]] = new Trie();
+		if (curr->character[(int) key[i]] == nullptr) {
+			curr->character[(int) key[i]] = std::make_unique<Trie>();
+			//curr->character[(int)key[i]] = new Trie();
 		}
 
 		// go to the next node
-		curr = curr->character[(int) key[i]];
+		curr = curr->character[(int) key[i]].get();
 	}
 
 	// mark current node as leaf
@@ -60,7 +57,7 @@ std::string Trie::search(std::string key) {
 	Trie* curr = this;
 	for (int i = 0; i < KEYLEN; i++) {
 		// go to next node
-		curr = curr->character[(int) key[i]];
+		curr = curr->character[(int) key[i]].get();
 
 		// if string is invalid (reached end of path in Trie)
 		if (curr == nullptr) {
