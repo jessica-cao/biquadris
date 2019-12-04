@@ -278,17 +278,20 @@ void GraphicsDisplay::render() {
         this->setColourBlock(14, 16, 24, lineHeight, Xwindow::Lime);
         this->setColourBlock(16, 25, 24, lineHeight, Xwindow::White);
     }
-
-    // checks for winning condition
-    if (this->playerOne->theGrid->isDone() || this->playerTwo->theGrid->isDone()) {
-        if (this->playerOne->getScore() > this->playerTwo->getScore()) {
-            this->xw->drawString(300, 28 * lineHeight, "Player 1 wins!!!!", Xwindow::DarkBlue);
-        } else if (this->playerOne->getScore() < this->playerTwo->getScore()) {
-            this->xw->drawString(300, 28 * lineHeight, "Player 2 wins!!!!", Xwindow::DarkBlue);
-        } else {
-            this->xw->drawString(300, 28 * lineHeight, "A tie!!!!", Xwindow::DarkBlue);
-        }
-    }
-
 }
 
+// checls for winning condition
+void GraphicsDisplay::renderVictoryP1() {
+    const int lineHeight = 750 / 26;
+    this->xw->drawString(300, 28 * lineHeight, "Player 1 wins!!!!", Xwindow::DarkBlue);
+}
+
+void GraphicsDisplay::renderVictoryP2() {
+    const int lineHeight = 750 / 26;
+    this->xw->drawString(300, 28 * lineHeight, "Player 2 wins!!!!", Xwindow::DarkBlue);
+}
+
+void GraphicsDisplay::renderTie() {
+    const int lineHeight = 750 / 26;
+    this->xw->drawString(300, 28 * lineHeight, "A tie!!!!", Xwindow::DarkBlue);
+}

@@ -10,9 +10,7 @@
 #include "levelTwo.h"
 #include "levelThree.h"
 #include "levelFour.h"
-
 #include "exception.h"
-
 #include "trie.h"
 #include "textdisplay.h"
 #include "graphicsdisplay.h"
@@ -339,6 +337,7 @@ int main(int argc, char *argv[]) {
                         firstL = firstLetter(cmd);
                         cmd = cmd.substr(firstL, cmd.length() - firstL + 1);
                         try {
+                            try {
                             string currComm = head->search(cmd);
                             
                             if (cmd == "restart") { // this is a special case
@@ -536,28 +535,28 @@ int main(int argc, char *argv[]) {
                                 {
                                     player1->setBlind(false);
                                 }
+                            }
+                    } catch (DoneException &d) {
+                        int player1Score = player1->getScore();
+                        int player2Score = player2->getScore();
+                        
+                        if (player1Score > player2Score) {
+                            std::cout << "Player 1 wins!" << endl;
+                            hiScore = player1Score;
+                        } else if (player1Score < player2Score) {
+                            std::cout << "Player 2 wins!" << endl;
+                            hiScore = player2Score;
+                        } else {
+                        std::cout << "A tie!" << endl;
+                        hiScore = player1Score;
+                        }
                     }
 
-                        } catch (logic_error &le) {
-                            std::cout << le.what() << endl;
-                        }
-                        // check victory
-                    /*
-                       if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
-                           int player1Score = player1->getScore();
-                           int player2Score = player2->getScore();
-                           
-                           if (player1Score > player2Score) {
-                               std::cout << "Player 1 wins!" << endl;
-                            } else if (player1Score < player2Score) {
-                                std::cout << "Player 2 wins!" << endl;
-                            } else {
-                            std::cout << "A tie!" << endl;
-                            }
-                        }
-                    
-                    */
+                    } catch (logic_error &le) {
+                        std::cout << le.what() << endl;
                     }
+                    }
+                        // check victory
                 } else if (currComm == "restart"){ // no multiplier
                         //clear grid, clear score, reset turn to 0,
                         player1->restart(); // clears the first grid
@@ -790,12 +789,15 @@ int main(int argc, char *argv[]) {
                                         
                     if (player1Score > player2Score) {
                         std::cout << "Player 1 wins!" << endl;
+                        gd->renderVictoryP1();
                         hiScore = player1Score;
                     } else if (player1Score < player2Score) {
                         std::cout << "Player 2 wins!" << endl;
+                        gd->renderVictoryP2();
                         hiScore = player2Score;
                     } else {
                         std::cout << "A tie!" << endl;
+                        gd->renderTie();
                         hiScore = player1Score;
                     }
                 }
