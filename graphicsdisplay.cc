@@ -295,3 +295,8 @@ void GraphicsDisplay::renderTie() {
     const int lineHeight = 750 / 26;
     this->xw->drawString(300, 28 * lineHeight, "A tie!!!!", Xwindow::DarkBlue);
 }
+
+void GraphicsDisplay::clearText() {
+    const int lineHeight = 750 / 26;
+    this->setColourBlock(1, 25, 27, lineHeight, Xwindow::White);
+}

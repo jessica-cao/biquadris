@@ -353,6 +353,7 @@ int main(int argc, char *argv[]) {
                             player2->setCurrPiece();
                             player1->setNextPiece();
                             player2->setNextPiece();
+                            gd->clearText();
                             
                             // effects
                             player1->setEffect(false);
@@ -570,6 +571,7 @@ int main(int argc, char *argv[]) {
                         player2->setCurrPiece();
                         player1->setNextPiece();
                         player2->setNextPiece();
+                        gd->clearText();
 
                         // effects
                         player1->setEffect(false);

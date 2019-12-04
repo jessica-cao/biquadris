@@ -27,6 +27,7 @@ class GraphicsDisplay {
     void renderVictoryP1();
     void renderVictoryP2();
     void renderTie();
+    void clearText();
 };
 
 #endif
