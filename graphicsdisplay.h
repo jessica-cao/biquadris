@@ -7,7 +7,6 @@
 #include <iostream>
 
 class GraphicsDisplay {
-    //Player *playerOne;
     std::unique_ptr<Player> playerOne;
     std::unique_ptr<Player> playerTwo;
     std::vector<std::vector<char>>gridOne;
@@ -17,7 +16,6 @@ class GraphicsDisplay {
     int player2lvl = playerTwo->nLevel;
     int player1score = playerOne->getScore();
     int player2score = playerTwo->getScore();
-
     const int col = 11;
     const int row = 18;
 

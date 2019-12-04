@@ -40,25 +40,6 @@ int firstLetter(string s) {
     return count;
 }
 
-// helper function to check for victory
-// FIX THIS ONE
-/*
-void checkVictory(unique_ptr<Player> player1, unique_ptr<Player> player2) {
-    if (player1->theGrid->isDone() || player2->theGrid->isDone()) {
-        int player1Score = player1->getScore();
-        int player2Score = player2->getScore();
-        
-        if (player1Score > player2Score) {
-            std::cout << "Player 1 wins!" << endl;
-        } else if (player1Score < player2Score) {
-            std::cout << "Player 2 wins!" << endl;
-        } else {
-        std::cout << "A tie!" << endl;
-        }
-    }
-}
-*/
-
 
 int main(int argc, char *argv[]) {
     // sorry the following is probably filled with bugs and syntax errors
@@ -79,6 +60,8 @@ int main(int argc, char *argv[]) {
     string fn1 = "sequence1.txt";
     string fn2 = "sequence2.txt";
 
+    bool showGD = true;
+
     // defaults for things (without args) is:
         // show texts AND graphics
         // same sequence (no rng)
@@ -89,10 +72,12 @@ int main(int argc, char *argv[]) {
         arg = argv[i];
         if (arg == "-text") {
             // disable graphics
+            showGD = false;
         } else if (arg[0] == '-' && i+1 == argc) {
             // ERROR
             // the following else ifs need two args. If the current one starts as -notText and there
             // isn't a string following, it is an invalid command!
+            throw std::logic_error {"Invalid argument."};
         } else if (arg == "-seed") {
             string seed = argv[i+1];
             srand(stoi(seed));
@@ -150,8 +135,6 @@ int main(int argc, char *argv[]) {
     std::cin.exceptions(ios::eofbit|ios::failbit); // why is cin ambiguous here. Jackass.
     // add any additional intializations here
     string cmd; // reads in a command
-//    unique_ptr<Piece> p1 {new Piece(player1->theGrid.get())}; // piece pointers for player1's grid
-//    unique_ptr<Piece> p2 {new Piece(player1->theGrid.get())}; // piece pointer for player2's grid
     int countTurns = 0;
     unique_ptr<Trie> head {new Trie()};
 	head->insertCommands();
@@ -166,12 +149,13 @@ int main(int argc, char *argv[]) {
     player1->setNextPiece();
     player2->setNextPiece();
     unique_ptr<TextDisplay> td {new TextDisplay(player1.get(), player2.get())}; // should work now with new and improved TextDisplay
-    unique_ptr<GraphicsDisplay> gd {new GraphicsDisplay(player1.get(), player2.get())}; // worse and less improved GraphicsDisplay
-    //int player1Score = 0;
-    //int player2Score = 0;
 
-    std::cout << *td;
-    gd->render();
+    unique_ptr<GraphicsDisplay> gd = nullptr;
+    cout << *td;
+    if (showGD) {
+        gd = std::make_unique<GraphicsDisplay>(player1.get(), player2.get());
+        gd->render();
+    }
     
     try {
         
@@ -454,7 +438,9 @@ int main(int argc, char *argv[]) {
 
                     
                             std::cout << *td;
-                            gd->render();
+                            if (showGD) {
+                                gd->render();
+                            }
 
                             // special effects
                             string effect;
@@ -503,7 +489,9 @@ int main(int argc, char *argv[]) {
                                 }
                                 player1->setEffect(false);
                                 std::cout << *td;
-                                gd->render();
+                                if (showGD) {
+                                    gd->render();
+                                }
                             } else if (player2->canEffect()) {
                                 std::cout << "Enter effect: ";
                                 while (cin >> effect) {
@@ -567,7 +555,9 @@ int main(int argc, char *argv[]) {
                                 }
                                 player2->setEffect(false);
                                 std::cout << *td;
-                                gd->render();
+                                if (showGD) {
+                                    gd->render();
+                                }
                             }
 
                             multiplier = 1;
@@ -713,7 +703,9 @@ int main(int argc, char *argv[]) {
 
                     // TO DO print the board right here
                     cout << *td;
-                    gd->render();
+                    if (showGD) {
+                        gd->render();
+                    }
 
                     // special effects
                     string effect;
@@ -762,7 +754,9 @@ int main(int argc, char *argv[]) {
                         }
                         player1->setEffect(false);
                         cout << *td;
-                        gd->render();
+                        if (showGD) {
+                            gd->render();
+                        }
                     } else if (player2->canEffect()) {
                         cout << "Enter effect: ";
                         while (cin >> effect) {
@@ -808,7 +802,9 @@ int main(int argc, char *argv[]) {
                         }
                         player2->setEffect(false);
                         cout << *td;
-                        gd->render();
+                        if (showGD) {
+                            gd->render();
+                        }
                     }
 
                     multiplier = 1;
@@ -847,7 +843,6 @@ int main(int argc, char *argv[]) {
         }
     } catch (ios::failure &) {
         // any I/O failure quits the game automatically 
-    
     }
 
 }

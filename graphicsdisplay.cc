@@ -3,7 +3,7 @@
 using namespace std;
 
 GraphicsDisplay::GraphicsDisplay(Player *playerOne, Player *playerTwo) :
-    playerOne{playerOne}, playerTwo{playerTwo}, xw {new Xwindow(750, 1000)} {
+    playerOne{playerOne}, playerTwo{playerTwo} , xw {new Xwindow(750, 1000)} {
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < col; ++j) {
                 gridOne.emplace_back('-');
