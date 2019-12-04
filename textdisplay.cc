@@ -47,12 +47,10 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
         }
         out << endl;
     }
-//    td.playerOne->setBlind(false);
-//    td.playerTwo->setBlind(false);
+
     out << "-----------    -----------" << endl;
     out << "Next:          Next:" << endl;
 
-//    out << PieceTop(td.playerOne->getNext()) << "    " << PieceTop(td.playerTwo->getNext()) << endl;
 
     PieceType pieceIs1 = td.playerOne->getNext()->getInfo().piece_type;
     if (pieceIs1 == PieceType::IBlock) {
@@ -89,7 +87,6 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     }
     out << endl;
 
-//    out << PieceBot(td.playerOne->getNext()) << "    " << PieceBot(td.playerTwo->getNext()) << endl;
 
     if (pieceIs1 == PieceType::IBlock) {
         out << "           ";

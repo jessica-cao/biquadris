@@ -110,15 +110,10 @@ void Grid::deleteRows(){
         }
         cout << is_full << endl;
         if (is_full){
-            cout << "full in" << i << endl;
-            cout << this->getState().base_row << endl;
-            cout << "this->getState().base_row" << endl;            
+            cout << this->getState().base_row << endl;         
             cout << this->getState().base_col << endl;
-            cout << "this->getState().base_col" << endl;
             this->setState({this->getState().base_row, this->getState().base_col, this->getState().offset, this->getState().offset_height, this->getState().offset_width, FromType::Board, CommandType::DeleteRow, i});
-            cout << "set state" << endl;
             this->notifyObservers();
-            cout << "notified" << endl;
             vector<char> new_row(width, ' ');
             the_grid.emplace(the_grid.begin(), new_row);
             ++num_rows_deleted;
@@ -126,19 +121,17 @@ void Grid::deleteRows(){
         }
         is_full = true;
     }
-    cout << "before lvl" << endl;
+
     int level = player->pLevel->getLevel();
-    cout << "after lvl" << endl;
     if (num_rows_deleted != 0){
         player->incrementScoreBy((level + num_rows_deleted) * (level + num_rows_deleted));
     }
-    cout << "between ifs" << endl;
+
     if (num_rows_deleted >= 2){
         player->setEffect(true);
     }
-    cout << "before setDeleted" << endl;
+    
     this->setDeletedRows(num_rows_deleted);  // LEVELFOUR EDITING
-    cout << "end" << endl;
 }
 
 // LEVELFOUR EDITING
@@ -175,7 +168,6 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
     }
     if (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW || state_command_type == CommandType::MoveL || state_command_type == CommandType::MoveR || state_command_type == CommandType::MoveD){
         // Check if it's a valid move
-        cout << "gets to notify" << endl;
         if (((state_offset_width + whoFrom.getInfo().base_col >= width) || (state_offset_height - whoFrom.getInfo().base_row < 0)) && (state_command_type == CommandType::RotateCW || state_command_type == CommandType::RotateCCW)){
             return;
         } else if ((state_offset_width + state_base_col > width) && (state_command_type == CommandType::MoveR)) { // editing >= before
@@ -189,7 +181,6 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
         // Delete the old stuff from the grid
         this->deleteOffset(whoFrom.getInfo().offset, whoFrom.getInfo().offset_height, whoFrom.getInfo().offset_width, whoFrom.getInfo().base_row, whoFrom.getInfo().base_col);
         // Check if the new stuff has a collision
-        cout << "print grid" << endl;
         for(int i = 0; i < height; ++i){
             for (int j = 0; j < width; ++j) {
                 cout << the_grid.at(i).at(j);
@@ -197,8 +188,6 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
             cout << endl;
         }
 
-        cout << "print offset" << endl;
-        cout << "offset_height: " << whoFrom.getInfo().offset_height << endl;
         for (int i =  0; i < whoFrom.getInfo().offset_height; ++i){
             for (int j = 0; j < whoFrom.getInfo().offset_width; ++j){
                 cout << whoFrom.getInfo().offset.at(i).at(j);
@@ -207,20 +196,20 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
         }
 
         bool no_collision = this->noCollision(state_offset, state_offset_height, state_offset_width, state_base_row, state_base_col);
-        // cout << "no_collision: " << no_collision << endl;
+        
         if (no_collision){
             // If no collision, change the grid's state to the new state and add the new offset
             this->setState({state_base_row, state_base_col, state_offset, state_offset_height, state_offset_width, FromType::Board, state_command_type});
             this->addOffset(whoFrom.getInfo().piece_type);
 
-            cout << "print new offset" << endl;
+            
             for (int i =  0; i < state_offset_height; ++i){
                 for (int j = 0; j < state_offset_width; ++j){
                     cout << state_offset.at(i).at(j);
                 }
                 cout << endl;
             }
-            cout << "finished printing new offset" << endl;
+            
             this->notifyObservers();
 
             // Check if the entire row is full and delete the row
@@ -246,7 +235,6 @@ void Grid::notify(Subject<Info, State> &whoFrom) {
             }
             this->setState({new_base_row, state_base_col, state_offset, state_offset_height, state_offset_width});
             this->addOffset(whoFrom.getInfo().piece_type);
-            cout << "before delete" << endl;
             this->deleteRows();
         }
     }

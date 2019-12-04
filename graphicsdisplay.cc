@@ -214,8 +214,6 @@ void GraphicsDisplay::render() {
         
     }
 
-//    out << PieceBot(td.playerOne->getNext()) << "    " << PieceBot(td.playerTwo->getNext()) << endl;
-
 // this is the second row
     if (pieceIs1 == PieceType::IBlock) {
         this->setColourBlock(0, 11, 24, lineHeight, Xwindow::White);
@@ -272,6 +270,7 @@ void GraphicsDisplay::render() {
         this->setColourBlock(18, 25, 24, lineHeight, Xwindow::White);
         
     } else if (pieceIs2 == PieceType::SBlock) {
+        this->setColourBlock(14, 16, 24, lineHeight, Xwindow::White);
         this->setColourBlock(16, 18, 24, lineHeight, Xwindow::LightCoral);
         this->setColourBlock(19, 25, 24, lineHeight, Xwindow::White);
         

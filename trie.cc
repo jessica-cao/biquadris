@@ -8,10 +8,11 @@ Trie::Trie() {
         this->character[i] = nullptr;
     }
 };
-
+/*
 Trie::~Trie() {
     delete character;
 }
+*/
 
 // Insert a new key in the Trie.
 void Trie::insert(std::string key) {

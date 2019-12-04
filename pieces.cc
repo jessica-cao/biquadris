@@ -8,7 +8,6 @@
 using namespace std;
 
 Piece::Piece(Grid * the_grid, PieceType piece_type){
-    cout << "constructor has been called" << endl;
     this->the_grid = the_grid;
     base_row = 3;
     base_col = 0;
@@ -105,9 +104,6 @@ void Piece::placePiece(){
     base_row = 3;
     base_col = 0;
     this->setState({this->base_row, this->base_col, this->offset, this->offset_height, this->offset_width, FromType::Piece, CommandType::SetPiece});
-    // try {
-        cout << "place piece" << endl;
-        cout << "print the offset in piece" << endl;
         for (int i =  0; i < offset_height; ++i){
             for (int j = 0; j < offset_width; ++j){
                 cout << offset.at(i).at(j);
@@ -116,9 +112,6 @@ void Piece::placePiece(){
         }
         this->notifyObservers();
         
-    // } catch (...) {
-        // throw another exception
-    // }
 }
 
 void Piece::setPlayer(Player * player){
@@ -191,7 +184,6 @@ void Piece::move_d(){
 }
 
 void Piece::move_r(){
-    cout << "moves right" << endl;
     this->setState({base_row, base_col + 1, offset, offset_height, offset_width, FromType::Piece, CommandType::MoveR});
     this->notifyObservers();
 }
@@ -204,14 +196,11 @@ void Piece::drop(){
 
 void Piece::notify(Subject<Info, State> &whoFrom){
     if (whoFrom.getState().from_type == FromType::Piece){
-        // cout << "hello" << endl;
         return;
     }
     // If it's a deleted row
     if (whoFrom.getState().command_type == CommandType::DeleteRow){
-        cout <<"deleting row" << endl;
         if (whoFrom.getState().deleted_row <= 0){
-            cout<<"pls no" << endl;
             // throw error
         } else {
             // check if it's any of the offset ones
@@ -220,9 +209,7 @@ void Piece::notify(Subject<Info, State> &whoFrom){
                 if (base_row + i == whoFrom.getState().deleted_row){
                     // remove row
                     // TODO I remember Nomair said not to do this but I dunno what else to do
-                    cout << "before erase" << i << endl;
                     offset.erase(offset.begin() + i); // was vec.begin() + i
-                    cout << "after erase" << endl;
                 } else if (base_row < whoFrom.getState().deleted_row){
                     ++this->base_row;
                 }
@@ -241,7 +228,6 @@ void Piece::notify(Subject<Info, State> &whoFrom){
         offset = whoFrom.getState().offset;
         offset_height = whoFrom.getState().offset_height;
         offset_width = whoFrom.getState().offset_width;
-        cout << "print the new offset in piece" << endl;
         for (int i =  0; i < offset_height; ++i){
             for (int j = 0; j < offset_width; ++j){
                 cout << whoFrom.getState().offset.at(i).at(j);

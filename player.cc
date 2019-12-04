@@ -55,7 +55,6 @@ Piece * Player::getNext() {
 }
 
 void Player::setNextPiece() { // should only ever run after setCurrPiece
-    cout << "gets to next piece" << endl;
     this->nextPiece = this->pLevel->create(this->theGrid.get());
 }
 
@@ -93,19 +92,14 @@ void Player::restart() {
     this->clearScore();
     this->pLevel.reset();
     this->pLevel = std::unique_ptr<LevelZero>(new LevelZero());
-//    this->pLevel->setFile
     this->nLevel = 0;
     this->theGrid->init();
-    cout << "Grid has restarted" << endl;
 }
 
 void Player::setSpecificPieceType(PieceType pt) { // new Piece constructor takes in a grid and a PieceType
-    cout << "HEYYYYYYYYYYYYYYYY" << endl;
     cout << this->curPiece->getInfo().base_col << endl;
     cout << this->curPiece->getInfo().base_row << endl;
-    cout << "YYYYYYYYYYYYYYYYEH" << endl;
     std::unique_ptr<Piece> p {new Piece(theGrid.get(), pt)};
-//    this->theGrid->detach(this->curPiece.get());            // AM I DETACHING CORRECTLY HERE
     this->curPiece.reset();
     this->curPiece = std::move(p);
     this->curPiece->setLevel(this->nLevel);
@@ -118,10 +112,8 @@ void Player::move(std::string cmd) {
     if (cmd == "left") {
         this->curPiece->move_l();
     } else if (cmd == "right") {
-        std::cout << "before moving right\n";
         this->curPiece->move_r(); 
         std::cout << this->curPiece->getInfo().base_col << std::endl;
-        std::cout << "after moving right \n";
     } else if (cmd == "down") {
         this->curPiece->move_d();
     }
@@ -156,16 +148,14 @@ void Player::sequence(std::string currComm, int multiplier) {
 
     if (currComm == "left" || currComm == "right" || currComm == "down") {
         this->move(currComm);
-//                        cout << "hola i'm the right command\n" << endl;
         for (int i = 0; i < multiplier; ++i) {
             this->move(currComm);
         }
     } else if (currComm == "drop") {
         for (int i = 0; i < multiplier; ++i) {
-//          cout << "inside the loop of the drop command, player1\n";
             this->drop();
         }
-//      cout << "inside the loop of the drop command, player2\n";
+
     } else if (currComm == "clockwise" || currComm == "counterclockwise") {
         for (int i = 0; i < multiplier; ++i) {
             this->rotate(currComm);
@@ -237,7 +227,6 @@ void Player::sequence(std::string currComm, int multiplier) {
         } else if (currComm == "norandom") { // no multiplier
             string fn;
             while(!(cin >> fn)) {
-                cout << "\nPlease provide a file name." << endl;
             }
             this->randomness(currComm, fn);
             /* } else if (currComm == "sequence") { // reads in a file name, eh
